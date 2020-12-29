@@ -18,7 +18,7 @@ class Database extends SQLite3  {
     public function installSchema(): void { 
         $slogans_create = <<<C1
             CREATE TABLE IF NOT EXISTS slogans (
-                timestamp INTEGER, 
+                timestamp INTEGER,
                 username VARCHAR(100),
                 userid INTEGER,
                 slogan TEXT

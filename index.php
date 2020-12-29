@@ -27,7 +27,7 @@ $router->route("/", "GET", function($params) use ($sloganator, $user) {
 
 $router->route("/v1/slogans", "GET", function($params) use ($sloganator) {    
 	$slogans = $sloganator->list($params);
-	return new \ApiResponse(200, $slogans);
+	return new ApiResponse(200, $slogans);
 });
 
 $router->route("/v1/slogans", "POST", function($params) use ($sloganator, $user, $throttle) {
