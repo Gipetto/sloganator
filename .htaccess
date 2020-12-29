@@ -1,0 +1,16 @@
+Options -Indexes
+<FilesMatch "\.db$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+DirectoryIndex index.php
+
+RewriteEngine on
+
+RewriteBase /mies/sloganator
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^(.*)$ index.php [QSA]
