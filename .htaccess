@@ -1,4 +1,7 @@
-Options -Indexes
+<IfModule mod_autoindex.c>
+  Options -Indexes
+</IfModule>
+
 <FilesMatch "\.db$">
     Order allow,deny
     Deny from all
@@ -9,6 +12,11 @@ DirectoryIndex index.php
 RewriteEngine on
 
 RewriteBase /mies/sloganator
+
+# deny access to dot files/directories
+RewriteCond %{SCRIPT_FILENAME} -d
+RewriteCond %{SCRIPT_FILENAME} -f
+RewriteRule "(^|/)\." - [F]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
