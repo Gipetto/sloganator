@@ -25,8 +25,8 @@ $router->route("/v1/slogans", "GET", function($params) {
     $db = new Database;
     $sloganator = new Sloganator($db);
 
-	$slogans = $sloganator->list($params);
-	return new ApiResponse(200, $slogans);
+    $slogans = $sloganator->list($params);
+    return new ApiResponse(200, $slogans);
 });
 
 $router->route("/v1/slogans", "POST", function($params) {
@@ -61,7 +61,7 @@ $router->route("/v1/slogans", "POST", function($params) {
         return new ApiResponse(400, $e);
     } else {
         $slogan = $sloganator->get($id);
-        return new ApiResponse(201, $slogan);    
+        return new ApiResponse(201, $slogan);
     }
 });
 

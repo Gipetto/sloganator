@@ -16,7 +16,7 @@ trait HttpResponse {
         201 => "Created",
         400 => "Bad Request",
         401 => "Unauthorized",
-		404 => "Not Found",
+        404 => "Not Found",
         429 => "Too Many Requests"
     ];
 
@@ -82,12 +82,12 @@ class ValidationError extends ApiResponse {
 }
 
 class NotFound extends ApiResponse {
-	public function __construct() {
-		parent::__construct(404, [
-			"code" => 404,
-			"message" => "Invalid Route"
-		]);
-	}
+    public function __construct() {
+        parent::__construct(404, [
+            "code" => 404,
+            "message" => "Invalid Route"
+        ]);
+    }
 }
 
 class TooManyRequests extends ApiResponse {

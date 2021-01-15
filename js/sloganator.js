@@ -51,7 +51,7 @@ function attachEventListeners(sloganator) {
 
         if (!newSlogan.length) {
             return false;
-        }		
+        }
     
         addSlogan(newSlogan);
     }, false);
