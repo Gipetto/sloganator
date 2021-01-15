@@ -73,7 +73,7 @@ function addSlogan(newSlogan) {
 }
 
 function clearStage() {
-    let sloganator = document.querySelector('#sloganator');
+    let sloganator = document.querySelector("#sloganator");
     if (sloganator) {
         sloganator.remove();
     }

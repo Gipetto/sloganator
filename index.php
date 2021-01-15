@@ -11,26 +11,30 @@ require_once BASEDIR . "/lib/sloganator.php";
 // sigh... gotta keep MyBB in line
 ob_start();
 
-$user = new User;
-$db = new Database;
-$sloganator = new Sloganator($db);
-$throttle = new Throttle($db);
-
 $router = new Router("/mies/sloganator");
 
-$router->route("/", "GET", function($params) use ($sloganator, $user) {
+$router->route("/", "GET", function($params) {
+    $user = new User;
     return new PageResponse(200, 'browse', [
         "userId" => $user->getUserId(),
         "userName" => $user->getUserName()
     ]);
 });
 
-$router->route("/v1/slogans", "GET", function($params) use ($sloganator) {    
+$router->route("/v1/slogans", "GET", function($params) {
+    $db = new Database;
+    $sloganator = new Sloganator($db);
+
 	$slogans = $sloganator->list($params);
 	return new ApiResponse(200, $slogans);
 });
 
-$router->route("/v1/slogans", "POST", function($params) use ($sloganator, $user, $throttle) {
+$router->route("/v1/slogans", "POST", function($params) {
+    $user = new User;
+    $db = new Database;
+    $sloganator = new Sloganator($db);
+    $throttle = new Throttle($db);
+
     if (!$user->isLoggedIn()) {
         return new Unauthorized;
     }
