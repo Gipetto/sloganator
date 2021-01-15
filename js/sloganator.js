@@ -6,7 +6,7 @@ const sloganatorHtml =
             '<input name="slogan" type="text">' +
             '<button class="slogan-submit" disabled><span>Add Slogan</span></button>' +
             '<button class="slogan-cancel">&times;<span>Cancel</span></button>' +
-            '<a href="/mies/sloganator">Sloganator <i class="fa fa-external-link-square"></a></a>' +
+            '<a target="_blank" href="/mies/sloganator">Sloganator <i class="fa fa-external-link-square"></a></a>' +
         '</form>' +
     '</span>' +
 '</div>';
