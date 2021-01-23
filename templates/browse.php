@@ -17,11 +17,20 @@
         <h1>Sloganator</h1>
         <p>Hello, <span class="current-user" data-id="<?php echo $userId; ?>"><?php echo $userName; ?></span></p>
     </header>
+    <section id="filter">
+        <form>
+            Author: 
+            <select name="author">
+                <option class="placeholder" value="">** Select Author **</option>
+            </select>
+            <button type="submit">Filter</button> <a href="./">reset</a>
+        </form>
+    </section>
     <section id="slogans">
         <ul></ul>
     </section>
     <section>
-        <button class="loader" type="button" data-page="1">Load Page <span class="page">1</span></button>
+        <button class="loader" type="button" data-params>Load Page <span class="page">1</span></button>
     </section>
     <footer>
         <p>&copy; <?php echo date('Y'); ?>, not by you.</p>

@@ -21,6 +21,14 @@ $router->route("/", "GET", function($params) {
     ]);
 });
 
+$router->route("/v1/authors", "GET", function($params) {
+    $db = new Database;
+    $sloganator = new Sloganator($db);
+
+    $authors = $sloganator->authors();
+    return new ApiResponse(200, $authors);
+});
+
 $router->route("/v1/slogans", "GET", function($params) {
     $db = new Database;
     $sloganator = new Sloganator($db);
