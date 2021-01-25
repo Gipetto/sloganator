@@ -19,10 +19,12 @@
     </header>
     <section id="filter">
         <form>
-            Author: 
-            <select name="author">
-                <option class="placeholder" value="">** Select Author **</option>
-            </select>
+            <label for="author">Author: </label>
+            <div class="select">
+                <select name="author" id="author">
+                    <option class="placeholder" value="">** Select Author **</option>
+                </select>
+            </div>
             <button type="submit">Filter</button> <a href="./">reset</a>
         </form>
     </section>
