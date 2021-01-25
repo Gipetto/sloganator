@@ -33,5 +33,11 @@ class Database extends SQLite3  {
             )
             C2;
         $this->exec($throttles_create);
+
+        $slogans_index_create = <<<I1
+            CREATE INDEX IF NOT EXISTS user_index
+            ON slogans (userid);
+            I1;
+        $this->exec($slogans_index_create);
     }
 }
