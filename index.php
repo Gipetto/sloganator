@@ -49,7 +49,7 @@ $router->route("/v1/slogans", "POST", function($params) {
 
     $rt = $throttle->get($user);
     if ($rt) {
-        return TooManyRequests($rt);
+        return new TooManyRequests($rt);
     }
     
     $slogan = trim($params["body"]["slogan"]);

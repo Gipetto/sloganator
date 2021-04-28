@@ -50,8 +50,15 @@ trait HttpResponse {
 class ApiResponse implements Response {
     use HttpResponse;
 
+	/**
+	 * @var array{code: int, message: string} $content
+	 */
     private array $content;
 
+    /**
+     * @param int $code
+     * @param array{code: int, message: string} $content
+     */
     public function __construct(int $code, array $content) {
         $this->code = $code;
         $this->content = $content;
