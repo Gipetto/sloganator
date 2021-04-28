@@ -10,3 +10,10 @@ local-server:
 	php -S \
 		$(host):$(port) \
 		lib/local/router.php
+
+stan:
+	vendor/bin/phpstan \
+			analyse \
+			-c phpstan.neon \
+			lib index.php
+

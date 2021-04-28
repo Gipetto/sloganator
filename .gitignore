@@ -1,2 +1,5 @@
 sloganator.db*
 scripts
+vendor
+phpstan.neon
+composer.lock
