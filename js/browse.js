@@ -108,11 +108,10 @@ function getAuthors() {
     fetch(url, params)
         .then(res => res.json())
         .then(res => {
-			let sorted = res.sort((a, b) => { 
-				return a.usernames[0].localeCompare(b.usernames[0]); 
-			});
-			console.log(sorted);
-			writeAuthors(sorted);
+            let sorted = res.sort((a, b) => { 
+                return a.usernames[0].localeCompare(b.usernames[0]); 
+            });
+            writeAuthors(sorted);
         });
 }
 
