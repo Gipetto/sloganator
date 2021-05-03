@@ -71,6 +71,9 @@ class ApiResponse implements Response {
         $this->setCode($code);
         $this->content = $content;
         $this->contentType = Response::CONTENT_TYPE_JSON;
+        $this->addHeaders([
+            "Cache-Control: no-cache"
+        ]);
     }
 
     public function getContent(): string {
