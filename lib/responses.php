@@ -26,6 +26,14 @@ trait HttpResponse {
 
     protected array $extraHeaders = [];
 
+	public function setCode(int $code) {
+		return $this->code = $code;
+	}
+
+	public function addHeaders(array $headers): void {
+		$this->extraHeaders = array_merge($this->extraHeaders, $headers);
+	}
+
     public function getContentType(): string {
         return $this->contentType;
     }
@@ -38,7 +46,7 @@ trait HttpResponse {
         header(sprintf("HTTP/1.0  %s", $this->getCodeString()));
         header(sprintf("Content-Type: %s", $this->getContentType()));
 
-        foreach ($this->extraHeaders as $extraheader) {
+        foreach ($this->extraHeaders as $extraHeader) {
             header($extraHeader);
         }
 
@@ -60,7 +68,7 @@ class ApiResponse implements Response {
      * @param array{code: int, message: string} $content
      */
     public function __construct(int $code, array $content) {
-        $this->code = $code;
+        $this->setCode($code);
         $this->content = $content;
         $this->contentType = Response::CONTENT_TYPE_JSON;
     }
@@ -103,7 +111,9 @@ class TooManyRequests extends ApiResponse {
             "code" => 429,
             "message" => "Hang loose. Slow and steady wins the race."
         ]);
-        $this->extraHeaders[] = sprintf("Retry-After: %d", $this->retryTime);
+        $this->addHeaders([
+			sprintf("Retry-After: %d", $this->retryTime)
+		]);
     }
 }
 
@@ -112,9 +122,9 @@ class PageResponse implements Response {
 
     private array $params;
     private string $template;
-    
+
     public function __construct(int $code, string $template = "", array $params = []) {
-        $this->code = $code;
+        $this->setCode($code);
         $this->params = $params;
         $this->template = $template;
         $this->contentType = Response::CONTENT_TYPE_HTML;

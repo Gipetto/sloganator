@@ -93,11 +93,7 @@ function writeSlogan(slogan) {
 }
 
 function getSlogan() {
-    let url = new URL(window.location.origin + "/mies/sloganator/v1/slogans");
-    url.search = new URLSearchParams({
-        page: 1,
-        pageSize: 1
-    });
+    let url = new URL(window.location.origin + "/mies/sloganator/v1/slogans/latest");
 
     let params = {
         headers: {
@@ -108,7 +104,7 @@ function getSlogan() {
     fetch(url, params)
         .then(res => res.json())
         .then(res => {
-            let slogan = res.slogans[0];
+            let slogan = res;
             "loading" === document.readyState ?
                 document.addEventListener("DOMContentLoaded", (event) => { writeSlogan(slogan); }, false) :
                 writeSlogan(slogan);

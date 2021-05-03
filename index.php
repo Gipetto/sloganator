@@ -7,6 +7,7 @@ require_once BASEDIR . "/lib/router.php";
 require_once BASEDIR . "/lib/user.php";
 require_once BASEDIR . "/lib/throttle.php";
 require_once BASEDIR . "/lib/sloganator.php";
+require_once BASEDIR . "/lib/caches.php";
 
 // sigh... gotta keep MyBB in line
 ob_start();
@@ -35,6 +36,24 @@ $router->route("/v1/slogans", "GET", function($params) {
 
     $slogans = $sloganator->list($params);
     return new ApiResponse(200, $slogans);
+});
+
+$router->route("/v1/slogans/latest", "GET", function($params) {
+	$cache = new SuccessfulResponseCache("latest");
+	$response = $cache->get();
+
+	if (!($response instanceof Response)) {
+		$db = new Database;
+		$sloganator = new Sloganator($db);
+
+		$slogans = $sloganator->list([
+			"pageSize" => 1,
+			"page" => 1
+		]);
+		return new ApiResponse(200, $slogans["slogans"][0]);
+	}
+
+	return $response;
 });
 
 $router->route("/v1/slogans", "POST", function($params) {
@@ -69,8 +88,13 @@ $router->route("/v1/slogans", "POST", function($params) {
         return new ApiResponse(400, $e);
     } else {
         $slogan = $sloganator->get($id);
-        return new ApiResponse(201, $slogan);
-    }
+		$response = new ApiResponse(201, $slogan);
+
+		$cache = new SuccessfulResponseCache("latest");
+		$cache->set($response);
+
+		return $response;
+	}
 });
 
 $response = $router->dispatch();
