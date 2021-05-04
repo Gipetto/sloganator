@@ -26,13 +26,13 @@ trait HttpResponse {
 
     protected array $extraHeaders = [];
 
-	public function setCode(int $code) {
-		return $this->code = $code;
-	}
+    public function setCode(int $code) {
+        return $this->code = $code;
+    }
 
-	public function addHeaders(array $headers): void {
-		$this->extraHeaders = array_merge($this->extraHeaders, $headers);
-	}
+    public function addHeaders(array $headers): void {
+        $this->extraHeaders = array_merge($this->extraHeaders, $headers);
+    }
 
     public function getContentType(): string {
         return $this->contentType;
@@ -58,9 +58,9 @@ trait HttpResponse {
 class ApiResponse implements Response {
     use HttpResponse;
 
-	/**
-	 * @var array{code: int, message: string} $content
-	 */
+    /**
+     * @var array{code: int, message: string} $content
+     */
     private array $content;
 
     /**
@@ -115,8 +115,8 @@ class TooManyRequests extends ApiResponse {
             "message" => "Hang loose. Slow and steady wins the race."
         ]);
         $this->addHeaders([
-			sprintf("Retry-After: %d", $this->retryTime)
-		]);
+            sprintf("Retry-After: %d", $this->retryTime)
+        ]);
     }
 }
 

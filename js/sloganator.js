@@ -58,7 +58,7 @@ function attachEventListeners(sloganator) {
 }
 
 function addSlogan(newSlogan) {
-    let url = new URL(window.location.origin + "/mies/sloganator/v1/slogans");	
+    let url = new URL(window.location.origin + "/mies/sloganator/v1/slogans");  
     let params = {
         headers: {
             "Accept": "application/json",

@@ -48,23 +48,23 @@ $router->route("/v1/slogans", "GET", function($params) {
 });
 
 $router->route("/v1/slogans/latest", "GET", function($params) {
-	$cache = new SuccessfulResponseCache("latest");
-	$response = $cache->get();
+    $cache = new SuccessfulResponseCache("latest");
+    $response = $cache->get();
 
-	if (!($response instanceof Response)) {
-		$db = new Database;
-		$sloganator = new Sloganator($db);
+    if (!($response instanceof Response)) {
+        $db = new Database;
+        $sloganator = new Sloganator($db);
 
-		$slogans = $sloganator->list([
-			"pageSize" => 1,
-			"page" => 1
-		]);
+        $slogans = $sloganator->list([
+            "pageSize" => 1,
+            "page" => 1
+        ]);
 
-		$response = new ApiResponse(200, $slogans["slogans"][0]);
-	    $cache->set($response);
+        $response = new ApiResponse(200, $slogans["slogans"][0]);
+        $cache->set($response);
     }
 
-	return $response;
+    return $response;
 });
 
 $router->route("/v1/slogans", "POST", function($params) {
@@ -99,16 +99,16 @@ $router->route("/v1/slogans", "POST", function($params) {
         return new ApiResponse(400, $e);
     } else {
         $slogan = $sloganator->get($id);
-		$response = new ApiResponse(201, $slogan);
+        $response = new ApiResponse(201, $slogan);
 
-		$latestCache = new SuccessfulResponseCache("latest");
-		$latestCache->flush();
+        $latestCache = new SuccessfulResponseCache("latest");
+        $latestCache->flush();
 
-        $authorsCache = new SuccessfulRespnoseCache("authors");
+        $authorsCache = new SuccessfulResponseCache("authors");
         $authorsCache->flush();
 
-		return $response;
-	}
+        return $response;
+    }
 });
 
 $response = $router->dispatch();

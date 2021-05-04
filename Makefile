@@ -11,6 +11,20 @@ local-server:
 		$(host):$(port) \
 		lib/local/router.php
 
+fix-tabs:
+	find lib/ \
+		-name "*.php" \
+		-type f \
+		-exec bash -c 'expand -t 4 "$$0" | sponge "$$0"' {} \;
+	find css/ \
+		-name "*.css" \
+		-type f \
+		-exec bash -c 'expand -t 4 "$$0" | sponge "$$0"' {} \;
+	find js/ \
+		-name "*.js" \
+		-type f \
+		-exec bash -c 'expand -t 4 "$$0" | sponge "$$0"' {} \;
+
 stan:
 	vendor/bin/phpstan \
 			analyse \
