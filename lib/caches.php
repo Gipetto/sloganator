@@ -25,6 +25,14 @@ class FileCache {
 	public function set(string $value) {
 		return file_put_contents($this->cacheFilePath(), $value);
 	}
+
+    public function flush() {
+        $cacheFilePath = $this->cacheFilePath();
+
+        if (file_exists($cacheFilePath)) {
+            unlink($cacheFilePath);
+        }
+    }
 }
 
 class SerializingFileCache extends FileCache {
