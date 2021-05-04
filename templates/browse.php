@@ -35,7 +35,7 @@
         <button class="loader" type="button" data-params>Load Page <span class="page">1</span></button>
     </section>
     <footer>
-        <p>&copy; <?php echo date('Y'); ?>, not by you.</p>
+        <p>&copy; <?php echo date('Y'); ?>, not by you. | <a href="https://github.com/Gipetto/sloganator">Marvel in this code’s mediocrity</a></p>
     </footer>
     <div id="templates">
         <figure>
