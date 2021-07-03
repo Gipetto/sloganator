@@ -1,13 +1,12 @@
 <?php declare(strict_types = 1);
 
 require_once("constants.php");
+require_once("vendor/autoload.php");
 
-require_once BASEDIR . "/lib/responses.php";
-require_once BASEDIR . "/lib/router.php";
-require_once BASEDIR . "/lib/user.php";
-require_once BASEDIR . "/lib/throttle.php";
-require_once BASEDIR . "/lib/sloganator.php";
-require_once BASEDIR . "/lib/caches.php";
+use Sloganator\{Database, Router, Throttle, User};
+use Sloganator\Cache\SuccessfulResponseCache;
+use Sloganator\Service\Sloganator;
+use Sloganator\Responses\{ApiResponse, PageResponse, TooManyRequests, Unauthorized, ValidationError};
 
 // sigh... gotta keep MyBB in line
 ob_start();

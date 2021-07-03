@@ -1,5 +1,7 @@
 <?php declare(strict_types = 1);
 
+namespace Sloganator;
+
 if (!defined("DOCROOT")) {
     define("DOCROOT", dirname(dirname(dirname(__FILE__))));
 }

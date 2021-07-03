@@ -1,135 +1,8 @@
 <?php declare(strict_types = 1);
 
-require_once BASEDIR . "/lib/database.php";
+namespace Sloganator\Service;
 
-class Slogan {
-    public int $rowid;
-    public int $timestamp;
-    public string $username;
-    public int $userid;
-    public string $slogan;
-
-    /**
-     * @param array<string, mixed> $row
-     */
-    public function __construct(array $row) {
-        $this->rowid = $row["rowid"];
-        $this->timestamp = $row["timestamp"];
-        $this->username = $row["username"];
-        $this->userid = $row["userid"];
-        $this->slogan = $row["slogan"];
-    }
-}
-
-class Author {
-    /**
-     * @var int
-     */
-    public int $userid;
-
-    /**
-     * @var string[]
-     */
-    public array $usernames;
-
-    /**
-     * @param int $userid
-     * @param string[] $usernames
-     */
-    public function __construct(int $userid, array $usernames = []) {
-        $this->userid = $userid;
-        $this->usernames = $usernames;
-    }
-
-    public function addUsername(string $username): void {
-        array_push($this->usernames, $username);
-    }
-}
-
-class ListMeta {
-    public int $page;
-    public int $pageSize;
-    public int $results;
-    public ?int $previousPage;
-    public ?int $nextPage;
-
-    /**
-     * @var array<string, string|int>
-     */
-    public ?array $filter;
-
-    /**
-     * @param array<string, mixed> $params
-     */
-    public function __construct(array $params) {
-        $this->page = $params["page"];
-        $this->pageSize = $params["pageSize"];
-        $this->results = $params["results"];
-        $this->previousPage = $params["previousPage"];
-        $this->nextPage = $params["nextPage"];
-        $this->filter = $params["filter"];
-    }
-}
-
-/**
- * @template TValue
- * @template-extends \ArrayObject<int, Author>
- */
-class AuthorList extends \ArrayObject implements \JsonSerializable {
-    public function offsetSet($key, $value) {
-        if (!($value instanceof Author)) {
-            throw new \InvalidArgumentException("Value must be of type Author");
-        }
-
-        parent::offsetSet($key, $value);
-    }
-
-    /**
-     * Discard the numeric Ids in favor of a simple list when JSON serializing
-     * Slightly magical, and nobody likes surprises :(
-     * @return Author[]
-     */
-    public function jsonSerialize(): array {
-        return array_values($this->getArrayCopy());
-    }
-}
-
-/**
- * Super Janky™
- * @TODO implement an Either like construct instead
- */
-class SloganResult {}
-
-class SloganList extends SloganResult {
-    /**
-     * @var Slogan[]
-     */
-    public array $slogans;
-
-    /**
-     * @var ListMeta
-     */
-    public ListMeta $meta;
-
-    /**
-     * @param array<Slogan> $slogans
-     * @param ListMeta $meta
-     */
-    public function __construct(array $slogans, ListMeta $meta) {
-        $this->slogans = $slogans;
-        $this->meta = $meta;
-    }
-}
-
-class SloganError extends SloganResult {
-    public int $code;
-    public string $message;
-
-    public function __construct(int $code, string $message) {
-        $this->code = $code;
-        $this->message = $message;
-    }
-}
+use Sloganator\User;
 
 class Sloganator {
     const PARAM_PAGE_SIZE = "pageSize";
@@ -137,9 +10,9 @@ class Sloganator {
     const PARAM_AUTHOR = "author";
     const SLOGAN_LEN_LIMIT = 150;
 
-    private SQLite3 $db;
+    private \SQLite3 $db;
 
-    public function __construct(SQLite3 $db) {
+    public function __construct(\SQLite3 $db) {
         $this->db = $db;
     }
 
@@ -155,12 +28,12 @@ class Sloganator {
             SEL;
 
         /**
-         * @var SQLite3Stmt $statement
+         * @var \SQLite3Stmt $statement
          */
         $statement = $this->db->prepare($select);
 
         /**
-         * @var SQLite3Result $result
+         * @var \SQLite3Result $result
          */
         $result = $statement->execute();
 
@@ -188,7 +61,7 @@ class Sloganator {
             INS;
 
         /**
-         * @var SQLite3Stmt $statement
+         * @var \SQLite3Stmt $statement
          */
         $statement = $this->db->prepare($insert);
         $statement->bindValue(":ts", time());
@@ -197,7 +70,7 @@ class Sloganator {
         $statement->bindValue(":sn", trim($slogan));
 
         /**
-         * @var SQLite3Result $result
+         * @var \SQLite3Result $result
          */
         $result = $statement->execute();
         $id = $this->db->lastInsertRowId();
@@ -242,7 +115,7 @@ class Sloganator {
         $select = strtr($selectBase, ["%where%" => $where]);
         
         /**
-         * @var SQLite3Stmt $statement
+         * @var \SQLite3Stmt $statement
          */
         $statement = $this->db->prepare($select);
         $statement->bindValue(":limit", $limit, SQLITE3_INTEGER);
@@ -252,11 +125,11 @@ class Sloganator {
         }
 
         /**
-         * @var SQLite3Result $result
+         * @var \SQLite3Result $result
          */
         $result = $statement->execute();
 
-        if (!($result instanceof SQLite3Result)) {
+        if (!($result instanceof \SQLite3Result)) {
             return $this->error();
         }
 
@@ -295,13 +168,13 @@ class Sloganator {
             SEL;
 
         /**
-         * @var SQLite3Stmt $statement
+         * @var \SQLite3Stmt $statement
          */
         $statement = $this->db->prepare($select);
         $statement->bindValue(":id", $rowId);
 
         /**
-         * @var SQLite3Result $result
+         * @var \SQLite3Result $result
          */
         $result = $statement->execute();
 

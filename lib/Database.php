@@ -1,6 +1,8 @@
 <?php declare(strict_types = 1);
 
-class Database extends SQLite3  {
+namespace Sloganator;
+
+class Database extends \SQLite3  {
     const DB_FILE = "./sloganator.db";
     
     private bool $bare = false;

@@ -1,5 +1,9 @@
 <?php declare(strict_types = 1);
 
+namespace Sloganator;
+
+use Sloganator\Responses\{ApiResponse, InternalServiceError, NotFound, Response};
+
 class Route {
     /**
      * @var callable $callback
@@ -29,6 +33,10 @@ class Route {
      */
     public function call(array $params): Response {
         return call_user_func($this->callback, $params);
+    }
+
+    public function toString() {
+        return $this->method . " :: " . $this->path;
     }
 }
 
@@ -93,6 +101,15 @@ class Router {
             $params["body"] = json_decode($body, true);
         }
 
-        return $route->call($params);
+        try {
+            $response = $route->call($params);
+        } catch (\Throwable $e) {
+            $response = new InternalServiceError;
+            error_log("Fatal error on: " . $route->toString());
+            error_log($e->getMessage());
+            error_log($e->getTraceAsString());
+        }
+
+        return $response;
     }
 }

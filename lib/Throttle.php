@@ -1,20 +1,20 @@
 <?php declare(strict_types = 1);
 
-require_once BASEDIR . "/lib/database.php";
+namespace Sloganator;
 
 class Throttle {
     const THROTTLE = 15;
 
     /**
-     * @var SQLite3
+     * @var \SQLite3
      */
     private $db;
     
-    public function __construct(SQLite3 $db) {
+    public function __construct(\SQLite3 $db) {
         $this->db = $db;
     }
     
-    public function get(\User $user): int {
+    public function get(User $user): int {
         $ts = $this->getLastUserTimestamp($user->getUserId());
         $remaining = $ts - (time() - self::THROTTLE);
         return max($remaining, 0);
@@ -28,13 +28,13 @@ class Throttle {
             SEL;
 
         /**
-         * @var SQLite3Stmt $statement
+         * @var \SQLite3Stmt $statement
          */
         $statement = $this->db->prepare($select);
         $statement->bindValue(":uid", $userId);
 
         /**
-         * @var SQLite3Result $result
+         * @var \SQLite3Result $result
          */
         $result = $statement->execute();
 
@@ -49,7 +49,7 @@ class Throttle {
         return (int) $data["timestamp"];
     }
 
-    public function update(\User $user): void {
+    public function update(User $user): void {
         $upsert = <<<INS
             INSERT OR REPLACE INTO throttles 
             (userid, timestamp)
@@ -57,7 +57,7 @@ class Throttle {
             INS;
         
         /**
-         * @var SQLite3Stmt $u_statement
+         * @var \SQLite3Stmt $u_statement
          */
         $u_statement = $this->db->prepare($upsert);
         
