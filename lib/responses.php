@@ -11,6 +11,9 @@ interface Response {
 }
 
 trait HttpResponse {
+    /**
+     * @var array<int, string> 
+     */
     private $codes = [
         200 => "OK",
         201 => "Created",
@@ -24,12 +27,18 @@ trait HttpResponse {
 
     protected int $code;
 
+    /**
+     * @var string[]
+     */
     protected array $extraHeaders = [];
 
-    public function setCode(int $code) {
+    public function setCode(int $code): int {
         return $this->code = $code;
     }
 
+    /**
+     * @param string[] $headers
+     */
     public function addHeaders(array $headers): void {
         $this->extraHeaders = array_merge($this->extraHeaders, $headers);
     }
@@ -59,15 +68,15 @@ class ApiResponse implements Response {
     use HttpResponse;
 
     /**
-     * @var array{code: int, message: string} $content
+     * @var object $content
      */
-    private array $content;
+    private object $content;
 
     /**
      * @param int $code
-     * @param array{code: int, message: string} $content
+     * @param object $content
      */
-    public function __construct(int $code, array $content) {
+    public function __construct(int $code, object $content) {
         $this->setCode($code);
         $this->content = $content;
         $this->contentType = Response::CONTENT_TYPE_JSON;
@@ -77,13 +86,13 @@ class ApiResponse implements Response {
     }
 
     public function getContent(): string {
-        return json_encode($this->content);
+        return json_encode($this->content, JSON_THROW_ON_ERROR);
     }
 }
 
 class Unauthorized extends ApiResponse {
     public function __construct() {
-        parent::__construct(401, [
+        parent::__construct(401, (object) [
             "code" => 401,
             "message" => "You must be logged in to create a slogan"
         ]);
@@ -92,7 +101,7 @@ class Unauthorized extends ApiResponse {
 
 class ValidationError extends ApiResponse {
     public function __construct(string $message) {
-        parent::__construct(400, [
+        parent::__construct(400, (object) [
             "code" => 400,
             "message" => $message
         ]);
@@ -101,7 +110,7 @@ class ValidationError extends ApiResponse {
 
 class NotFound extends ApiResponse {
     public function __construct() {
-        parent::__construct(404, [
+        parent::__construct(404, (object) [
             "code" => 404,
             "message" => "Invalid Route"
         ]);
@@ -110,12 +119,12 @@ class NotFound extends ApiResponse {
 
 class TooManyRequests extends ApiResponse {
     public function __construct(int $retryTime) {
-        parent::__construct(429, [
+        parent::__construct(429, (object) [
             "code" => 429,
             "message" => "Hang loose. Slow and steady wins the race."
         ]);
         $this->addHeaders([
-            sprintf("Retry-After: %d", $this->retryTime)
+            sprintf("Retry-After: %d", $retryTime)
         ]);
     }
 }
@@ -123,9 +132,15 @@ class TooManyRequests extends ApiResponse {
 class PageResponse implements Response {
     use HttpResponse;
 
+    /**
+     * @var array<string, mixed> $params
+     */
     private array $params;
     private string $template;
 
+    /**
+     * @param array<string, mixed> $params
+     */
     public function __construct(int $code, string $template = "", array $params = []) {
         $this->setCode($code);
         $this->params = $params;
@@ -139,7 +154,7 @@ class PageResponse implements Response {
         include "templates/" . $this->template . ".php";
         $output = ob_get_clean();
 
-        return $output;
+        return (string) $output;
     }
 }
 

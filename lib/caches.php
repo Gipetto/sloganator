@@ -12,6 +12,9 @@ class FileCache {
         return $this->cacheDir . "/" . $this->cacheFileName;
     }
 
+    /**
+     * @return string|false
+     */
     public function get() {
         $cacheFilePath = $this->cacheFilePath();
         
@@ -22,11 +25,14 @@ class FileCache {
         return file_get_contents($cacheFilePath);
     }
 
-    public function set(string $value) {
-        return file_put_contents($this->cacheFilePath(), $value);
+    /**
+     * @param string $value
+     */
+    public function set($value): int {
+        return (int) file_put_contents($this->cacheFilePath(), $value);
     }
 
-    public function flush() {
+    public function flush(): void {
         $cacheFilePath = $this->cacheFilePath();
 
         if (file_exists($cacheFilePath)) {
@@ -36,6 +42,10 @@ class FileCache {
 }
 
 class SerializingFileCache extends FileCache {
+
+    /**
+     * @return object|false
+     */
     public function get() {
         $cached = parent::get();
 
@@ -46,23 +56,43 @@ class SerializingFileCache extends FileCache {
         return unserialize($cached);
     }
 
-    public function set($object) {
+    /**
+     * @param object $object
+     */
+    public function set($object): int {
+        if (!is_object($object)) {
+            throw new \InvalidArgumentException;
+        }
+
         return parent::set(serialize($object));
     }
 }
 
 class SuccessfulResponseCache extends SerializingFileCache {
-    public function set($response) {
+    /**
+     * @param ApiResponse $response
+     */
+    public function set($response): int {
+        if (!($response instanceof \ApiResponse)) {
+            throw new \InvalidArgumentException;
+        }
+
         $r = clone $response;
         $r->setCode(200);
         return parent::set($r);
     }
 
+    /**
+     * @return \ApiResponse
+     */
     public function get() {
+        /**
+         * @var \ApiResponse $response
+         */
         $response = parent::get();
 
-        if ($response instanceof \Response) {
-            $mtime = filemtime($this->cacheFilePath());
+        if ($response instanceof \ApiResponse) {
+            $mtime = (int) filemtime($this->cacheFilePath());
             $response->addHeaders([
                 "X-Cache: HIT",
                 "Last-Modified: " . date("r", $mtime)
@@ -72,4 +102,3 @@ class SuccessfulResponseCache extends SerializingFileCache {
         return $response;
     }
 }
-

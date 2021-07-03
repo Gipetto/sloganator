@@ -5,6 +5,9 @@ require_once BASEDIR . "/lib/database.php";
 class Throttle {
     const THROTTLE = 15;
 
+    /**
+     * @var SQLite3
+     */
     private $db;
     
     public function __construct(SQLite3 $db) {
@@ -23,10 +26,21 @@ class Throttle {
             FROM throttles
             WHERE userid = :uid
             SEL;
+
+        /**
+         * @var SQLite3Stmt $statement
+         */
         $statement = $this->db->prepare($select);
         $statement->bindValue(":uid", $userId);
 
+        /**
+         * @var SQLite3Result $result
+         */
         $result = $statement->execute();
+
+        /**
+         * @var array<string, int|string> $data
+         */
         $data = $result->fetchArray(SQLITE3_ASSOC);
 
         $result->finalize();
@@ -42,6 +56,9 @@ class Throttle {
             VALUES(:uid, :ts)
             INS;
         
+        /**
+         * @var SQLite3Stmt $u_statement
+         */
         $u_statement = $this->db->prepare($upsert);
         
         $u_statement->bindValue(":uid", $user->getUserId());

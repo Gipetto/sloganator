@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-define("BASEDIR", dirname(__FILE__));
+require_once("constants.php");
 
 require_once BASEDIR . "/lib/responses.php";
 require_once BASEDIR . "/lib/router.php";
@@ -14,7 +14,7 @@ ob_start();
 
 $router = new Router("/mies/sloganator");
 
-$router->route("/", "GET", function($params) {
+$router->route("/", "GET", function(array $params) {
     $user = new User;
     return new PageResponse(200, 'browse', [
         "userId" => $user->getUserId(),
@@ -22,7 +22,7 @@ $router->route("/", "GET", function($params) {
     ]);
 });
 
-$router->route("/v1/authors", "GET", function($params) {
+$router->route("/v1/authors", "GET", function(array $params) {
     $cache = new SuccessfulResponseCache("authors");
     $response = $cache->get();
 
@@ -39,15 +39,15 @@ $router->route("/v1/authors", "GET", function($params) {
     return $response;
 });
 
-$router->route("/v1/slogans", "GET", function($params) {
+$router->route("/v1/slogans", "GET", function(array $params) {
     $db = new Database;
     $sloganator = new Sloganator($db);
 
-    $slogans = $sloganator->list($params);
-    return new ApiResponse(200, $slogans);
+    $result = $sloganator->list($params);
+    return new ApiResponse(200, $result);
 });
 
-$router->route("/v1/slogans/latest", "GET", function($params) {
+$router->route("/v1/slogans/latest", "GET", function(array $params) {
     $cache = new SuccessfulResponseCache("latest");
     $response = $cache->get();
 
@@ -55,19 +55,27 @@ $router->route("/v1/slogans/latest", "GET", function($params) {
         $db = new Database;
         $sloganator = new Sloganator($db);
 
-        $slogans = $sloganator->list([
+        /**
+         * @var SloganList $result
+         */
+        $result = $sloganator->list([
             "pageSize" => 1,
             "page" => 1
         ]);
 
-        $response = new ApiResponse(200, $slogans["slogans"][0]);
+        /**
+         * @var Slogan $slogan
+         */
+        $slogan = current($result->slogans);
+
+        $response = new ApiResponse(200, $slogan);
         $cache->set($response);
     }
 
     return $response;
 });
 
-$router->route("/v1/slogans", "POST", function($params) {
+$router->route("/v1/slogans", "POST", function(array $params) {
     $user = new User;
     $db = new Database;
     $sloganator = new Sloganator($db);

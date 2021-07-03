@@ -1,6 +1,41 @@
 <?php declare(strict_types = 1);
 
+class Route {
+    /**
+     * @var callable $callback
+     */
+    protected $callback;
+    protected string $path;
+    protected string $method;
+
+    public function __construct(string $path, string $method, callable $callback) {
+        $this->callback = $callback;
+        $this->method = $method;
+        $this->path = $path;
+    }
+
+    public function key(): string {
+        return static::getKey($this->path, $this->method);
+    }
+
+    public static function getKey(string $path, string $method): string {
+        $path = trim($path, "/");
+        $method = strtolower($method);
+        return $method . "-" . ($path ?: "/"); 
+    }
+
+    /**
+     * @param array<string, int|string> $params
+     */
+    public function call(array $params): Response {
+        return call_user_func($this->callback, $params);
+    }
+}
+
 class Router {
+    /**
+     * @var Route[]
+     */
     protected array $routes = [];
 
     protected string $base;
@@ -9,6 +44,11 @@ class Router {
     protected string $path;
     protected string $request;
 
+    /**
+     * @var array<string, string>
+     */
+    protected array $params = [];
+
     public function __construct(string $base = "") {
         $request_uri = $_SERVER["REQUEST_URI"];
 
@@ -16,6 +56,9 @@ class Router {
             $request_uri = substr($request_uri, strlen($base));
         }
 
+        /**
+         * @var array<string, string> $uri
+         */
         $uri = parse_url($request_uri);
         
         $this->path = $uri["path"];
@@ -26,33 +69,30 @@ class Router {
         $this->method = $_SERVER["REQUEST_METHOD"];
     }
 
-    public function key(string $method, string $path): string {
-        $path = trim($path, "/");
-        $method = strtolower($method);
-        return $method . "-" . ($path ?: "/");
-    }
-
-    public function route($path, string $method, callable $callback): void { 
-        $route = $this->key($method, $path);
-        $this->routes[$route] = $callback;
+    public function route(string $path, string $method, callable $callback): void { 
+        $route = new Route($path, $method, $callback);
+        $this->routes[$route->key()] = $route;
     }
 
     public function dispatch(): Response {
-        $route = $this->key($this->method, $this->path);
-        $callback = $this->routes[$route];
+        $requestedRoute = Route::getKey($this->path, $this->method);
 
-        if (!$callback) {
+        if (empty($this->routes[$requestedRoute])) {
             return new NotFound;
         }
+
+        /**
+         * @var Route $route
+         */
+        $route = $this->routes[$requestedRoute];
 
         $params = $this->params;
 
         if ($this->method == "POST") {
-            $body = file_get_contents("php://input");
+            $body = (string) file_get_contents("php://input");
             $params["body"] = json_decode($body, true);
         }
 
-        return call_user_func_array($callback, [$params]);
+        return $route->call($params);
     }
 }
-
