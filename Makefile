@@ -1,4 +1,4 @@
-.PHONY: local-server
+.PHONY: local-server test fix-tabs stan
 
 host = "0.0.0.0"
 port = "8080"
@@ -31,3 +31,7 @@ stan:
 			-c phpstan.neon \
 			lib index.php
 
+test:
+	vendor/bin/phpunit -v \
+		--colors \
+		--configuration test/phpunit.xml
