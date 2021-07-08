@@ -49,16 +49,16 @@ List Slogans
             "userid": 1,
             "slogan": "This is a slogan"
         },
-        ...
+        // ...
     ],
-    "meta": [
+    "meta": {
         "page": 1,
         "pageSize": 100,
         "results": 1000,
         "previousPage": null,
         "nextPage": 2,
         "filter": []
-    ]
+    }
 }
 ```
 
@@ -134,8 +134,8 @@ Forum users like to fiddle with their usernames over time. The slogans are creat
 ``` json
 [
     {
-        userid: 1,
-        usernames: [
+        "userid": 1,
+        "usernames": [
             "Treefort Lover",
             "Party Leader"
         ]
