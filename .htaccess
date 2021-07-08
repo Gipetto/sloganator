@@ -1,3 +1,6 @@
+AddHandler fcgid-script .php
+FCGIWrapper "/dh/cgi-system/php80.cgi" .php
+
 <IfModule mod_autoindex.c>
   Options -Indexes
 </IfModule>
