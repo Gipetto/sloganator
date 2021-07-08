@@ -6,17 +6,12 @@ class ApiResponse implements Response {
     use HttpResponse;
 
     /**
-     * @var object $content
-     */
-    private object $content;
-
-    /**
      * @param int $code
      * @param object $content
      */
     public function __construct(int $code, object $content) {
         $this->setCode($code);
-        $this->content = $content;
+        $this->setContent($content);
         $this->contentType = Response::CONTENT_TYPE_JSON;
         $this->addHeaders([
             "Cache-Control: no-cache"

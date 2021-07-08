@@ -6,18 +6,21 @@ class FileCache {
     private string $cacheDir = BASEDIR . "/cache";
     private string $cacheFileName;
 
-    public function __construct(string $fileName) {
+    public function __construct(string $fileName, string $cacheDir = null) {
         $this->cacheFileName = $fileName;
+        if ($cacheDir && is_dir($cacheDir) && is_writable($cacheDir)) {
+            $this->cacheDir = $cacheDir;
+        }
     }
 
     public function cacheFilePath(): string {
-        return $this->cacheDir . "/" . $this->cacheFileName;
+        return $this->cacheDir . DIRECTORY_SEPARATOR . $this->cacheFileName;
     }
 
     /**
      * @return string|false
      */
-    public function get() {
+    public function get(): mixed {
         $cacheFilePath = $this->cacheFilePath();
         
         if (!file_exists($cacheFilePath)) {
@@ -28,7 +31,7 @@ class FileCache {
     }
 
     /**
-     * @param string $value
+     * @param mixed $value
      */
     public function set($value): int {
         return (int) file_put_contents($this->cacheFilePath(), $value);

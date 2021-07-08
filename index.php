@@ -3,10 +3,11 @@
 require_once("constants.php");
 require_once("vendor/autoload.php");
 
-use Sloganator\{Database, Router, Throttle, User};
+use Sloganator\Router\Router;
+use Sloganator\{Database, Throttle, User};
 use Sloganator\Cache\SuccessfulResponseCache;
-use Sloganator\Service\Sloganator;
-use Sloganator\Responses\{ApiResponse, PageResponse, TooManyRequests, Unauthorized, ValidationError};
+use Sloganator\Service\{Sloganator, Slogan, SloganError, SloganList};
+use Sloganator\Responses\{ApiResponse, PageResponse, Response, TooManyRequests, Unauthorized, ValidationError};
 
 // sigh... gotta keep MyBB in line
 ob_start();
@@ -98,14 +99,13 @@ $router->route("/v1/slogans", "POST", function(array $params) {
         return new ValidationError("Slogan must not be empty");
     }
 
-    $id = $sloganator->add($user, $slogan);
+    $result = $sloganator->add($user, $slogan);
     $throttle->update($user);
 
-    if (!$id) {
-        $e = $sloganator->error();
-        return new ApiResponse(400, $e);
+    if ($result instanceof SloganError) {
+        return new ApiResponse(400, $result);
     } else {
-        $slogan = $sloganator->get($id);
+        $slogan = $sloganator->get($result);
         $response = new ApiResponse(201, $slogan);
 
         $latestCache = new SuccessfulResponseCache("latest");

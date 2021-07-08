@@ -4,23 +4,10 @@ namespace Sloganator\Service;
 
 class Author {
     /**
-     * @var int
-     */
-    public int $userid;
-
-    /**
-     * @var string[]
-     */
-    public array $usernames;
-
-    /**
      * @param int $userid
      * @param string[] $usernames
      */
-    public function __construct(int $userid, array $usernames = []) {
-        $this->userid = $userid;
-        $this->usernames = $usernames;
-    }
+    public function __construct(public int $userid, public array $usernames = []) {}
 
     public function addUsername(string $username): void {
         array_push($this->usernames, $username);

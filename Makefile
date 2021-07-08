@@ -3,6 +3,12 @@
 host = "0.0.0.0"
 port = "8080"
 
+clean:
+	rm -rf vendor
+
+install:
+	composer install
+
 local-server:
 	@echo "Starting Local Dev Server"
 	@echo "Slogans list: http://$(host):$(port)"
@@ -32,6 +38,8 @@ stan:
 			lib index.php
 
 test:
-	vendor/bin/phpunit -v \
+	XDEBUG_MODE=coverage vendor/bin/phpunit -v \
 		--colors \
+		--coverage-clover clover.xml \
+		--coverage-html coverage \
 		--configuration test/phpunit.xml

@@ -4,13 +4,12 @@
          bootstrap="./bootstrap.php"
          cacheResultFile=".phpunit.cache/test-results"
          executionOrder="depends,defects"
-         forceCoversAnnotation="true"
-         beStrictAboutCoversAnnotation="true"
+         forceCoversAnnotation="false"
+         beStrictAboutCoversAnnotation="false"
          beStrictAboutOutputDuringTests="true"
          beStrictAboutTodoAnnotatedTests="true"
          failOnRisky="true"
-         failOnWarning="true"
-         verbose="true">
+         failOnWarning="true">
     <testsuites>
         <testsuite name="Sloganator Tests">
             <directory>./sloganator</directory>
@@ -20,7 +19,12 @@
     <coverage cacheDirectory=".phpunit.cache/code-coverage"
               processUncoveredFiles="true">
         <include>
-            <directory suffix=".php">../src</directory>
+            <directory suffix=".php">../lib</directory>
+            <!-- <directory suffix=".php">../templates</directory> -->
         </include>
+        <exclude>
+            <directory>../lib/local</directory>
+            <file>../lib/User.php</file>
+        </exclude>
     </coverage>
 </phpunit>

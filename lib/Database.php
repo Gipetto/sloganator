@@ -5,16 +5,16 @@ namespace Sloganator;
 class Database extends \SQLite3  {
     const DB_FILE = "./sloganator.db";
     
-    private bool $bare = false;
-
-    public function __construct() {
-        $firstRun = !file_exists(self::DB_FILE);
+    public function __construct(string $dbFile = self::DB_FILE) {
+        $firstRun = !file_exists($dbFile);
         
-        $this->open(self::DB_FILE);
+        $this->open($dbFile);
 
         if ($firstRun) {
             $this->installSchema();
         }
+        
+        $this->enableExceptions(true);
     }
 
     public function installSchema(): void { 

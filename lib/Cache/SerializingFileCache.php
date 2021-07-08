@@ -7,7 +7,7 @@ class SerializingFileCache extends FileCache {
     /**
      * @return object|false
      */
-    public function get() {
+    public function get(): mixed {
         $cached = parent::get();
 
         if (!$cached) {
@@ -17,9 +17,6 @@ class SerializingFileCache extends FileCache {
         return unserialize($cached);
     }
 
-    /**
-     * @param object $object
-     */
     public function set($object): int {
         if (!is_object($object)) {
             throw new \InvalidArgumentException;

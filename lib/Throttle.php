@@ -2,21 +2,16 @@
 
 namespace Sloganator;
 
+use Carbon\Carbon;
+
 class Throttle {
     const THROTTLE = 15;
-
-    /**
-     * @var \SQLite3
-     */
-    private $db;
     
-    public function __construct(\SQLite3 $db) {
-        $this->db = $db;
-    }
+    public function __construct(private \SQLite3 $db) {}
     
     public function get(User $user): int {
         $ts = $this->getLastUserTimestamp($user->getUserId());
-        $remaining = $ts - (time() - self::THROTTLE);
+        $remaining = $ts - ((int) Carbon::now()->timestamp - self::THROTTLE);
         return max($remaining, 0);
     }
     
@@ -27,24 +22,34 @@ class Throttle {
             WHERE userid = :uid
             SEL;
 
-        /**
-         * @var \SQLite3Stmt $statement
-         */
-        $statement = $this->db->prepare($select);
-        $statement->bindValue(":uid", $userId);
+        try {
+            /**
+             * @var \SQLite3Stmt $statement
+             */
+            $statement = $this->db->prepare($select);
+            $statement->bindValue(":uid", $userId);
 
-        /**
-         * @var \SQLite3Result $result
-         */
-        $result = $statement->execute();
+            /**
+             * @var \SQLite3Result $result
+             */
+            $result = $statement->execute();
 
-        /**
-         * @var array<string, int|string> $data
-         */
-        $data = $result->fetchArray(SQLITE3_ASSOC);
+            /**
+             * @var array<string, mixed> $data
+             */
+            $data = $result->fetchArray(SQLITE3_ASSOC);
 
-        $result->finalize();
-        $statement->close();
+            $result->finalize();
+            $statement->close();
+        } catch (\Throwable $e) {
+            error_log($e->getMessage());
+            error_log($e->getTraceAsString());
+            return 0;
+        }
+
+        if (!$data) {
+            return 0;
+        }
 
         return (int) $data["timestamp"];
     }
@@ -56,15 +61,20 @@ class Throttle {
             VALUES(:uid, :ts)
             INS;
         
-        /**
-         * @var \SQLite3Stmt $u_statement
-         */
-        $u_statement = $this->db->prepare($upsert);
-        
-        $u_statement->bindValue(":uid", $user->getUserId());
-        $u_statement->bindValue(":ts", time());
- 
-        $u_statement->execute();
-        $u_statement->close();
+        try {
+            /**
+             * @var \SQLite3Stmt $u_statement
+             */
+            $u_statement = $this->db->prepare($upsert);
+            
+            $u_statement->bindValue(":uid", $user->getUserId());
+            $u_statement->bindValue(":ts", Carbon::now()->timestamp);
+    
+            $u_statement->execute();
+            $u_statement->close();
+        } catch (\Throwable $e) {
+            error_log($e->getMessage());
+            error_log($e->getTraceAsString());
+        }
     }
 }

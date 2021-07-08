@@ -5,3 +5,7 @@ vendor
 phpstan.neon
 composer.lock
 test/.phpunit.cache
+clover.xml
+coverage
+.tool-versions
+shell.nix

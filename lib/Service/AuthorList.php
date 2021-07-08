@@ -9,7 +9,7 @@ namespace Sloganator\Service;
 class AuthorList extends \ArrayObject implements \JsonSerializable {
     public function offsetSet($key, $value) {
         if (!($value instanceof Author)) {
-            throw new \InvalidArgumentException("Value must be of type Author");
+            throw new \TypeError("Value must be of type Author");
         }
 
         parent::offsetSet($key, $value);

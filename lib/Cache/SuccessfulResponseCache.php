@@ -2,6 +2,7 @@
 
 namespace Sloganator\Cache;
 
+use Carbon\Carbon;
 use Sloganator\Responses\ApiResponse;
 
 class SuccessfulResponseCache extends SerializingFileCache {
@@ -21,18 +22,15 @@ class SuccessfulResponseCache extends SerializingFileCache {
     /**
      * @return ApiResponse
      */
-    public function get() {
+    public function get(): mixed {
         /**
-         * @var \ApiResponse $response
+         * @var ApiResponse $response
          */
         $response = parent::get();
 
         if ($response instanceof ApiResponse) {
             $mtime = (int) filemtime($this->cacheFilePath());
-            $response->addHeaders([
-                "X-Cache: HIT",
-                "Last-Modified: " . date("r", $mtime)
-            ]);
+            $response->setCacheHeaders((Carbon::now())->format("r"));
         }
 
         return $response;

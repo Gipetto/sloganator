@@ -1,6 +1,8 @@
 <?php declare(strict_types = 1);
 
-define("DOCROOT", dirname(dirname(__DIR__)) . "/lib/local/");
+if (!defined("DOCROOT")) {
+    define("DOCROOT", dirname(dirname(__DIR__)) . "/lib/local/");
+}
 
 if (preg_match("/\.(?:css|js)$/", $_SERVER["REQUEST_URI"])) {
     if (preg_match("|^/mies|", $_SERVER["REQUEST_URI"])) {
@@ -16,6 +18,8 @@ if (preg_match("/\.(?:css|js)$/", $_SERVER["REQUEST_URI"])) {
     $output = ob_get_clean();
     header("Content-Type: text/html");
     echo $output;
+} elseif (preg_match("/coverage.*/", $_SERVER["REQUEST_URI"])) {
+    return false;
 } else {
     include dirname(dirname(__DIR__)) . "/index.php";
 }

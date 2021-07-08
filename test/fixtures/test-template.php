@@ -1,0 +1,1 @@
+<html><body><p><?php echo $testParam ?></p></body></html>
