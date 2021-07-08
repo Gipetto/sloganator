@@ -1,0 +1,10 @@
+parameters:
+	level: 8
+	paths:
+		- lib
+		- index.php
+	excludePaths:
+		- lib/local/*
+		- vendor
+	bootstrapFiles:
+		- constants.php

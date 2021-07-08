@@ -2,7 +2,6 @@ cache/*
 sloganator.db*
 scripts
 vendor
-phpstan.neon
 test/.phpunit.cache
 clover.xml
 coverage
