@@ -6,6 +6,7 @@ require_once("vendor/autoload.php");
 use Sloganator\Router\Router;
 use Sloganator\{Database, Throttle, User};
 use Sloganator\Cache\SuccessfulResponseCache;
+use Sloganator\WordProcessor\WordProcessor;
 use Sloganator\Service\{Sloganator, Slogan, SloganError, SloganList};
 use Sloganator\Responses\{ApiResponse, PageResponse, Response, TooManyRequests, Unauthorized, ValidationError};
 
@@ -20,6 +21,11 @@ $router->route("/", "GET", function(array $params) {
         "userId" => $user->getUserId(),
         "userName" => $user->getUserName()
     ]);
+});
+
+$router->route("/words", function(array $params) {
+    $wp = new WordProcessor;
+    
 });
 
 $router->route("/v1/authors", "GET", function(array $params) {

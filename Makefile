@@ -34,6 +34,7 @@ fix-tabs:
 stan:
 	vendor/bin/phpstan \
 			analyse \
+			--memory-limit 1G \
 			-c phpstan.neon \
 			lib index.php
 
