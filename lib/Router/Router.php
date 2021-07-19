@@ -51,7 +51,7 @@ class Router {
 
     public function dispatch(): Response {
         $this->parseRequest();
-        
+
         $requestedRoute = Route::getKey($this->path, $this->method);
 
         if (empty($this->routes[$requestedRoute])) {

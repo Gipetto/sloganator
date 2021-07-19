@@ -4,7 +4,6 @@ let loader = document.querySelector(".loader");
 let figure = document.querySelector("#templates figure");
 let currentUserId = parseInt(document.querySelector(".current-user").dataset.id);
 let slogansList = document.querySelector("#slogans ul");
-let selectedAuthor = null;
 
 function writeSlogans(slogansResponse) {
     let page = slogansResponse.meta.page;
@@ -97,46 +96,7 @@ loader.addEventListener("click", (event) => {
     }
 }, false);
 
-function getAuthors() {
-    let url = new URL(window.location.origin + "/mies/sloganator/v1/authors");
-    let params = {
-        headers: {
-            "Accept": "application/json"
-        }
-    }
-
-    fetch(url, params)
-        .then(res => res.json())
-        .then(res => {
-            let sorted = res.sort((a, b) => { 
-                return a.usernames[0].localeCompare(b.usernames[0]); 
-            });
-            writeAuthors(sorted);
-        });
-}
-
-function writeAuthors(authors) {
-    let target = document.querySelector("#filter select");
-    authors.forEach(author => {
-        let item = document.createElement("option");
-
-        item.value = author.userid;
-        item.text = author.usernames.join(", ");
-
-        if (selectedAuthor == author.userid) {
-            item.selected = "selected";
-        }
-        
-        target.appendChild(item);
-    });
-
-    target.style.visibility = "visible";
-}
-
 function init() {
-    let url = new URL(window.location.href);
-    selectedAuthor = url.searchParams.get("author");
-
     getAuthors();
     getSlogans({
         "page": 1,

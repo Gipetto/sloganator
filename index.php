@@ -6,14 +6,33 @@ require_once("vendor/autoload.php");
 use Sloganator\Router\Router;
 use Sloganator\{Database, Throttle, User};
 use Sloganator\Cache\SuccessfulResponseCache;
-use Sloganator\WordProcessor\WordProcessor;
+use Sloganator\Processors\WordCounter;
 use Sloganator\Service\{Sloganator, Slogan, SloganError, SloganList};
 use Sloganator\Responses\{ApiResponse, PageResponse, Response, TooManyRequests, Unauthorized, ValidationError};
 
-// sigh... gotta keep MyBB in line
-ob_start();
-
 $router = new Router("/mies/sloganator");
+
+$router->route("/words", "GET", function(array $params) {
+    $user = new User;
+
+    $wp = new WordCounter(function() use ($params) {
+        $db = new Database;
+        $sloganator = new Sloganator($db);
+
+        $params["pageSize"] = -1;
+        $result = $sloganator->list($params);
+
+        foreach ($result->slogans as $slogan) {
+            yield $slogan->slogan;
+        }
+    });
+
+    return new PageResponse(200, 'word-cloud', [
+        "userId" => $user->getUserId(),
+        "userName" => $user->getUserName(),
+        "data" => array_values($wp->run(100))
+    ]);
+});
 
 $router->route("/", "GET", function(array $params) {
     $user = new User;
@@ -21,11 +40,6 @@ $router->route("/", "GET", function(array $params) {
         "userId" => $user->getUserId(),
         "userName" => $user->getUserName()
     ]);
-});
-
-$router->route("/words", function(array $params) {
-    $wp = new WordProcessor;
-    
 });
 
 $router->route("/v1/authors", "GET", function(array $params) {
@@ -125,7 +139,5 @@ $router->route("/v1/slogans", "POST", function(array $params) {
 });
 
 $response = $router->dispatch();
-
-ob_end_clean();
 
 $response->respond();

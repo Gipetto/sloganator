@@ -35,6 +35,9 @@ class User {
         global $cached_forum_permissions_permissions, $cached_forum_permissions;
         global $grouppermignore, $groupzerogreater, $groupzerolesser, $groupxgreater, $grouppermbyswitch;
 
+        // sigh... gotta keep MyBB in line
+        ob_start();
+
         if (!defined("IN_MYBB")) {
             define("IN_MYBB", true);
         }
@@ -62,6 +65,8 @@ class User {
             $this->userName = $mybb->user["username"] ?: self::DEFAULT_USER_NAME;
             $this->userId = (int) $mybb->user["uid"] ?: self::DEFAULT_USER_ID;
         }
+
+        ob_end_clean();
     }
 }
 

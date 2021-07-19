@@ -7,7 +7,7 @@ use Doctrine\Inflector\{Inflector, InflectorFactory};
 
 
 class WordCounter {
-    const NUM_RETURNABLE_ENTRIES = 100;
+    const NUM_RETURNABLE_ENTITIES = 100;
 
     /**
      * @var string[]
@@ -37,7 +37,7 @@ class WordCounter {
     /**
      * @return object[]
      */
-    public function run(): array {
+    public function run($numEntities = self::NUM_RETURNABLE_ENTITIES): array {
         $words = [];
 
         try {
@@ -62,7 +62,7 @@ class WordCounter {
         // order by count, then alpha by word
         uasort($words, fn($a, $b) => ([$a->value, $a->x] <=> [$b->value, $b->x]) * -1);
 
-        $topWords = array_slice($words, 0, self::NUM_RETURNABLE_ENTRIES);
+        $topWords = array_slice($words, 0, $numEntities);
         return array_values($topWords);
     }
 
