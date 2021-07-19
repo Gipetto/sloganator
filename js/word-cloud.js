@@ -17,15 +17,23 @@ const fluffyBunnies = () => {
     anychart.onDocumentReady(() => {
         const chart = anychart.tagCloud(data)
 
+        const dataMin = data[data.length -1].value
+        const dataMax = data[0].value
+
+        const scale = anychart.scales.linear()
+        scale.minimum(dataMin)
+        scale.maximum(dataMax)
+
         chart.angles([0])
             .textSpacing(3)
+            .scale(scale)
             .container("chart")
             .draw()
     })
 }
 
-'loading' === document.readyState ?
-    document.addEventListener('DOMContentLoaded', fluffyBunnies, false) :
+"loading" === document.readyState ?
+    document.addEventListener("DOMContentLoaded", fluffyBunnies, false) :
     fluffyBunnies();
 
 window.addEventListener("resize", resizeChartSpace);
