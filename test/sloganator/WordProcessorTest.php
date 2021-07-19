@@ -27,4 +27,12 @@ class WordProcessorTest extends SloganatorTestCase {
         ], $wp->run());
     }
 
+    public function testWordProcessorExceptionHandling() {
+        $generator = function() {
+            throw new Exception("ha ha!");
+        };
+
+        $wp = new WordCounter($generator);
+        $this->assertEqualsCanonicalizing([], $wp->run());
+    }
 }

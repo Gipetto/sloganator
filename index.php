@@ -20,9 +20,16 @@ $router->route("/words", "GET", function(array $params) {
         $sloganator = new Sloganator($db);
 
         $params["pageSize"] = -1;
+        
+        /**
+         * @var SloganList $result
+         */
         $result = $sloganator->list($params);
 
         foreach ($result->slogans as $slogan) {
+            /**
+             * @var Slogan $slogan
+             */
             yield $slogan->slogan;
         }
     });

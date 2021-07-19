@@ -2,10 +2,6 @@
 
 namespace Sloganator\Processors;
 
-use Doctrine\Inflector\Rules\{Pattern, Patterns, Ruleset, Substitution, Substitutions, Transformations, Word};
-use Doctrine\Inflector\{Inflector, InflectorFactory};
-
-
 class WordCounter {
     const NUM_RETURNABLE_ENTITIES = 100;
 
@@ -37,7 +33,7 @@ class WordCounter {
     /**
      * @return object[]
      */
-    public function run($numEntities = self::NUM_RETURNABLE_ENTITIES): array {
+    public function run(int $numEntities = self::NUM_RETURNABLE_ENTITIES): array {
         $words = [];
 
         try {
