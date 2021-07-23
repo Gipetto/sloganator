@@ -4,12 +4,14 @@ if (!defined("DOCROOT")) {
     define("DOCROOT", dirname(dirname(__DIR__)) . "/lib/local/");
 }
 
-if (preg_match("/\.(?:css|js)$/", $_SERVER["REQUEST_URI"])) {
+if (preg_match("/\.(?:css|js)(\?v=.*)?$/", $_SERVER["REQUEST_URI"])) {
     if (preg_match("|^/mies|", $_SERVER["REQUEST_URI"])) {
         $path = preg_replace([
             "|^/mies/sloganator/|",
-            "|^/mies/|"
+            "|^/mies/|",
+            "|\?v=.*$|"
         ], "", $_SERVER["REQUEST_URI"]);
+
         header("Content-Type: " . mime_content_type($path));
         return readfile($path);
     } else {

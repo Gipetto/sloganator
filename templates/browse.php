@@ -1,8 +1,8 @@
 <html>
 <head>
 <?php require "partials/head.php"; ?>
-<link rel="stylesheet" href="css/browse.css">
-<script src="js/browse.js" defer></script>
+<link rel="stylesheet" href="css/browse.css?v=<?php echo SLGNTR_VERSION; ?>">
+<script src="js/browse.js?v=<?php echo SLGNTR_VERSION; ?>" defer></script>
 </head>
 <body>
 <?php require "partials/header.php"; ?>

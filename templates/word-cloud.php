@@ -3,7 +3,7 @@
     <?php require "partials/head.php" ?>
     <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
     <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
-    <script src="js/word-cloud.js" defer></script>
+    <script src="js/word-cloud.js?v=<?php echo SLGNTR_VERSION; ?>" defer></script>
 </head>
 <body>
 <?php require "partials/header.php"; ?>
