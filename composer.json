@@ -5,8 +5,7 @@
         }
     },
     "require": {
-        "nesbot/carbon": "^2.50",
-        "doctrine/inflector": "^2.0"
+        "nesbot/carbon": "^2.50"
     },
     "require-dev": {
         "phpstan/phpstan": "^0.12.90",
