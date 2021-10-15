@@ -158,8 +158,8 @@ class Sloganator {
                 "%select%" => $selectCount,
                 "%where%" => $where
             ]));
-            $countStatement->bindValue(":limit", $limit, SQLITE3_INTEGER);
-            $countStatement->bindValue(":offset", $offset, SQLITE3_INTEGER);
+            $countStatement->bindValue(":limit", -1, SQLITE3_INTEGER);
+            $countStatement->bindValue(":offset", 0, SQLITE3_INTEGER);
             if ($author) {
                 $countStatement->bindValue(":userid", $author, SQLITE3_INTEGER);
             }
