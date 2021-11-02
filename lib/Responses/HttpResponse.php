@@ -63,7 +63,7 @@ trait HttpResponse {
     }
 
     public function respond(): void {
-        header(sprintf("HTTP/1.0  %s", $this->getCodeString()));
+        header(sprintf("HTTP/1.1  %s", $this->getCodeString()));
         header(sprintf("Content-Type: %s;charset=%s", $this->getContentType(), static::CHARSET_UTF8));
 
         foreach ($this->extraHeaders as $extraHeader) {
