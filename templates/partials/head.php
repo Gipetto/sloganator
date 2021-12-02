@@ -1,4 +1,4 @@
-<base href="/mies/sloganator/">
+<!-- <base href="/mies/sloganator/"> -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
 <meta name="generator" content="Sloganator 2.0">
