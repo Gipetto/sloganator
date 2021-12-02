@@ -68,3 +68,17 @@ test:
 			--coverage-clover clover.xml \
 			--coverage-html coverage \
 			--configuration test/phpunit.xml
+
+test-ci:
+	vendor/bin/phpunit -v \
+		--colors \
+		--coverage-clover clover.xml \
+		--coverage-html coverage \
+		--configuration test/phpunit.xml
+
+stan-ci:
+	vendor/bin/phpstan \
+		analyse \
+		--memory-limit 1G \
+		-c phpstan.neon \
+		lib index.php

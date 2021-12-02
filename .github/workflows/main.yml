@@ -20,7 +20,7 @@ jobs:
       - name: Composer Install
         run: composer install
       - name: Run Tests
-        run: make test
+        run: make test-ci
       - name: Check Test Coverage
         id: test-coverage
         uses: johanvanhelden/gha-clover-test-coverage-check@v1
@@ -34,4 +34,4 @@ jobs:
           name: clover-coverage
           path: coverage
       - name: Run PHPStan
-        run: make stan
+        run: make stan-ci
