@@ -7,7 +7,7 @@ namespace Sloganator\Service;
  * @template-extends \ArrayObject<int, Author>
  */
 class AuthorList extends \ArrayObject implements \JsonSerializable {
-    public function offsetSet($key, $value) {
+    public function offsetSet(mixed $key, mixed $value): void {
         if (!($value instanceof Author)) {
             throw new \TypeError("Value must be of type Author");
         }

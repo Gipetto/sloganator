@@ -10,7 +10,7 @@
             <div class="nav-content">
                 <h1>Sloganator</h1>
             <ul>
-                <li><a href="">Slogans</a></li>
+                <li><a href="./">Slogans</a></li>
                 <li><a href="words">Word Cloud</a></li>
             </ul>
             </div>

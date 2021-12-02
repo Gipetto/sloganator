@@ -5,10 +5,10 @@
         }
     },
     "require": {
-        "nesbot/carbon": "^2.50"
+        "nesbot/carbon": "^2.54"
     },
     "require-dev": {
-        "phpstan/phpstan": "^0.12.90",
+        "phpstan/phpstan": "^1.2.0",
         "phpunit/phpunit": "~9.5.0"
     }
 }

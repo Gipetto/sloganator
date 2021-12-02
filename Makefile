@@ -1,46 +1,70 @@
-.PHONY: local-server test fix-tabs stan
+.PHONY: local-server install composer-install composer-update test fix-tabs stan clean
 
-host = "0.0.0.0"
-port = "8080"
+DOCKER_IMAGE := sloganator
+PORT = "8080"
+
+install: clean docker-build composer-install test
 
 clean:
 	rm -rf vendor
 
-install:
-	composer install
+composer-install:
+	docker run --rm -it \
+		--name sloganator \
+		--volume "$(PWD)":/var/www/html \
+		--workdir /var/www/html \
+		--user $(shell id -u):$(shell id -g) \
+		$(DOCKER_IMAGE):latest \
+		composer install
 
-local-server:
-	@echo "Starting Local Dev Server"
-	@echo "Slogans list: http://$(host):$(port)"
-	@echo "Sloganator: http://$(host):$(port)/local/index.html"
-	php -S \
-		$(host):$(port) \
-		lib/local/router.php
+composer-update:
+	docker run --rm -it \
+		--name sloganator \
+		--volume "$(PWD)":/var/www/html \
+		--workdir /var/www/html \
+		--user $(shell id -u):$(shell id -g) \
+		$(DOCKER_IMAGE):latest \
+		composer update
 
-fix-tabs:
-	find lib/ \
-		-name "*.php" \
-		-type f \
-		-exec bash -c 'expand -t 4 "$$0" | sponge "$$0"' {} \;
-	find css/ \
-		-name "*.css" \
-		-type f \
-		-exec bash -c 'expand -t 4 "$$0" | sponge "$$0"' {} \;
-	find js/ \
-		-name "*.js" \
-		-type f \
-		-exec bash -c 'expand -t 4 "$$0" | sponge "$$0"' {} \;
+docker-build:
+	docker build \
+		--pull \
+		--no-cache \
+		--file _local/Dockerfile \
+		-t $(DOCKER_IMAGE):latest .
+	docker image prune -f
+
+dev-server:
+	docker run --rm -it \
+		-p $(PORT):80 \
+		--name sloganator \
+		--user $(shell id -u):$(shell id -g) \
+		--volume "$(PWD)":/var/www/html \
+		--volume "$(PWD)/_local/conf":/etc/apache2/sites-enabled \
+		$(DOCKER_IMAGE):latest
 
 stan:
-	vendor/bin/phpstan \
+	docker run --rm -it \
+		--name sloganator \
+		--volume "$(PWD)":/var/www/html \
+		--workdir /var/www/html \
+		--user $(shell id -u):$(shell id -g) \
+		$(DOCKER_IMAGE):latest \
+		vendor/bin/phpstan \
 			analyse \
 			--memory-limit 1G \
 			-c phpstan.neon \
 			lib index.php
 
 test:
-	XDEBUG_MODE=coverage vendor/bin/phpunit -v \
-		--colors \
-		--coverage-clover clover.xml \
-		--coverage-html coverage \
-		--configuration test/phpunit.xml
+	XDEBUG_MODE=coverage docker run --rm -it \
+		--name sloganator \
+		--volume "$(PWD)":/var/www/html \
+		--workdir /var/www/html \
+		--user $(shell id -u):$(shell id -g) \
+		$(DOCKER_IMAGE):latest \
+		vendor/bin/phpunit -v \
+			--colors \
+			--coverage-clover clover.xml \
+			--coverage-html coverage \
+			--configuration test/phpunit.xml

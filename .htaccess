@@ -1,5 +1,9 @@
-AddHandler fcgid-script .php
-FCGIWrapper "/dh/cgi-system/php80.cgi" .php
+<IfModule mod_fcgid.c>
+  # mod_fcgid runs in Dreamhost, not in local docker
+  # so we can use this to set Dreamhost's PHP version
+  AddHandler fcgid-script .php
+  FCGIWrapper "/dh/cgi-system/php80.cgi" .php
+</IfModule>
 
 <IfModule mod_autoindex.c>
   Options -Indexes
@@ -13,8 +17,6 @@ FCGIWrapper "/dh/cgi-system/php80.cgi" .php
 DirectoryIndex index.php
 
 RewriteEngine on
-
-RewriteBase /mies/sloganator
 
 # deny access to dot files/directories
 RewriteCond %{SCRIPT_FILENAME} -d

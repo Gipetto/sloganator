@@ -7,6 +7,7 @@ Because, like, who doesn't like a good slogan?
 
 This was designed to be bolted on to a MyBB forum, but could be adapted for anything that has a user system.
 
+
 ## Requirements
 
 - PHP 8+
@@ -14,11 +15,19 @@ This was designed to be bolted on to a MyBB forum, but could be adapted for anyt
 - Web Server (Apache, Nginx)
 - MyBB host forum (though the User object can be updated/extended to support any user system that is cookie based)
 
+
 ## Local Dev
 
+Local development requires Docker. It does not require a local PHP, Apache, or SQLite3 install.
+
 ``` sh
-$ make local-server
+$ make install
+$ make dev-server
 ```
+
+You'll find the sloganator UI at: `localhost:8080/mies/sloganator`
+You'll find the forum stub at: `localhost:8080/mies`
+
 
 ## API
 
@@ -143,6 +152,7 @@ Forum users like to fiddle with their usernames over time. The slogans are creat
     ...
 ]
 ```
+
 
 ## User Interface
 
