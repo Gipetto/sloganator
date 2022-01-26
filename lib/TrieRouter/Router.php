@@ -53,10 +53,10 @@ class Router {
             if ($partIndex === false) {
                 $newNode = $this->getNode();
                 $newNode->value = $part;
-                $partIndex = array_push($current->children, $newNode) - 1;
+                $partIndex = $current->addPath($newNode);
             }
 
-            $current = $current->children[$partIndex];
+            $current = $current->getNode($partIndex);
         }
 
         $current->handler->add($method, $callback);
@@ -78,7 +78,7 @@ class Router {
                 break;
             }
 
-            $current = $current->children[$childIndex];
+            $current = $current->getNode($childIndex);
         }
 
         return $current;

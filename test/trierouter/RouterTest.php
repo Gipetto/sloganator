@@ -141,21 +141,21 @@ class RouterTest extends TestCase {
         $this->assertEquals("404 Not Found", $response->getCodeString());
     }
 
-    public function testLotsOfNodes() {
-        $router = new Router;
+    // public function testLotsOfNodes() {
+    //     $router = new Router;
         
-        $i = 1;
-        while ($i < 500) {
-            $ii = 1;
-            while ($ii < 100) {
-                $router->route("/v1/" . $i . "/" . $ii, "GET", fn(Request $rq) => new ApiResponse(200, (object) ["self" => "/v1/" . $i . "/" . $ii]));
-                $ii++;
-            }
-            $i++;
-        }
+    //     $i = 1;
+    //     while ($i < 500) {
+    //         $ii = 1;
+    //         while ($ii < 100) {
+    //             $router->route("/v1/" . $i . "/" . $ii, "GET", fn(Request $rq) => new ApiResponse(200, (object) ["self" => "/v1/" . $i . "/" . $ii]));
+    //             $ii++;
+    //         }
+    //         $i++;
+    //     }
 
-        $response = $router->dispatch(new Request("GET", "/v1/77/88", ["foo" => "bar"]));
-        $this->assertEquals("200 OK", $response->getCodeString());
-        $this->assertEquals('{"self":"\/v1\/77\/88"}', $response->getContent());
-    }
+    //     $response = $router->dispatch(new Request("GET", "/v1/77/88", ["foo" => "bar"]));
+    //     $this->assertEquals("200 OK", $response->getCodeString());
+    //     $this->assertEquals('{"self":"\/v1\/77\/88"}', $response->getContent());
+    // }
 }

@@ -26,6 +26,18 @@ class RouteNode {
         return false;
     }
 
+    /**
+     * Add the path as a child node, return the index of the new node
+     */
+    public function addPath(RouteNode $node): int {
+        $cnt = array_push($this->children, $node);
+        return $cnt - 1;
+    }
+
+    public function getNode(int $index): RouteNode {
+        return $this->children[$index];
+    }
+
     public function handle(Request $request): Response {
         return $this->handler->handle($request);
     }
