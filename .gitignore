@@ -7,3 +7,4 @@ clover.xml
 coverage
 .tool-versions
 shell.nix
+cachegrind*
