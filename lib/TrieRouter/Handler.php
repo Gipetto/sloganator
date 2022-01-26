@@ -11,24 +11,12 @@ class Handler {
      */
     private $handlers = [];
 
-    /**
-     * @var string[]
-     */
-    const METHODS = [
-        "GET",
-        "POST",
-        "PUT",
-        "DELETE"
-    ];
-
     public function add(string $method, \Closure $handler): void {
-        $requestMethod = strtoupper($method);
-
-        if (!in_array($requestMethod, static::METHODS)) {
+        if (!in_array($method, Request::METHODS)) {
             throw new InvalidMethodException;
         }
 
-        $this->handlers[$requestMethod] = $handler;
+        $this->handlers[$method] = $handler;
     }
 
     public function handle(Request $request): Response {

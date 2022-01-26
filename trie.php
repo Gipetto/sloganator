@@ -13,19 +13,17 @@ $router = new Router;
 $startTime = microtime(true);
 
 $y = 0;
-$i = 1;
-while ($i <= 500) {
-    $ii = 1;
-    while ($ii <= 100) {
-        $router->route("/v1/" . $i . "/" . $ii, "GET", fn(Request $rq) => new ApiResponse(200, (object) ["self" => "/v1/" . $i . "/" . $ii]));
-        $ii++;
+$i = 0;
+while (++$i <= 500) {
+    $ii = 0;
+    while (++$ii <= 100) {
+        $router->get("/v1/" . $i . "/" . $ii, fn(Request $rq) => new ApiResponse(200, (object) ["self" => "/v1/" . $i . "/" . $ii]));
         $y++;
     }
-    $i++;
 }
 
 print("Loaded " . $y . " routes in " . (microtime(true) - $startTime));
 
-$response = $router->dispatch(new Request("GET", "/v1/77/88", ["foo" => "bar"]));
+$response = $router->dispatch(new Request(Request::GET, "/v1/77/88", ["foo" => "bar"]));
 
 print_r($response);

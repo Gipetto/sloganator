@@ -145,6 +145,6 @@ $router->route("/mies/sloganator/v1/slogans", "POST", function(Request $request)
     }
 });
 
-$response = $router->dispatch(Request::new());
+$response = $router->dispatch();
 
 $response->respond();

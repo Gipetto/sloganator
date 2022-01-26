@@ -17,11 +17,9 @@ class RouteNode {
         $this->handler = new Handler();
     }
 
-    public function hasPath(string $path): int|bool {
-        foreach($this->children as $index => $child) {
-            if ($child->value == $path) {
-                return $index;
-            }
+    public function hasPath(string $path): string|bool {
+        if (isset($this->children[$path])) {
+            return $path;
         }
         return false;
     }
@@ -29,12 +27,12 @@ class RouteNode {
     /**
      * Add the path as a child node, return the index of the new node
      */
-    public function addPath(RouteNode $node): int {
-        $cnt = array_push($this->children, $node);
-        return $cnt - 1;
+    public function addPath(RouteNode $node): string {
+        $this->children[$node->value] = $node;
+        return $node->value;
     }
 
-    public function getNode(int $index): RouteNode {
+    public function getPath(string $index): RouteNode {
         return $this->children[$index];
     }
 

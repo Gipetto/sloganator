@@ -32,7 +32,7 @@ class Router {
         $this->root = $this->getNode();
         
         $this->notFound = new RouteNode("404");
-        forEach(Handler::METHODS as $method) {
+        forEach(Request::METHODS as $method) {
             $this->notFound->handler->add($method, function(Request $request) {
                 return new NotFound();
             });
@@ -56,10 +56,26 @@ class Router {
                 $partIndex = $current->addPath($newNode);
             }
 
-            $current = $current->getNode($partIndex);
+            $current = $current->getPath($partIndex);
         }
 
         $current->handler->add($method, $callback);
+    }
+
+    public function get(string $path, \Closure $callback): void {
+        $this->route($path, Request::GET, $callback);
+    }
+
+    public function post(string $path, \Closure $callback): void {
+        $this->route($path, Request::POST, $callback);
+    }
+
+    public function put(string $path, \Closure $callback): void {
+        $this->route($path, Request::PUT, $callback);
+    }
+
+    public function delete(string $path, \Closure $callback): void {
+        $this->route($path, Request::DELETE, $callback);
     }
 
     public function search(string $path): RouteNode {
@@ -78,13 +94,17 @@ class Router {
                 break;
             }
 
-            $current = $current->getNode($childIndex);
+            $current = $current->getPath($childIndex);
         }
 
         return $current;
     }
 
-    public function dispatch(Request $request): Response {
+    public function dispatch(?Request $request = null): Response {
+        if (!$request) {
+            $request = Request::new();
+        }
+
         $route = $this->search($request->path);
         return $route->handle($request);
     }

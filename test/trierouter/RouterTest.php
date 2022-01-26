@@ -1,7 +1,7 @@
 <?php
 
 use \PHPUnit\Framework\TestCase;
-use Sloganator\Responses\ApiResponse;
+use Sloganator\Responses\{ApiResponse, NoContent};
 use \Sloganator\TrieRouter\{InvalidMethodException, Request, Router};
 
 class RouterTest extends TestCase {
@@ -48,7 +48,7 @@ class RouterTest extends TestCase {
             [   // Test Get Exception as Internal Server Error
                 "path" => "/v1/test",
                 "REQUEST_URI" => "/v1/test",
-                "callback" => fn(Request $request) => throw new Exception("foo"),
+                "callback" => fn() => throw new Exception("foo"),
                 "assertions" => [
                     "getCodeString" => "500 Internal Server Error",
                     "getContent" => '{"code":500,"message":"Internal Service Error"}'
@@ -62,35 +62,43 @@ class RouterTest extends TestCase {
      */
     public function testRouterGet($path, $REQUEST_URI, $callback, $assertions) {
         $_SERVER["REQUEST_URI"] = $REQUEST_URI;
-        $_SERVER["REQUEST_METHOD"] = "GET";
+        $_SERVER["REQUEST_METHOD"] = Request::GET;
 
         $router = new Router;
-        $router->route($path, "GET", $callback);
+        $router->get($path, $callback);
 
-        $response = $router->dispatch(Request::new(""));
+        $response = $router->dispatch();
 
         foreach($assertions as $method => $expectedValue) {
             $this->assertStringContainsString($expectedValue, call_user_func([$response, $method]), $method);
         }
     }
 
+    public function testRouterDelete() {
+        $router = new Router;
+        $router->delete("/v1/test", fn(Request $rq) => new ApiResponse(200, $rq));
+
+        $response = $router->dispatch(new Request(Request::DELETE, "/v1/test"));
+        $this->assertEquals("200 OK", $response->getCodeString());
+    }
+
     public function testMethodNotAllowed() {
         $router = new Router;
-        $router->route("/v1/test", "GET", fn(Request $rq) => new ApiResponse(200, $rq));
+        $router->get("/v1/test", fn(Request $rq) => new ApiResponse(200, $rq));
 
-        $response = $router->dispatch(new Request("POST", "/v1/test"));
+        $response = $router->dispatch(new Request(Request::POST, "/v1/test"));
         $this->assertEquals("405 Method Not Allowed", $response->getCodeString());
     }
 
     public function testPostJsonSuccess() {
         $path = "/v1/test";
-        $method = "POST";
+        $method = Request::POST;
 
         $_SERVER["REQUEST_URI"] = $path;
         $_SERVER["REQUEST_METHOD"] = $method;
 
         $router = new Router;
-        $router->route($path, $method, fn(Request $rq) => new ApiResponse(201, (object) $rq));
+        $router->post($path, fn(Request $rq) => new ApiResponse(201, (object) $rq));
 
         $response = $router->dispatch(Request::new('data:application/json,{"bing": 1}'));
 
@@ -100,20 +108,36 @@ class RouterTest extends TestCase {
         $this->assertEquals((object) ["bing" => 1], $json->params->body);
     }
 
+    public function testPutJsonSuccess() {
+        $path = "/v1/test";
+        $method = Request::PUT;
+
+        $_SERVER["REQUEST_URI"] = $path;
+        $_SERVER["REQUEST_METHOD"] = $method;
+
+        $router = new Router;
+        $router->put($path, fn(Request $rq) => new NoContent);
+
+        $response = $router->dispatch(Request::new('data:application/json,{"bing":"bang"}'));
+
+        $this->assertEquals("204 No Content", $response->getCodeString());
+        $this->assertEquals("", $response->getContent());
+    }
+
     public function testGetPostOnSamePath() {
         $path = "/v1/test";
 
         $router = new Router;
-        $router->route($path, "GET", fn(Request $rq) => new ApiResponse(200, $rq));
-        $router->route($path, "POST", fn(Request $rq) => new ApiResponse(201, $rq));
+        $router->get($path, fn(Request $rq) => new ApiResponse(200, $rq));
+        $router->post($path, fn(Request $rq) => new ApiResponse(201, $rq));
 
         $_SERVER["REQUEST_URI"] = $path;
-        $_SERVER["REQUEST_METHOD"] = "GET";
+        $_SERVER["REQUEST_METHOD"] = Request::GET;
 
         $response = $router->dispatch(Request::new(""));
         $this->assertEquals("200 OK", $response->getCodeString());
 
-        $_SERVER["REQUEST_METHOD"] = "POST";
+        $_SERVER["REQUEST_METHOD"] = Request::POST;
         $response = $router->dispatch(Request::new('data:application/json,{"bing": 1}'));
         $this->assertEquals("201 Created", $response->getCodeString());
     }
@@ -127,8 +151,8 @@ class RouterTest extends TestCase {
 
     public function testRootNodeGet() {
         $router = new Router;
-        $router->route("/", "GET", fn(Request $rq) => new ApiResponse(200, $rq));
-        $response = $router->dispatch(new Request("GET", "/", ["foo" => "bar", "bing" => "bang"]));
+        $router->get("/", fn(Request $rq) => new ApiResponse(200, $rq));
+        $response = $router->dispatch(new Request(Request::GET, "/", ["foo" => "bar", "bing" => "bang"]));
 
         $this->assertEquals("200 OK", $response->getCodeString());
         $this->assertStringContainsString('"params":{"foo":"bar","bing":"bang"}', $response->getContent());
@@ -136,26 +160,30 @@ class RouterTest extends TestCase {
 
     public function testEmptyRootNode() {
         $router = new Router;
-        $response = $router->dispatch(new Request("GET", "/"));
+        $response = $router->dispatch(new Request(Request::GET, "/"));
         
         $this->assertEquals("404 Not Found", $response->getCodeString());
     }
 
-    // public function testLotsOfNodes() {
-    //     $router = new Router;
+    /**
+     * Load up 10k routes and randomly look up a single route
+     */
+    public function testLotsOfNodes() {
+        $router = new Router;
         
-    //     $i = 1;
-    //     while ($i < 500) {
-    //         $ii = 1;
-    //         while ($ii < 100) {
-    //             $router->route("/v1/" . $i . "/" . $ii, "GET", fn(Request $rq) => new ApiResponse(200, (object) ["self" => "/v1/" . $i . "/" . $ii]));
-    //             $ii++;
-    //         }
-    //         $i++;
-    //     }
+        $i = 0;
+        while (++$i < 100) {
+            $ii = 0;
+            while (++$ii < 100) {
+                $router->get("/v1/" . $i . "/" . $ii, fn() => new ApiResponse(200, (object) ["self" => "/v1/" . $i . "/" . $ii]));
+            }
+        }
 
-    //     $response = $router->dispatch(new Request("GET", "/v1/77/88", ["foo" => "bar"]));
-    //     $this->assertEquals("200 OK", $response->getCodeString());
-    //     $this->assertEquals('{"self":"\/v1\/77\/88"}', $response->getContent());
-    // }
+        $r1 = mt_rand(1, 500);
+        $r2 = mt_rand(1, 100);
+
+        $response = $router->dispatch(new Request(Request::GET, "/v1/" . $r1 . "/" . $r2, ["foo" => "bar"]));
+        $this->assertEquals("200 OK", $response->getCodeString());
+        $this->assertEquals('{"self":"\/v1\/' . $r1 . '\/' . $r2 . '"}', $response->getContent());
+    }
 }

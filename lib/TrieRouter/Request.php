@@ -3,6 +3,23 @@
 namespace Sloganator\TrieRouter;
 
 final class Request {
+    const GET = "GET";
+    const POST = "POST";
+    const PUT = "PUT";
+    const DELETE = "DELETE";
+
+    const METHODS = [
+        self::GET,
+        self::POST,
+        self::PUT,
+        self::DELETE
+    ];
+
+    const INPUT_BODY_METHODS = [
+        self::POST,
+        self::PUT
+    ];
+
     /**
      * @param array<string, mixed> $params
      * @param array<string, string> $headers
@@ -37,12 +54,12 @@ final class Request {
         $query = parse_url($_SERVER["REQUEST_URI"], PHP_URL_QUERY) ?: "";
         parse_str($query, $params);
 
-        if ($method == "POST") {
+        $headers = self::getHttpHeaders();
+
+        if (in_array($method, self::INPUT_BODY_METHODS)) {
             $body = (string) file_get_contents($inputStream);
             $params["body"] = json_decode($body, true);
         }
-
-        $headers = self::getHttpHeaders();
 
         return new static($method, $path, $params, $headers);
     }
