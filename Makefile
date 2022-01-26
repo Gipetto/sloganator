@@ -57,17 +57,31 @@ stan:
 			lib index.php
 
 test:
-	XDEBUG_MODE=coverage docker run --rm -it \
+	docker run --rm -it \
 		--name sloganator \
 		--volume "$(PWD)":/var/www/html \
 		--workdir /var/www/html \
 		--user $(shell id -u):$(shell id -g) \
+		-e XDEBUG_MODE=coverage \
 		$(DOCKER_IMAGE):latest \
 		vendor/bin/phpunit -v \
 			--colors \
 			--coverage-clover clover.xml \
 			--coverage-html coverage \
 			--configuration test/phpunit.xml
+
+stress:
+	docker run --rm -it \
+		--name sloganator \
+		--volume "$(PWD)":/var/www/html \
+		--workdir /var/www/html \
+		--user $(shell id -u):$(shell id -g) \
+		-e XDEBUG_MODE=profile \
+		$(DOCKER_IMAGE):latest \
+		php \
+		-d xdebug.profiler_enable=On \
+		-d xdebug.output_dir=. \
+		trie.php
 
 test-ci:
 	vendor/bin/phpunit -v \
