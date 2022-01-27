@@ -3,7 +3,7 @@
 require_once("constants.php");
 require_once("vendor/autoload.php");
 
-use Sloganator\TrieRouter\{Request, Router};
+use Sloganator\Router\{Request, Router};
 use Sloganator\{Database, Throttle, User};
 use Sloganator\Cache\SuccessfulResponseCache;
 use Sloganator\Processors\WordCounter;
@@ -12,7 +12,7 @@ use Sloganator\Responses\{ApiResponse, PageResponse, Response, TooManyRequests, 
 
 $router = new Router;
 
-$router->route("/mies/sloganator/words", "GET", function(Request $request) {
+$router->route("/mies/sloganator/words", Request::GET, function(Request $request) {
     $user = new User;
 
     $wp = new WordCounter(function() use ($request) {
@@ -41,7 +41,7 @@ $router->route("/mies/sloganator/words", "GET", function(Request $request) {
     ]);
 });
 
-$router->route("/mies/sloganator", "GET", function(Request $request) {
+$router->route("/mies/sloganator", Request::GET, function(Request $request) {
     $user = new User;
     return new PageResponse(200, 'browse', [
         "userId" => $user->getUserId(),
@@ -49,7 +49,7 @@ $router->route("/mies/sloganator", "GET", function(Request $request) {
     ]);
 });
 
-$router->route("/mies/sloganator/v1/authors", "GET", function(Request $request) {
+$router->route("/mies/sloganator/v1/authors", Request::GET, function(Request $request) {
     $cache = new SuccessfulResponseCache("authors");
     $response = $cache->get();
 
@@ -66,7 +66,7 @@ $router->route("/mies/sloganator/v1/authors", "GET", function(Request $request) 
     return $response;
 });
 
-$router->route("/mies/sloganator/v1/slogans", "GET", function(Request $request) {
+$router->route("/mies/sloganator/v1/slogans", Request::GET, function(Request $request) {
     $db = new Database;
     $sloganator = new Sloganator($db);
 
@@ -74,7 +74,7 @@ $router->route("/mies/sloganator/v1/slogans", "GET", function(Request $request) 
     return new ApiResponse(200, $result);
 });
 
-$router->route("/mies/sloganator/v1/slogans/latest", "GET", function(Request $request) {
+$router->route("/mies/sloganator/v1/slogans/latest", Request::GET, function(Request $request) {
     $cache = new SuccessfulResponseCache("latest");
     $response = $cache->get();
 
@@ -102,7 +102,7 @@ $router->route("/mies/sloganator/v1/slogans/latest", "GET", function(Request $re
     return $response;
 });
 
-$router->route("/mies/sloganator/v1/slogans", "POST", function(Request $request) {
+$router->route("/mies/sloganator/v1/slogans", Request::POST, function(Request $request) {
     $user = new User;
     $db = new Database;
     $sloganator = new Sloganator($db);

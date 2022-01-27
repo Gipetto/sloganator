@@ -1,7 +1,7 @@
 <?php
 
 use \PHPUnit\Framework\TestCase;
-use \Sloganator\TrieRouter\Request;
+use \Sloganator\Router\Request;
 
 class RequestTest extends TestCase {
     protected $_SERVER;

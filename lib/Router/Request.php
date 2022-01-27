@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Sloganator\TrieRouter;
+namespace Sloganator\Router;
 
 final class Request {
     const GET = "GET";

@@ -1,7 +1,7 @@
 <?php
 
 use \PHPUnit\Framework\TestCase;
-use \Sloganator\TrieRouter\RoutePath;
+use \Sloganator\Router\RoutePath;
 
 class RoutePathTest extends TestCase {
 

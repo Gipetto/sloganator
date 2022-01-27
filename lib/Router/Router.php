@@ -1,9 +1,9 @@
 <?php
 
-namespace Sloganator\TrieRouter;
+namespace Sloganator\Router;
 
 use Sloganator\Responses\{NotFound, Response};
-use Sloganator\TrieRouter\Handler;
+use Sloganator\Router\Handler;
 
 /**
  * Store routes in a Trie.
@@ -56,7 +56,7 @@ class Router {
                 $partIndex = $current->addPath($newNode);
             }
 
-            $current = $current->getPath($partIndex);
+            $current = $current->getPath((string) $partIndex);
         }
 
         $current->handler->add($method, $callback);
@@ -94,7 +94,7 @@ class Router {
                 break;
             }
 
-            $current = $current->getPath($childIndex);
+            $current = $current->getPath((string) $childIndex);
         }
 
         return $current;

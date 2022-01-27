@@ -1,8 +1,8 @@
 <?php
 
-use \PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 use Sloganator\Responses\{ApiResponse, NoContent};
-use \Sloganator\TrieRouter\{InvalidMethodException, Request, Router};
+use Sloganator\Router\{InvalidMethodException, Request, Router};
 
 class RouterTest extends TestCase {
     protected $_SERVER;
@@ -169,18 +169,21 @@ class RouterTest extends TestCase {
      * Load up 10k routes and randomly look up a single route
      */
     public function testLotsOfNodes() {
+        $r1limit = 200;
+        $r2limit = 100;
+
         $router = new Router;
         
         $i = 0;
-        while (++$i < 100) {
+        while (++$i <= $r1limit) {
             $ii = 0;
-            while (++$ii < 100) {
+            while (++$ii <= $r2limit) {
                 $router->get("/v1/" . $i . "/" . $ii, fn() => new ApiResponse(200, (object) ["self" => "/v1/" . $i . "/" . $ii]));
             }
         }
 
-        $r1 = mt_rand(1, 500);
-        $r2 = mt_rand(1, 100);
+        $r1 = mt_rand(1, $r1limit);
+        $r2 = mt_rand(1, $r2limit);
 
         $response = $router->dispatch(new Request(Request::GET, "/v1/" . $r1 . "/" . $r2, ["foo" => "bar"]));
         $this->assertEquals("200 OK", $response->getCodeString());
