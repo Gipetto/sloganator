@@ -12,7 +12,7 @@ use Sloganator\Responses\{ApiResponse, PageResponse, Response, TooManyRequests, 
 
 $router = new Router;
 
-$router->route("/mies/sloganator/words", Request::GET, function(Request $request) {
+$router->get("/mies/sloganator/words", function(Request $request) {
     $user = new User;
 
     $wp = new WordCounter(function() use ($request) {
@@ -41,7 +41,7 @@ $router->route("/mies/sloganator/words", Request::GET, function(Request $request
     ]);
 });
 
-$router->route("/mies/sloganator", Request::GET, function(Request $request) {
+$router->get("/mies/sloganator", function(Request $request) {
     $user = new User;
     return new PageResponse(200, 'browse', [
         "userId" => $user->getUserId(),
@@ -49,7 +49,7 @@ $router->route("/mies/sloganator", Request::GET, function(Request $request) {
     ]);
 });
 
-$router->route("/mies/sloganator/v1/authors", Request::GET, function(Request $request) {
+$router->get("/mies/sloganator/v1/authors", function(Request $request) {
     $cache = new SuccessfulResponseCache("authors");
     $response = $cache->get();
 
@@ -66,7 +66,7 @@ $router->route("/mies/sloganator/v1/authors", Request::GET, function(Request $re
     return $response;
 });
 
-$router->route("/mies/sloganator/v1/slogans", Request::GET, function(Request $request) {
+$router->get("/mies/sloganator/v1/slogans", function(Request $request) {
     $db = new Database;
     $sloganator = new Sloganator($db);
 
@@ -74,7 +74,7 @@ $router->route("/mies/sloganator/v1/slogans", Request::GET, function(Request $re
     return new ApiResponse(200, $result);
 });
 
-$router->route("/mies/sloganator/v1/slogans/latest", Request::GET, function(Request $request) {
+$router->get("/mies/sloganator/v1/slogans/latest", function(Request $request) {
     $cache = new SuccessfulResponseCache("latest");
     $response = $cache->get();
 
@@ -102,7 +102,7 @@ $router->route("/mies/sloganator/v1/slogans/latest", Request::GET, function(Requ
     return $response;
 });
 
-$router->route("/mies/sloganator/v1/slogans", Request::POST, function(Request $request) {
+$router->post("/mies/sloganator/v1/slogans", function(Request $request) {
     $user = new User;
     $db = new Database;
     $sloganator = new Sloganator($db);
