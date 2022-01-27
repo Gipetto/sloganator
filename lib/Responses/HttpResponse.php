@@ -9,9 +9,11 @@ trait HttpResponse {
     private $codes = [
         200 => "OK",
         201 => "Created",
+        204 => "No Content",
         400 => "Bad Request",
         401 => "Unauthorized",
         404 => "Not Found",
+        405 => "Method Not Allowed",
         429 => "Too Many Requests",
         500 => "Internal Server Error"
     ];
@@ -64,7 +66,7 @@ trait HttpResponse {
 
     public function respond(): void {
         header(sprintf("HTTP/1.1  %s", $this->getCodeString()));
-        header(sprintf("Content-Type: %s;charset=%s", $this->getContentType(), static::CHARSET_UTF8));
+        header(sprintf("Content-Type: %s;charset=%s", $this->getContentType(), Response::CHARSET_UTF8));
 
         foreach ($this->extraHeaders as $extraHeader) {
             header($extraHeader);

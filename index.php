@@ -3,28 +3,28 @@
 require_once("constants.php");
 require_once("vendor/autoload.php");
 
-use Sloganator\Router\Router;
+use Sloganator\Router\{Request, Router};
 use Sloganator\{Database, Throttle, User};
 use Sloganator\Cache\SuccessfulResponseCache;
 use Sloganator\Processors\WordCounter;
 use Sloganator\Service\{Sloganator, Slogan, SloganError, SloganList};
 use Sloganator\Responses\{ApiResponse, PageResponse, Response, TooManyRequests, Unauthorized, ValidationError};
 
-$router = new Router("/mies/sloganator");
+$router = new Router;
 
-$router->route("/words", "GET", function(array $params) {
+$router->get("/mies/sloganator/words", function(Request $request) {
     $user = new User;
 
-    $wp = new WordCounter(function() use ($params) {
+    $wp = new WordCounter(function() use ($request) {
         $db = new Database;
         $sloganator = new Sloganator($db);
 
-        $params["pageSize"] = -1;
+        $request->params["pageSize"] = -1;
         
         /**
          * @var SloganList $result
          */
-        $result = $sloganator->list($params);
+        $result = $sloganator->list($request->params);
 
         foreach ($result->slogans as $slogan) {
             /**
@@ -41,7 +41,7 @@ $router->route("/words", "GET", function(array $params) {
     ]);
 });
 
-$router->route("/", "GET", function(array $params) {
+$router->get("/mies/sloganator", function(Request $request) {
     $user = new User;
     return new PageResponse(200, 'browse', [
         "userId" => $user->getUserId(),
@@ -49,7 +49,7 @@ $router->route("/", "GET", function(array $params) {
     ]);
 });
 
-$router->route("/v1/authors", "GET", function(array $params) {
+$router->get("/mies/sloganator/v1/authors", function(Request $request) {
     $cache = new SuccessfulResponseCache("authors");
     $response = $cache->get();
 
@@ -66,15 +66,15 @@ $router->route("/v1/authors", "GET", function(array $params) {
     return $response;
 });
 
-$router->route("/v1/slogans", "GET", function(array $params) {
+$router->get("/mies/sloganator/v1/slogans", function(Request $request) {
     $db = new Database;
     $sloganator = new Sloganator($db);
 
-    $result = $sloganator->list($params);
+    $result = $sloganator->list($request->params);
     return new ApiResponse(200, $result);
 });
 
-$router->route("/v1/slogans/latest", "GET", function(array $params) {
+$router->get("/mies/sloganator/v1/slogans/latest", function(Request $request) {
     $cache = new SuccessfulResponseCache("latest");
     $response = $cache->get();
 
@@ -102,7 +102,7 @@ $router->route("/v1/slogans/latest", "GET", function(array $params) {
     return $response;
 });
 
-$router->route("/v1/slogans", "POST", function(array $params) {
+$router->post("/mies/sloganator/v1/slogans", function(Request $request) {
     $user = new User;
     $db = new Database;
     $sloganator = new Sloganator($db);
@@ -117,7 +117,7 @@ $router->route("/v1/slogans", "POST", function(array $params) {
         return new TooManyRequests($rt);
     }
     
-    $slogan = trim($params["body"]["slogan"]);
+    $slogan = trim($request->params["body"]["slogan"]);
     $sloganLen = mb_strlen($slogan);
 
     if ($sloganLen > Sloganator::SLOGAN_LEN_LIMIT) {

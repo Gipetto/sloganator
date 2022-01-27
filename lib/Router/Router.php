@@ -1,82 +1,111 @@
-<?php declare(strict_types = 1);
+<?php
 
 namespace Sloganator\Router;
 
-use Sloganator\Responses\{ApiResponse, InternalServiceError, NotFound, Response};
+use Sloganator\Responses\{NotFound, Response};
+use Sloganator\Router\Handler;
 
+/**
+ * Store routes in a Trie.
+ * 
+ * Example:
+ *   - /v1/foo/zot
+ *   - /v1/foo/zap
+ *   - /v1/bar
+ *   - /v2/baz/bop
+ * 
+ * Are stored as:
+ *          root
+ *         /    \
+ *        v1    v2
+ *       /  \     \
+ *     foo  bar   baz
+ *    /  \          \
+ *  zot  zap        bop
+ * 
+ */
 class Router {
-    /**
-     * @var Route[]
-     */
-    protected array $routes = [];
+    private RouteNode $root;
+    private RouteNode $notFound;
 
-    protected string $method;
-    protected string $path;
-    protected string $request;
-
-    /**
-     * @var array<string, string>
-     */
-    protected array $params = [];
-
-    protected string $inputStream = "php://input";
-
-    public function __construct(protected string $urlBase = "") {}
-
-    public function parseRequest(): void {
-        $this->method = $_SERVER["REQUEST_METHOD"];
-        $request_uri = substr($_SERVER["REQUEST_URI"], strlen($this->urlBase));
-        $this->path = (string) parse_url($request_uri,  PHP_URL_PATH);
+    public function __construct() {
+        $this->root = $this->getNode();
+        
+        $this->notFound = new RouteNode("404");
+        forEach(Request::METHODS as $method) {
+            $this->notFound->handler->add($method, function(Request $request) {
+                return new NotFound();
+            });
+        }
     }
 
-    /**
-     * @return array<string, mixed>
-     */
-    public function parseParams(): array {
-        $query = parse_url($_SERVER["REQUEST_URI"], PHP_URL_QUERY) ?: "";
-        parse_str($query, $params);
+    protected function getNode(): RouteNode {
+        return new RouteNode();
+    }
 
-        if ($this->method == "POST") {
-            $body = (string) file_get_contents($this->inputStream);
-            $params["body"] = json_decode($body, true);
+    public function route(string $path, string $method, \Closure $callback): void {
+        $current = $this->root;        
+        $routePath = new RoutePath($path);
+
+        foreach ($routePath->parts as $part) {
+            $partIndex = $current->hasPath($part);
+
+            if ($partIndex === false) {
+                $newNode = $this->getNode();
+                $newNode->value = $part;
+                $partIndex = $current->addPath($newNode);
+            }
+
+            $current = $current->getPath((string) $partIndex);
         }
 
-        return $params;
+        $current->handler->add($method, $callback);
     }
 
-    public function route(string $path, string $method, \Closure $callback): void { 
-        $route = new Route($path, $method, $callback);
-        $this->routes[$route->key()] = $route;
+    public function get(string $path, \Closure $callback): void {
+        $this->route($path, Request::GET, $callback);
     }
 
-    public function dispatch(): Response {
-        $this->parseRequest();
+    public function post(string $path, \Closure $callback): void {
+        $this->route($path, Request::POST, $callback);
+    }
 
-        $requestedRoute = Route::getKey($this->path, $this->method);
+    public function put(string $path, \Closure $callback): void {
+        $this->route($path, Request::PUT, $callback);
+    }
 
-        if (empty($this->routes[$requestedRoute])) {
-            return new NotFound;
+    public function delete(string $path, \Closure $callback): void {
+        $this->route($path, Request::DELETE, $callback);
+    }
+
+    public function search(string $path): RouteNode {
+        $routePath = new RoutePath($path);
+
+        if ($routePath->isEmpty) {
+            return $this->root;
         }
 
-        /**
-         * @var Route $route
-         */
-        $route = $this->routes[$requestedRoute];
+        $current = $this->root;
 
-        try {
-            $params = $this->parseParams();
-            $response = $route->call($params);
-        } catch (\Throwable $e) {
-            $response = new InternalServiceError;
-            error_log("Fatal error on: " . $route->toString());
-            error_log($e->getMessage());
-            error_log($e->getTraceAsString());
+        foreach ($routePath->parts as $part) {
+            $childIndex = $current->hasPath($part);
+            if ($childIndex === false) {
+                $current = $this->notFound;
+                break;
+            }
+
+            $current = $current->getPath((string) $childIndex);
         }
 
-        return $response;
+        return $current;
     }
 
-    public function setInputStream(string $inputStream): void {
-        $this->inputStream = $inputStream;
+    public function dispatch(?Request $request = null): Response {
+        if (!$request) {
+            $request = Request::new();
+        }
+
+        $route = $this->search($request->path);
+        return $route->handle($request);
     }
 }

@@ -13,6 +13,7 @@
     <testsuites>
         <testsuite name="Sloganator Tests">
             <directory>./sloganator</directory>
+            <directory>./router</directory>
         </testsuite>
     </testsuites>
 
