@@ -58,6 +58,13 @@ class AuthorFilter extends React.Component<AuthorFilterProps> {
             e.preventDefault()
         }
         this.props.setSelectedAuthor(this.state.selectedAuthor)
+
+        let newPath = window.location.pathname
+        if (this.state.selectedAuthor) {
+            newPath += "?author=" + this.state.selectedAuthor
+        }
+
+        window.history.pushState(null, "", newPath)
     }
 
     render() {

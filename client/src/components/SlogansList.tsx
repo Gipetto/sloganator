@@ -32,7 +32,18 @@ class SlogansList extends React.Component<any, SlogansListState> {
     
     constructor(props: any) {
         super(props)
-        this.state = defaultState
+        
+        let initialState:any = {}
+
+        const pageQuery = new URLSearchParams(window.location.search)
+        if(pageQuery.has('author')) {
+            initialState.selectedAuthor = parseInt(pageQuery.get('author') || "", 10)
+        }
+        
+        this.state = {
+            ...defaultState,
+            ...initialState
+        }
     }
 
     componentDidMount() {
