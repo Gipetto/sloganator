@@ -9,11 +9,9 @@ class App extends React.Component {
   render() {
     return (
       <UserProvider>
-        <div id="content">
           <Header/>
           <SlogansList/>
           <Footer/>
-        </div>
       </UserProvider>
     )
   }

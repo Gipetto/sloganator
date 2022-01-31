@@ -34,7 +34,5 @@ export type User = {
 
 export type CurrentUserContext = {
     loading: boolean,
-    currentUser: User,
-    selectedUser: number,
-    updateSelectedUser: Function
+    currentUser: User
 }

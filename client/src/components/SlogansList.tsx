@@ -8,6 +8,7 @@ import "../styles/browse.css"
 
 
 const defaultState = {
+    selectedAuthor: undefined,
     slogans: [],
     meta: {
         filter: [],
@@ -19,10 +20,12 @@ const defaultState = {
     }
 }
 
-class SlogansList extends React.Component {
-    static contextType = UserContext
+type SlogansListState = {
+    selectedAuthor: number|undefined
+} & SloganResponse
 
-    state: SloganResponse
+class SlogansList extends React.Component<any, SlogansListState> {
+    static contextType = UserContext
 
     host = "tower.wookiee.internal:8080"
     path = "mies/sloganator/v1/slogans"
@@ -34,12 +37,25 @@ class SlogansList extends React.Component {
 
     componentDidMount() {
         let queryParams = new URLSearchParams()
-        if (this.context.selectedUser) {
-            queryParams.set('author', this.context.selectedUser)
+        if (this.state.selectedAuthor) {
+            queryParams.set('author', this.state.selectedAuthor.toString())
         }
 
         axios.get(`http://${this.host}/${this.path}?` + queryParams)
             .then((response) => this.setSlogans(response.data))
+    }
+
+    componentDidUpdate(_: any, prevState: SlogansListState) {
+        console.log(`${this.state.selectedAuthor} -- ${prevState.selectedAuthor}`)
+        if (this.state.selectedAuthor != prevState.selectedAuthor) {
+            let queryParams = new URLSearchParams()
+            if (this.state.selectedAuthor) {
+                queryParams.set('author', this.state.selectedAuthor.toString())
+            }
+
+            axios.get(`http://${this.host}/${this.path}?` + queryParams)
+                .then((response) => this.setSlogans(response.data))
+        }
     }
 
     setSlogans(sloganResponse: SloganResponse) {
@@ -49,13 +65,24 @@ class SlogansList extends React.Component {
         }))
     }
 
+    setSelectedAuthor(selectedAuthor: number) {
+        this.setState((state) => ({
+            ...state,
+            selectedAuthor
+        }))
+    }
+
     render() {
         const slogans = this.state.slogans
         const currentUser = this.context.currentUser
+        const selectedAuthor = this.state.selectedAuthor
 
         return (
             <div>
-                <AuthorFilter />
+                <AuthorFilter 
+                    selectedAuthor={selectedAuthor}
+                    setSelectedAuthor={this.setSelectedAuthor.bind(this)} 
+                />
                 <div id="slogans">
                     <ul>
                     {slogans.map((slogan) => {

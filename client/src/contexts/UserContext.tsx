@@ -13,9 +13,7 @@ const defaultUser: User = {
 
 const UserContext = createContext<CurrentUserContext>({
     loading: true,
-    currentUser: defaultUser,
-    selectedUser: DEFAULT_USER_ID,
-    updateSelectedUser: () => {}
+    currentUser: defaultUser
 })
 
 const UserConsumer = UserContext.Consumer
@@ -24,20 +22,14 @@ class UserProvider extends React.Component {
     state: {
         loading: true,
         currentUser: User,
-        selectedUser: number,
-        updateSelectedUser: Function
     }
 
     constructor(props: any) {
         super(props)
 
-        const urlParams = new URLSearchParams(window.location.search)
-
         this.state = {
             loading: true,
-            currentUser: defaultUser,
-            selectedUser: parseInt(urlParams.get('author') || `${DEFAULT_USER_ID}`, 10),
-            updateSelectedUser: this.setSelectedUser
+            currentUser: defaultUser
         }
     }
 
@@ -54,13 +46,6 @@ class UserProvider extends React.Component {
         this.setState((state) => ({ 
             ...state,
             currentUser
-        }))
-    }
-
-    setSelectedUser = (selectedUser: number) => {
-        this.setState((state) => ({
-            ...state,
-            selectedUser
         }))
     }
 

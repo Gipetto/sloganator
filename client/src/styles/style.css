@@ -32,7 +32,8 @@ header p {
 }
 
 button {
-  padding: 1em;
+  font-size: 1em;
+  padding: 0.75em 1em;
   border-radius: 1em;
   cursor: pointer;
 }
@@ -53,6 +54,17 @@ form button,
 form a,
 form label {
   margin: 0 0.5em;
+}
+
+button.link {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  text-decoration: underline;
+  color: blue;
+}
+button.link:hover {
+  color: green;
 }
 
 select {
@@ -111,11 +123,6 @@ select:focus + .focus {
   bottom: -1px;
   border: 2px solid var(--select-focus);
   border-radius: inherit;
-}
-
-label {
-  font-size: 1.125rem;
-  font-weight: 500;
 }
 
 .select + label {
