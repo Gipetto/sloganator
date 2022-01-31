@@ -1,7 +1,8 @@
 import type { AuthorsList } from "../types"
 import React, { FormEvent } from "react"
-import axios from "axios"
 import AuthorSelect from "./AuthorSelect"
+import sloganatorClient from "../clients/sloganator"
+
 
 type AuthorFilterProps = {
     selectedAuthor: number|undefined,
@@ -14,9 +15,6 @@ class AuthorFilter extends React.Component<AuthorFilterProps> {
         selectedAuthor: number|undefined
     }
 
-    host = "tower.wookiee.internal:8080"
-    path = "mies/sloganator/v1/authors"
-
     constructor(props: AuthorFilterProps) {
         super(props)
 
@@ -27,9 +25,7 @@ class AuthorFilter extends React.Component<AuthorFilterProps> {
     }
 
     componentDidMount() {
-        let url = `http://${this.host}/${this.path}`
-
-        axios.get(url)
+        sloganatorClient.get("/mies/sloganator/v1/authors")
             .then(response => response.data)
             .then((authors: AuthorsList) => authors.sort((a, b) => {
                 return a.usernames[0].localeCompare(b.usernames[0])

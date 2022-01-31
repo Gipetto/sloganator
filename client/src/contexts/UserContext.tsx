@@ -1,7 +1,7 @@
 import React from "react"
-import axios from "axios"
 import { CurrentUserContext, User } from "../types"
 import { createContext } from "react"
+import sloganatorClient from "../clients/sloganator"
 
 const DEFAULT_USER_ID = 0
 const DEFAULT_USER_NAME = "Treefort Lover"
@@ -34,10 +34,7 @@ class UserProvider extends React.Component {
     }
 
     componentDidMount() {
-        const host = "tower.wookiee.internal:8080"
-        const path = "mies/sloganator/v1/user"
-
-        axios.get(`http://${host}/${path}`)
+        sloganatorClient.get("/mies/sloganator/v1/user")
             .then((response) => this.setCurrentUser(response.data))
             .then((_) => this.setLoading(false))
     }

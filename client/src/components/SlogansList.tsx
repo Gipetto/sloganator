@@ -1,9 +1,9 @@
 import React from "react"
-import axios from "axios"
 import AuthorFilter from "./AuthorFilter"
 import SlogansListItem from "./SlogansListItem"
 import {SloganResponse} from "../types"
 import UserContext from "../contexts/UserContext"
+import sloganatorClient from "../clients/sloganator"
 import "../styles/browse.css"
 
 
@@ -27,8 +27,7 @@ type SlogansListState = {
 class SlogansList extends React.Component<any, SlogansListState> {
     static contextType = UserContext
 
-    host = "tower.wookiee.internal:8080"
-    path = "mies/sloganator/v1/slogans"
+    path = "/mies/sloganator/v1/slogans"
     
     constructor(props: any) {
         super(props)
@@ -52,19 +51,18 @@ class SlogansList extends React.Component<any, SlogansListState> {
             queryParams.set('author', this.state.selectedAuthor.toString())
         }
 
-        axios.get(`http://${this.host}/${this.path}?` + queryParams)
+        sloganatorClient.get(`${this.path}?` + queryParams)
             .then((response) => this.setSlogans(response.data))
     }
 
     componentDidUpdate(_: any, prevState: SlogansListState) {
-        console.log(`${this.state.selectedAuthor} -- ${prevState.selectedAuthor}`)
         if (this.state.selectedAuthor != prevState.selectedAuthor) {
             let queryParams = new URLSearchParams()
             if (this.state.selectedAuthor) {
                 queryParams.set('author', this.state.selectedAuthor.toString())
             }
 
-            axios.get(`http://${this.host}/${this.path}?` + queryParams)
+            sloganatorClient.get(`${this.path}?` + queryParams)
                 .then((response) => this.setSlogans(response.data))
         }
     }
