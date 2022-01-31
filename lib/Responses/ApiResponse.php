@@ -14,6 +14,9 @@ class ApiResponse implements Response {
         $this->setContent($content);
         $this->contentType = Response::CONTENT_TYPE_JSON;
         $this->addHeaders([
+            "Access-Control-Allow-Origin: *",
+            "Access-Control-Allow-Methods: GET, POST, PUT, DELTE",
+            "Access-Control-Allow-Headers: Content-Type",
             "Cache-Control: no-cache"
         ]);
     }

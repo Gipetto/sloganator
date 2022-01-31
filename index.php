@@ -49,6 +49,11 @@ $router->get("/mies/sloganator", function(Request $request) {
     ]);
 });
 
+$router->get("/mies/sloganator/v1/user", function(Request $request) {
+    $user = new User;
+    return new ApiResponse(200, $user);
+});
+
 $router->get("/mies/sloganator/v1/authors", function(Request $request) {
     $cache = new SuccessfulResponseCache("authors");
     $response = $cache->get();

@@ -1,0 +1,72 @@
+
+:root {
+    --slogan-color: #fff;
+    --cite-color: #e5e5e5;
+    --dark-gray: #444;
+    --not-so-dark-gray: #555;
+    --lighter-gray: #ccc;
+    --dark-author: #2b67b5;
+    --lighter-author: #4582d1;
+    --select-border: #777;
+    --select-focus: blue;
+    --select-arrow: var(--select-border);
+}
+#slogans ul {
+    padding: 0;
+}
+#slogans ul > li {
+    list-style-type: none;
+}
+#slogans ul > li.divider,
+#slogans ul > li.loading {
+    margin: 1.5em 0;
+}
+figure {
+    color: var(--slogan-color); 
+    background-color: var(--not-so-dark-gray);
+    border-radius: 0.25em;
+    margin: 0.25em 0;
+}
+figure.current-user-author {
+    background-color: var(--lighter-author);
+}
+figure figcaption,
+figure blockquote {
+    padding: 0.5em 1em;
+}
+figure blockquote {
+    position: relative;
+    font-size: 1.1em;
+    padding: 0.75em 1em 0.5em 1em;
+    border-bottom: 1px solid var(--lighter-gray);
+    background-color: var(--dark-gray);
+    border-top-left-radius: 0.25em;
+    border-top-right-radius: 0.25em;
+}
+figure.current-user-author blockquote {
+    background-color: var(--dark-author); 
+}
+figure blockquote::before {
+    content: "\25B6\FE0E";
+    left: -0.2em;
+    top: 0.6em;
+    position: absolute;
+}
+figure blockquote p {
+    overflow-wrap: break-word;
+    line-height: 1.2em;
+}
+figure cite {
+    font-style: italic;
+    font-size: 0.85em;
+}
+figure cite a {
+    color: var(--cite-color);
+}
+figure cite .timestamp {
+    float: right;
+}
+#templates {
+    visibility: hidden;
+    display: none;
+}

@@ -19,3 +19,5 @@ RUN pecl install xdebug-3.1.1 \
 RUN a2enmod rewrite
 
 RUN apt clean
+
+CMD apache2-foreground

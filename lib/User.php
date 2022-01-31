@@ -2,11 +2,13 @@
 
 namespace Sloganator;
 
+use JsonSerializable;
+
 if (!defined("DOCROOT")) {
     define("DOCROOT", dirname(dirname(dirname(__FILE__))));
 }
 
-class User {
+class User implements JsonSerializable {
     const DEFAULT_USER_ID = 0;
     const DEFAULT_USER_NAME = "Treefort Lover";
 
@@ -15,6 +17,16 @@ class User {
 
     public function __construct() {
         $this->authenticate();
+    }
+
+    /**
+     * @return array<string, int|string>
+     */
+    public function jsonSerialize(): mixed {
+        return [
+            "userId" => $this->getUserId(),
+            "userName" => $this->getUserName()
+        ];
     }
 
     public function getUserName(): string {
