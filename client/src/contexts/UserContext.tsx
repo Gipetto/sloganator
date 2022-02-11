@@ -3,6 +3,7 @@ import { CurrentUserContext, User } from "../types"
 import { createContext } from "react"
 import sloganatorClient from "../clients/sloganator"
 
+
 const DEFAULT_USER_ID = 0
 const DEFAULT_USER_NAME = "Treefort Lover"
 
@@ -36,7 +37,25 @@ class UserProvider extends React.Component {
     componentDidMount() {
         sloganatorClient.get("/mies/sloganator/v1/user")
             .then((response) => this.setCurrentUser(response.data))
-            .then((_) => this.setLoading(false))
+            .catch((error) => {
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                  } else if (error.request) {
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
+                    console.log(error.request);
+                  } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log('Error', error.message);
+                  }
+                  console.log(error.config);
+            })
+            .finally(() => this.setLoading(false))
     }
     
     setCurrentUser = (currentUser: User) => {
@@ -55,6 +74,12 @@ class UserProvider extends React.Component {
 
     render() {
         const { children } = this.props
+
+        if (this.state.loading) {
+            return (
+                <p>Loading...</p>
+            )
+        }
 
         return (
             <UserContext.Provider value={this.state}>

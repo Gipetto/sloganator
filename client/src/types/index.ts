@@ -20,6 +20,11 @@ export type SloganResponse = {
     meta: ResponseMeta
 }
 
+export type SloganErrorResponse = {
+    code: number,
+    message: string
+}
+
 export type Author = {
     userid: number,
     usernames: Array<string>

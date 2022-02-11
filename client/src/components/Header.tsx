@@ -26,7 +26,7 @@ class Header extends React.Component {
 
     render () {
         return (
-            <header>
+            <header id="top">
                 <h1>Sloganator</h1>
                 <WelcomeText loading={this.context.loading} user={this.context.currentUser}/>
             </header>

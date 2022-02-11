@@ -14,7 +14,9 @@ function SlogansListItem(props: ListItemProps) {
         minute: "numeric",
         day: "numeric",
         month: "short",
-        year: "numeric"
+        year: "numeric",
+        hour12: false,
+        timeZoneName: "short"
     }
     const date = new Date(slogan.timestamp * 1000)
     const dateString = Intl.DateTimeFormat(lang, localDateOptions).format(date)

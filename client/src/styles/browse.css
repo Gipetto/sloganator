@@ -11,6 +11,12 @@
     --select-focus: blue;
     --select-arrow: var(--select-border);
 }
+#paginator {
+    padding: 1em 0;
+}
+#paginator button {
+    margin-right: 1em;
+}
 #slogans ul {
     padding: 0;
 }

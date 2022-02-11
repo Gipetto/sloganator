@@ -1,28 +1,28 @@
 import React from "react"
 import AuthorFilter from "./AuthorFilter"
-import SlogansListItem from "./SlogansListItem"
+import SlogansListPage from "./SlogansListPage"
 import {SloganResponse} from "../types"
 import UserContext from "../contexts/UserContext"
-import sloganatorClient from "../clients/sloganator"
+import { getSlogans } from "../clients/sloganator"
+import LoadButton from "./LoadButton"
 import "../styles/browse.css"
 
 
 const defaultState = {
     selectedAuthor: undefined,
-    slogans: [],
-    meta: {
-        filter: [],
-        page: 0,
-        pageSize: 0,
-        previousPage: 0,
-        nextPage: 0,
-        results: 0
-    }
+    currentPage: 1,
+    isLastPage: false,
+    loading: true,
+    responses: []
 }
 
 type SlogansListState = {
-    selectedAuthor: number|undefined
-} & SloganResponse
+    selectedAuthor: number|undefined,
+    currentPage: number,
+    isLastPage: boolean,
+    loading: boolean,
+    responses: SloganResponse[]
+}
 
 class SlogansList extends React.Component<any, SlogansListState> {
     static contextType = UserContext
@@ -46,32 +46,69 @@ class SlogansList extends React.Component<any, SlogansListState> {
     }
 
     componentDidMount() {
-        let queryParams = new URLSearchParams()
-        if (this.state.selectedAuthor) {
-            queryParams.set('author', this.state.selectedAuthor.toString())
-        }
-
-        sloganatorClient.get(`${this.path}?` + queryParams)
-            .then((response) => this.setSlogans(response.data))
+        getSlogans({
+            author: this.state.selectedAuthor
+        }).then((response) => {
+            if (response.hasOwnProperty("slogans")) {
+                this.setSlogans(response as SloganResponse)
+            } else {
+                // @TODO - set loading error 
+            }
+        })
     }
 
     componentDidUpdate(_: any, prevState: SlogansListState) {
-        if (this.state.selectedAuthor != prevState.selectedAuthor) {
-            let queryParams = new URLSearchParams()
-            if (this.state.selectedAuthor) {
-                queryParams.set('author', this.state.selectedAuthor.toString())
-            }
-
-            sloganatorClient.get(`${this.path}?` + queryParams)
-                .then((response) => this.setSlogans(response.data))
+        if (this.state.selectedAuthor !== prevState.selectedAuthor) {
+            getSlogans({
+                author: this.state.selectedAuthor
+            }).then((response) => {
+                if (response.hasOwnProperty("slogans")) {
+                    this.setSlogans(response as SloganResponse)
+                } else {
+                    // @TODO - set loading error 
+                }
+            })
         }
     }
 
+    setLoading(isLoading: boolean = true) {
+        this.setState((state) => ({
+            ...state,
+            loading: isLoading
+        }))
+    }
+
+    /**
+     * Start a fresh list of slogan responses
+     * @param sloganResponse
+     */
     setSlogans(sloganResponse: SloganResponse) {
         this.setState((state) => ({
             ...state,
-            ...sloganResponse
+            loading: false,
+            currentPage: sloganResponse.meta.page,
+            isLastPage: typeof sloganResponse.meta.nextPage !== "number",
+            responses: [
+                sloganResponse
+            ]
         }))
+    }
+
+    /**
+     * Append a slogan response to the list of responses
+     * @param sloganResponse
+     */
+    updateSlogans(sloganResponse: SloganResponse) {
+        this.setState((state) => ({
+            ...state,
+            loading: false,
+            currentPage: sloganResponse.meta.page,
+            isLastPage: typeof sloganResponse.meta.nextPage !== "number",
+            responses: [
+                ...state.responses,
+                sloganResponse
+            ]
+        }))        
     }
 
     setSelectedAuthor(selectedAuthor: number) {
@@ -81,29 +118,57 @@ class SlogansList extends React.Component<any, SlogansListState> {
         }))
     }
 
+    nextPage() {
+        this.setLoading()
+        const nextPage = this.state.responses[this.state.responses.length - 1].meta.page + 1
+        getSlogans({ 
+            author: this.state.selectedAuthor,
+            page: nextPage
+        }).then((response) => {
+            if (response.hasOwnProperty("slogans")) {
+                this.updateSlogans(response as SloganResponse)
+            } else {
+                // @TODO - set loading error 
+            }
+        })
+    }
+
     render() {
-        const slogans = this.state.slogans
+        const sloganResponses = this.state.responses
         const currentUser = this.context.currentUser
         const selectedAuthor = this.state.selectedAuthor
+        const isLoading = this.state.loading
+        const isLastPage = this.state.isLastPage
+        let nextPage = this.state.currentPage
 
         return (
-            <div>
+            <section>
                 <AuthorFilter 
                     selectedAuthor={selectedAuthor}
                     setSelectedAuthor={this.setSelectedAuthor.bind(this)} 
                 />
                 <div id="slogans">
                     <ul>
-                    {slogans.map((slogan) => {
-                        return <SlogansListItem 
-                            slogan={slogan}
+                    {sloganResponses.map((response) => {
+                        nextPage = response.meta.nextPage
+                        return <SlogansListPage 
+                            response={response}
                             currentUser={currentUser}
-                            key={slogan.rowid} 
+                            key={`page-${response.meta.page}`}
                         />
                     })}
                     </ul>
                 </div>
-            </div>
+                <div id="paginator">
+                    {!isLastPage && <LoadButton 
+                        clickHandler={this.nextPage.bind(this)} 
+                        page={nextPage} 
+                        loading={isLoading}
+                    />}
+                    {isLastPage && <b>!!! There's no more to show… </b>}
+                    <a href="#top">back to top</a>
+                </div>
+            </section>
         )
     }
 }
