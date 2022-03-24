@@ -36,7 +36,7 @@ function SlogansListItem(props: ListItemProps) {
                 </blockquote>
                 <figcaption>
                     <cite>
-                        <span className="timestamp">{dateString}</span>
+                        <span className="timestamp" data-unix-timestamp={slogan.timestamp}>{dateString}</span>
                         <a className="user-name" target="_blank" rel="noreferrer" href={userProfile}>{slogan.username}</a>
                     </cite>
                 </figcaption>
