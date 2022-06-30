@@ -1,0 +1,69 @@
+#slogans {
+    ul {
+        padding: 0;
+
+        li {
+            list-style-type: none;
+        }
+
+        li.divider {
+            margin: 1.5em 0;
+            font-family: monospace;
+        }
+    }
+
+    figure {
+        color: var(--slogan-color);
+        background-color: var(--not-so-dark-gray);
+        border-radius: 0.25em;
+        margin: 0.25em 0;
+
+        &.current-user-author {
+            background-color: var(--lighter-author);
+        }
+
+        figcaption,
+        blockquote {
+            padding: 0.5em 1em;
+        }
+
+        blockquote {
+            position: relative;
+            font-size: 1.1em;
+            padding: 0.75em 1em 0.5em 1em;
+            border-bottom: 1px solid var(--light-gray);
+            background-color: var(--dark-gray);
+            border-top-left-radius: 0.25em;
+            border-top-right-radius: 0.25em;
+
+            &::before {
+                content: "\25B6\FE0E";
+                left: -0.2em;
+                top: 0.6em;
+                position: absolute;
+            }
+
+            p {
+                overflow-wrap: break-word;
+                line-height: 1.2em;
+            }
+        }
+
+        &.current-user-author blockquote {
+            background-color: var(--dark-author);
+        }
+
+        cite {
+            font-style: italic;
+            font-size: 0.85em;
+
+            a {
+                color: var(--lighter-gray);
+            }
+
+            .timestamp {
+                color: var(--lighter-gray);
+            }
+        }
+    }
+}

@@ -1,0 +1,6 @@
+{
+  "semicolon": [
+    true,
+    "never"
+  ]
+}

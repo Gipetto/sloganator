@@ -43,6 +43,15 @@ dev-server:
 		--volume "$(PWD)/_local/conf":/etc/apache2/sites-enabled \
 		$(DOCKER_IMAGE):latest
 
+dev-server-no-tty:
+	docker run --rm -i --init \
+		-p $(PORT):80 \
+		--name sloganator \
+		--user $(shell id -u):$(shell id -g) \
+		--volume "$(PWD)":/var/www/html \
+		--volume "$(PWD)/_local/conf":/etc/apache2/sites-enabled \
+		$(DOCKER_IMAGE):latest
+
 stan:
 	docker run --rm -it \
 		--name sloganator \

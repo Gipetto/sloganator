@@ -75,6 +75,11 @@ $router->get("/mies/sloganator/v1/slogans", function(Request $request) {
     $db = new Database;
     $sloganator = new Sloganator($db);
 
+	if ($request->params["page"] == 2) {
+		usleep(250);
+		return new ApiResponse(500, (object)["code" => 500, "message" => "oops"]);
+	}
+
     $result = $sloganator->list($request->params);
     return new ApiResponse(200, $result);
 });

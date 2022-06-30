@@ -1,43 +1,76 @@
-export type Slogan = {
-    rowid: number,
-    slogan: string,
-    timestamp: number,
-    userid: number,
-    username: string
+/**
+ * Any type that is shared across
+ * multiple components.
+ *
+ * Non-shared types may stay within
+ * the files in which they're used.
+ */
+
+type Slogan = {
+  rowid: number
+  slogan: string
+  timestamp: number
+  userid: number
+  username: string
 }
 
-export type ResponseMeta = {
-    filter: Array<string>,
-    page: number,
-    pageSize: number,
-    previousPage: number,
-    nextPage: number,
-    results: number
+type ResponseMeta = {
+  filter: string[]
+  page: number
+  pageSize: number
+  previousPage: number
+  nextPage: number
+  results: number
 }
 
-export type SloganResponse = {
-    slogans: Array<Slogan>,
-    meta: ResponseMeta
+type SloganResponse = {
+  slogans: Slogan[]
+  meta: ResponseMeta
 }
 
-export type SloganErrorResponse = {
-    code: number,
-    message: string
+interface HTTPError {
+  code: number
+  message: string
 }
 
-export type Author = {
-    userid: number,
-    usernames: Array<string>
+type ErrorResponse = HTTPError
+
+type Author = {
+  userid: number
+  usernames: string[]
 }
 
-export type AuthorsList = Array<Author>
+type AuthorsList = Author[]
 
-export type User = {
-    userId: number,
-    userName: string
+type User = {
+  userId: number
+  userName: string
 }
 
-export type CurrentUserContext = {
-    loading: boolean,
-    currentUser: User
+interface CurrentUserContext {
+  loading: boolean
+  currentUser: User
+  error?: ErrorResponse | undefined
+}
+
+type GetSloganParams = {
+  page?: number
+  author?: number
+}
+
+type SelectedAuthor = number | undefined
+
+// Add items to exports in alphabetical order!
+export type {
+  Author,
+  AuthorsList,
+  CurrentUserContext,
+  HTTPError,
+  ErrorResponse,
+  GetSloganParams,
+  ResponseMeta,
+  SelectedAuthor,
+  Slogan,
+  SloganResponse,
+  User
 }

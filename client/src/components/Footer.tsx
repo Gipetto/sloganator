@@ -1,11 +1,22 @@
-function Footer() {
-    let year = new Date().getFullYear()
+import { LayoutCell } from "./Core/Layout"
 
-    return (
-        <footer>
-            <p>&copy; {year}, not by you. | <a href="https://github.com/Gipetto/sloganator">Marvel in this code’s mediocrity</a></p>
-        </footer>
-    )
+function Footer() {
+  const year = new Date().getFullYear()
+
+  return (
+    <LayoutCell as="footer">
+      <p>
+        &copy;
+        {" "}
+        {year}
+        , not by you. |
+        {" "}
+        <a href="https://github.com/Gipetto/sloganator">
+          Marvel in this code’s mediocrity
+        </a>
+      </p>
+    </LayoutCell>
+  )
 }
 
 export default Footer

@@ -1,20 +1,30 @@
 {
-    "editor.acceptSuggestionOnCommitCharacter": false,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "[javascript]": {
-      "editor.tabSize": 2
-    },
-    "[typescript]": {
-      "editor.tabSize": 2
-    },
-    "[svelte]": {
-      "editor.tabSize": 2
-    },
-    "[graphql]": {
-      "editor.tabSize": 2
-    },
-    "debug.javascript.codelens.npmScripts": "never",
-    "debug.javascript.autoAttachFilter": "onlyWithFlag"
-  }
-  
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  // "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "[php]": {
+    "editor.tabSize": 4
+  },
+  "debug.javascript.codelens.npmScripts": "never",
+  "debug.javascript.autoAttachFilter": "onlyWithFlag",
+  "javascript.format.enable": false,
+  "typescript.format.enable": false,
+  "eslint.format.enable": true,
+  "eslint.lintTask.enable": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "eslint.validate": [
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact"
+  ]
+}

@@ -1,0 +1,33 @@
+.alert {
+  border-radius: 0.25em;
+  margin: 1em 0;
+  padding: 15px 15px;
+
+  align-items: center;
+  justify-content: left;
+  gap: 20px;
+
+  .alert-icon {
+    margin: -5em 0 -5em -0.25em;
+  }
+
+  &.notice {
+    background-color: var(--alert-light-blue);
+    color: var(--alert-blue);
+  }
+
+  &.warning {
+    background-color: var(--alert-light-yellow);
+    color: var(--alert-yellow);
+  }
+
+  &.success {
+    background-color: var(--alert-light-green);
+    color: var(--alert-green);
+  }
+
+  &.error {
+    background-color: var(--alert-light-red);
+    color: var(--alert-red);
+  }
+}

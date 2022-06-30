@@ -1,0 +1,79 @@
+{
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "jest": true
+  },
+  "extends": [
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:testing-library/react",
+    "plugin:testing-library/dom",
+    "plugin:react/recommended", 
+    "airbnb"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["react", "testing-library", "@typescript-eslint"],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "quotes": ["error", "double"],
+    "semi": ["error", "never"],
+    "import/extensions": "off",
+    "react/jsx-filename-extension": [
+      "error",
+      {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    ],
+    "testing-library/await-async-query": "error",
+    "testing-library/no-await-sync-query": "error",
+    "testing-library/no-debugging-utils": "warn",
+    "testing-library/no-dom-import": "off",
+    "react/function-component-definition": ["error", {
+      "namedComponents": ["function-declaration", "function-expression", "arrow-function"],
+      "unnamedComponents": ["function-expression", "arrow-function"]
+    }],
+    "comma-dangle": ["error", {
+      "arrays": "never",
+      "objects": "never",
+      "imports": "never",
+      "exports": "never",
+      "functions": "never"
+    }],
+    "import/no-extraneous-dependencies": ["error", {
+      "devDependencies": [
+          "**/__test__/**/*.js",
+          "**/__test__/**/*.ts",
+          "**/__test__/**/*.tsx",
+          "**/vite.config.ts"
+      ]
+    }],
+    "react/destructuring-assignment": "off",
+    "jsx-a11y/label-has-associated-control": [ 2, {
+      "controlComponents": ["AuthorSelect"]
+    }],
+    "indent": "off",
+    "@typescript-eslint/indent": ["error", 2],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"],
+    "react/jsx-props-no-spreading": "off",
+    "arrow-body-style": "off",
+    "react/require-default-props": "off",
+    "react/button-has-type": "off",
+    "max-classes-per-file": "off"
+  }
+}

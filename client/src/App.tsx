@@ -1,20 +1,23 @@
-import React from "react"
-import { UserProvider } from "./contexts/UserContext"
+import { UserContextProvider } from "./contexts/UserContext"
+import { AuthorContextProvider } from "./contexts/AuthorContext"
 import Header from "./components/Header"
 import Footer from "./components/Footer"
-import SlogansList from "./components/SlogansList"
+import SlogansList from "./components/SlogansList/SlogansList"
+import Layout, { LayoutCol } from "./components/Core/Layout"
+import "./styles/App.scss"
 
-
-class App extends React.Component {
-  render() {
-    return (
-      <UserProvider>
-          <Header/>
-          <SlogansList/>
-          <Footer/>
-      </UserProvider>
-    )
-  }
-}
+const App = () => (
+  <Layout className="app">
+    <LayoutCol className="app-container">
+      <UserContextProvider>
+        <Header />
+        <AuthorContextProvider>
+          <SlogansList />
+        </AuthorContextProvider>
+        <Footer />
+      </UserContextProvider>
+    </LayoutCol>
+  </Layout>
+)
 
 export default App

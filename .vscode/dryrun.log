@@ -1,0 +1,30 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/shawn/Projects/sloganator2.0'
+rm -rf vendor
+docker build \
+	--pull \
+	--no-cache \
+	--file _local/Dockerfile \
+	-t sloganator:latest .
+docker image prune -f
+docker run --rm -it \
+	--name sloganator \
+	--volume "/home/shawn/Projects/sloganator2.0":/var/www/html \
+	--workdir /var/www/html \
+	--user 1000:1000 \
+	sloganator:latest \
+	composer install
+docker run --rm -it \
+	--name sloganator \
+	--volume "/home/shawn/Projects/sloganator2.0":/var/www/html \
+	--workdir /var/www/html \
+	--user 1000:1000 \
+	-e XDEBUG_MODE=coverage \
+	sloganator:latest \
+	vendor/bin/phpunit -v \
+		--colors \
+		--coverage-clover clover.xml \
+		--coverage-html coverage \
+		--configuration test/phpunit.xml
+make: Leaving directory '/home/shawn/Projects/sloganator2.0'
+ 

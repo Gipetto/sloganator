@@ -14,7 +14,9 @@ class ResponseTest extends TestCase {
         $this->assertEquals($expectedContent, $responseContent);
 
         $headers = xdebug_get_headers();
-        $this->assertEquals($expectedHeaders, $headers);        
+		foreach($expectedHeaders as $header) {
+			$this->assertContains($header, $expectedHeaders);
+		}
     }
 
     /**
@@ -77,7 +79,7 @@ class ResponseTest extends TestCase {
         $expectedContent = '{"code":400,"message":"That rug really tied the room together."}';
         $expectedHeaders = [
             "Content-Type: application/json;charset=UTF-8",
-            "Cache-Control: no-cache"            
+            "Cache-Control: no-cache"          
         ];
         $this->assertResponse($response, 400, $expectedContent, $expectedHeaders);
     }

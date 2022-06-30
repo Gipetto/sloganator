@@ -1,37 +1,42 @@
-import React from "react"
 import type { User } from "../types"
-import UserContext from "../contexts/UserContext"
+import { useUserContext } from "../contexts/UserContext"
+import { LayoutCell } from "./Core/Layout"
+import "../styles/Header.css"
 
-type WelcomeTextProps = {
-    loading: boolean, 
-    user: User
+interface WelcomeTextProps {
+  loading: boolean;
+  user: User;
 }
 
-function WelcomeText(props: WelcomeTextProps) {
-    const loading = props.loading
-    if (loading) {
-        return (
-            <p>Hello</p>
-        )
-    }
+const WelcomeText = (props: WelcomeTextProps) => {
+  const { loading } = props
+  if (loading) {
+    return <p>Hello</p>
+  }
 
-    const user = props.user
-    return (
-        <p>Hello, <span className="current-user" data-id={user.userId}>{user.userName}</span></p>
-    )
+  const { user } = props
+  return (
+    <p>
+      Hello,
+      {" "}
+      <span className="current-user" data-id={user.userId}>
+        {user.userName}
+      </span>
+    </p>
+  )
 }
 
-class Header extends React.Component {
-    static contextType = UserContext
-
-    render () {
-        return (
-            <header id="top">
-                <h1>Sloganator</h1>
-                <WelcomeText loading={this.context.loading} user={this.context.currentUser}/>
-            </header>
-        )
-    }
+const Header = () => {
+  const userContext = useUserContext()
+  return (
+    <LayoutCell id="top" as="header">
+      <h1>Sloganator</h1>
+      <WelcomeText
+        loading={userContext.loading}
+        user={userContext.currentUser}
+      />
+    </LayoutCell>
+  )
 }
 
 export default Header
