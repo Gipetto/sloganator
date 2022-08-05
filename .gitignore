@@ -8,3 +8,4 @@ coverage
 .tool-versions
 shell.nix
 cachegrind*
+.vscode/*.log

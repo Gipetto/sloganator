@@ -1,1 +1,0 @@
-{"buildTargets":["clean","composer-install","composer-update","dev-server","docker-build","fix-tabs","install","local-server","stan","stan-ci","test","test-ci"],"launchTargets":[],"customConfigurationProvider":{"workspaceBrowse":{"browsePath":[],"compilerArgs":[]},"fileIndex":[]}}
