@@ -1,7 +1,9 @@
 import React, { useMemo, useState, PropsWithChildren } from "react"
 import type { SelectedAuthor } from "../types"
 
-export type AuthorContextProviderProps = PropsWithChildren<Record<string, unknown>>
+export type AuthorContextProviderProps = PropsWithChildren<
+  Record<string, unknown>
+>
 
 interface CurrentAuthorContext {
   selectedAuthor: SelectedAuthor
@@ -10,12 +12,13 @@ interface CurrentAuthorContext {
 
 const defaultAuthorState: CurrentAuthorContext = {
   selectedAuthor: undefined,
-  setSelectedAuthor: () => { /* do nothing */ }
+  setSelectedAuthor: () => {
+    /* do nothing */
+  },
 }
 
-const AuthorContext = React.createContext<CurrentAuthorContext>(
-  defaultAuthorState
-)
+const AuthorContext =
+  React.createContext<CurrentAuthorContext>(defaultAuthorState)
 
 const AuthorContextProvider = ({ children }: AuthorContextProviderProps) => {
   let initialState
@@ -25,7 +28,8 @@ const AuthorContextProvider = ({ children }: AuthorContextProviderProps) => {
     initialState = parseInt(pageQuery.get("author") || "", 10)
   }
 
-  const [selectedAuthor, setSelectedAuthor] = useState<SelectedAuthor>(initialState)
+  const [selectedAuthor, setSelectedAuthor] =
+    useState<SelectedAuthor>(initialState)
 
   const setSelectedAuthorHandler = (authorId: SelectedAuthor) => {
     setSelectedAuthor(authorId)
@@ -37,15 +41,16 @@ const AuthorContextProvider = ({ children }: AuthorContextProviderProps) => {
     window.history.pushState(null, "", newPath)
   }
 
-  const value = useMemo(() => ({
-    selectedAuthor,
-    setSelectedAuthor: setSelectedAuthorHandler
-  }), [selectedAuthor])
+  const value = useMemo(
+    () => ({
+      selectedAuthor,
+      setSelectedAuthor: setSelectedAuthorHandler,
+    }),
+    [selectedAuthor]
+  )
 
   return (
-    <AuthorContext.Provider value={value}>
-      {children}
-    </AuthorContext.Provider>
+    <AuthorContext.Provider value={value}>{children}</AuthorContext.Provider>
   )
 }
 

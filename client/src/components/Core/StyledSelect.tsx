@@ -12,7 +12,7 @@ const StyledSelect = ({
   id,
   children,
   defaultValue,
-  onChange
+  onChange,
 }: PropsWithChildren<StyledSelectProps>) => {
   const elementId = id || name
   return (
@@ -30,7 +30,7 @@ const StyledSelect = ({
 }
 
 StyledSelect.defaultProps = {
-  id: undefined
+  id: undefined,
 }
 
 export default StyledSelect

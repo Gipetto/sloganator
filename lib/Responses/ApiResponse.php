@@ -13,13 +13,18 @@ class ApiResponse implements Response {
         $this->setCode($code);
         $this->setContent($content);
         $this->contentType = Response::CONTENT_TYPE_JSON;
-        $this->addHeaders([
-            "Access-Control-Allow-Origin: *",
-            "Access-Control-Allow-Methods: GET, POST, PUT, DELTE",
+		$this->addHeaders([
+            "Access-Control-Allow-Methods: GET, POST, PUT, DELETE",
             "Access-Control-Allow-Headers: Content-Type",
             "Cache-Control: no-cache"
         ]);
     }
+
+	public function setAllowedOrigin($origin) {
+		$this->addHeaders([
+			"Access-Control-Allow-Origin: " . $origin
+		]);
+	}
 
     public function getContent(): string {
         return json_encode($this->content, JSON_THROW_ON_ERROR);

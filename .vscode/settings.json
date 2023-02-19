@@ -1,6 +1,6 @@
 {
   "editor.acceptSuggestionOnCommitCharacter": false,
-  // "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
@@ -26,5 +26,5 @@
     "typescript",
     "javascriptreact",
     "typescriptreact"
-  ]
+  ],
 }

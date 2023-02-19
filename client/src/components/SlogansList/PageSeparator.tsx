@@ -5,11 +5,7 @@ interface PageSeparatorProps {
 const PageSeparator = (props: PageSeparatorProps) => {
   return (
     <li className="divider" key={`sep-${props.pageNum}`}>
-      &lt;-- page
-      {" "}
-      {props.pageNum}
-      {" "}
-      --&gt;
+      &lt;-- page {props.pageNum} --&gt;
     </li>
   )
 }

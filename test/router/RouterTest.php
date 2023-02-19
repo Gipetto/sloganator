@@ -9,6 +9,7 @@ class RouterTest extends TestCase {
     
     protected function setUp(): void {
         $this->_SERVER = $_SERVER;
+		$_SERVER["SERVER_NAME"] = "localhost";
     }
 
     protected function tearDown(): void {
@@ -169,24 +170,31 @@ class RouterTest extends TestCase {
      * Load up 10k routes and randomly look up a single route
      */
     public function testLotsOfNodes() {
-        $r1limit = 200;
-        $r2limit = 100;
+        $r1limit = 50;
+        $r2limit = 25;
+		$r3limit = 10;
 
         $router = new Router;
         
         $i = 0;
         while (++$i <= $r1limit) {
             $ii = 0;
+			$router->get("/v1/" . $i, fn() => new ApiResponse(200, (object) ["self" => "/v1/" . $i]));
             while (++$ii <= $r2limit) {
                 $router->get("/v1/" . $i . "/" . $ii, fn() => new ApiResponse(200, (object) ["self" => "/v1/" . $i . "/" . $ii]));
-            }
+				$iii = 0;
+				while (++$iii <= $r3limit) {
+					$router->get("/v1/" . $i . "/" . $ii . "/" . $iii, fn() => new ApiResponse(200, (object) ["self" => "/v1/" . $i . "/" . $ii . "/" . $iii]));
+				}
+			}
         }
 
         $r1 = mt_rand(1, $r1limit);
         $r2 = mt_rand(1, $r2limit);
+		$r3 = mt_rand(1, $r3limit);
 
-        $response = $router->dispatch(new Request(Request::GET, "/v1/" . $r1 . "/" . $r2, ["foo" => "bar"]));
+        $response = $router->dispatch(new Request(Request::GET, "/v1/" . $r1 . "/" . $r2 . "/" . $r3, ["foo" => "bar"]));
         $this->assertEquals("200 OK", $response->getCodeString());
-        $this->assertEquals('{"self":"\/v1\/' . $r1 . '\/' . $r2 . '"}', $response->getContent());
+        $this->assertEquals('{"self":"\/v1\/' . $r1 . '\/' . $r2 . '\/' . $r3 .'"}', $response->getContent());
     }
 }

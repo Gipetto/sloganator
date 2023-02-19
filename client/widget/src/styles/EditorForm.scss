@@ -1,0 +1,43 @@
+form {
+  margin: 0.75rem;
+
+  fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+    display: flex;
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      font-size: var(--base-font-size) !important;
+      padding: 0.25em;
+      border-radius: 2px;
+      border: none;
+    }
+
+    button {
+      margin-left: 0.5em;
+      padding: 0 10px;
+    }
+
+    .slogan-submit {
+      white-space: nowrap;
+
+      &:disabled {
+        background-color: var(--sloganator-gray) !important;
+      }
+    }
+    .slogan-cancel {
+      background-color: var(--sloganator-gray);
+
+      span:last-of-type {
+        display: none;
+      }
+
+      &:hover {
+        background-color: var(--sloganator-red);
+      }
+    }
+  }
+}

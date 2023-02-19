@@ -4,8 +4,8 @@ import { LayoutCell } from "./Core/Layout"
 import "../styles/Header.css"
 
 interface WelcomeTextProps {
-  loading: boolean;
-  user: User;
+  loading: boolean
+  user: User
 }
 
 const WelcomeText = (props: WelcomeTextProps) => {
@@ -17,8 +17,7 @@ const WelcomeText = (props: WelcomeTextProps) => {
   const { user } = props
   return (
     <p>
-      Hello,
-      {" "}
+      Hello,{" "}
       <span className="current-user" data-id={user.userId}>
         {user.userName}
       </span>

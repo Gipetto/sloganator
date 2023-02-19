@@ -2,8 +2,7 @@
 
 namespace Sloganator\Router;
 
-use Sloganator\Responses\{NotFound, Response};
-use Sloganator\Router\Handler;
+use Sloganator\Responses\{ApiResponse, NoContent, NotFound, Response};
 
 /**
  * Store routes in a Trie.
@@ -28,6 +27,11 @@ class Router {
     private RouteNode $root;
     private RouteNode $notFound;
 
+	/**
+	 * @var string[]
+	 */
+	protected $allowedOrigins = [];
+
     public function __construct() {
         $this->root = $this->getNode();
         
@@ -38,6 +42,18 @@ class Router {
             });
         }
     }
+
+	public function addAllowedOrigin($origin): void {
+		$host = parse_url($origin, PHP_URL_HOST);
+		$this->allowedOrigins[$host] = $origin;
+	}
+
+	public function getAllowedOrigin(): string {
+		if (array_key_exists($_SERVER["SERVER_NAME"], $this->allowedOrigins)) {
+			return $this->allowedOrigins[$_SERVER["SERVER_NAME"]];
+		}
+		return "";
+	}
 
     protected function getNode(): RouteNode {
         return new RouteNode();
@@ -68,14 +84,23 @@ class Router {
 
     public function post(string $path, \Closure $callback): void {
         $this->route($path, Request::POST, $callback);
+		$this->route($path, Request::OPTIONS, function() {
+			return new NoContent();	
+		});
     }
 
     public function put(string $path, \Closure $callback): void {
         $this->route($path, Request::PUT, $callback);
+		$this->route($path, Request::OPTIONS, function() {
+			return new NoContent();	
+		});
     }
 
     public function delete(string $path, \Closure $callback): void {
         $this->route($path, Request::DELETE, $callback);
+		$this->route($path, Request::OPTIONS, function() {
+			return new NoContent();			
+		});
     }
 
     public function search(string $path): RouteNode {
@@ -106,6 +131,12 @@ class Router {
         }
 
         $route = $this->search($request->path);
-        return $route->handle($request);
+        $response = $route->handle($request);
+
+		if ($response instanceof ApiResponse) {
+			$response->setAllowedOrigin($this->getAllowedOrigin());
+		}
+
+		return $response;
     }
 }

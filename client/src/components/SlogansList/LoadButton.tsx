@@ -1,12 +1,12 @@
 import Button from "../Core/Button"
 
 interface LoadProps {
-  page: number,
-  loading: boolean,
+  page: number
+  loading: boolean
   clickHandler: () => void
 }
 
-function LoadButton(props:LoadProps) {
+function LoadButton(props: LoadProps) {
   const { page } = props
   const { clickHandler } = props
   const isLoading = props.loading
@@ -25,9 +25,7 @@ function LoadButton(props:LoadProps) {
         clickHandler()
       }}
     >
-      {buttonText}
-      {" "}
-      <span className="page">{page}</span>
+      {buttonText} <span className="page">{page}</span>
     </Button>
   )
 }

@@ -1,9 +1,9 @@
-import type { SloganResponse, User } from "../../types"
+import type { Slogan, SlogansResponse, User } from "../../types"
 import SlogansListItem from "./SlogansListItem"
 import PageSeparator from "./PageSeparator"
 
 interface SlogansListPageProps {
-  response: SloganResponse,
+  response: SlogansResponse
   currentUser: User
 }
 
@@ -13,7 +13,7 @@ const SlogansListPage = (props: SlogansListPageProps) => {
   return (
     <>
       <PageSeparator pageNum={pageNum} />
-      {props.response.slogans.map((slogan) => (
+      {props.response.slogans.map((slogan: Slogan) => (
         <SlogansListItem
           slogan={slogan}
           currentUser={currentUser}

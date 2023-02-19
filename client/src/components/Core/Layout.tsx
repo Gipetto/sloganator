@@ -3,9 +3,28 @@ import React, { PropsWithChildren } from "react"
 import "../../styles/Layout.scss"
 
 interface Flex {
-  justifyContent?: "flex-start" | "flex-end" | "center" | "space-between" | "space-around" | "space-evenly" | undefined
-  flexDirection?: "row" | "row-reverse" | "column" | "column-reverse" | undefined
-  alignItems?: "stretch" | "flex-start" | "flex-end" | "center" | "baseline" | "auto" | undefined
+  justifyContent?:
+    | "flex-start"
+    | "flex-end"
+    | "center"
+    | "space-between"
+    | "space-around"
+    | "space-evenly"
+    | undefined
+  flexDirection?:
+    | "row"
+    | "row-reverse"
+    | "column"
+    | "column-reverse"
+    | undefined
+  alignItems?:
+    | "stretch"
+    | "flex-start"
+    | "flex-end"
+    | "center"
+    | "baseline"
+    | "auto"
+    | undefined
   flex?: string | undefined
   gap?: string | undefined
 }
@@ -13,8 +32,9 @@ interface Flex {
 type LayoutProps = PropsWithChildren<{
   className?: string | undefined
   as?: keyof HTMLElementTagNameMap
-
-}> & React.HTMLProps<HTMLElement> & Flex
+}> &
+  React.HTMLProps<HTMLElement> &
+  Flex
 
 const LayoutElement = (props: LayoutProps) => {
   const {
@@ -33,14 +53,13 @@ const LayoutElement = (props: LayoutProps) => {
     flexDirection,
     alignItems,
     flex,
-    gap
+    gap,
   }
 
-  const style = Object.entries(styles)
-    .reduce(
-      (acc, [k, v]) => (v !== undefined ? { ...acc, [k]: v } : acc),
-      {}
-    )
+  const style = Object.entries(styles).reduce(
+    (acc, [k, v]) => (v !== undefined ? { ...acc, [k]: v } : acc),
+    {}
+  )
 
   const type = tag || "div"
   return React.createElement(type, { style, ...rest }, children)
@@ -94,8 +113,4 @@ const LayoutCell = (props: LayoutProps) => {
 }
 
 export default Layout
-export {
-  LayoutCell,
-  LayoutCol,
-  LayoutRow
-}
+export { LayoutCell, LayoutCol, LayoutRow }

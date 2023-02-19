@@ -10,7 +10,7 @@ class Sloganator {
     const PARAM_PAGE = "page";
     const PARAM_AUTHOR = "author";
 
-    const SLOGAN_LEN_LIMIT = 150;
+    const SLOGAN_LEN_LIMIT = 250;
 
     const DEFAULT_PAGE = 1;
     const DEFAULT_PAGE_SIZE = 100;

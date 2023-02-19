@@ -8,21 +8,23 @@ import Button from "../Core/Button"
 import "../../styles/AuthorFilter.css"
 
 interface AuthorFilterState {
-  authors: AuthorsList;
-  selectedAuthor: SelectedAuthor;
+  authors: AuthorsList
+  selectedAuthor: SelectedAuthor
 }
 
 const AuthorFilter = () => {
   const authorContext = useAuthorContext()
   const [state, setState] = useState<AuthorFilterState>({
     authors: [],
-    selectedAuthor: authorContext.selectedAuthor
+    selectedAuthor: authorContext.selectedAuthor,
   })
 
   useEffect(() => {
     fetchAuthors(
       (response: AuthorsList) => {
-        const authors = response.sort((a, b) => a.usernames[0].localeCompare(b.usernames[0]))
+        const authors = response.sort((a, b) =>
+          a.usernames[0].localeCompare(b.usernames[0])
+        )
         setState((prevState) => ({ ...prevState, authors }))
       },
       (e) => {

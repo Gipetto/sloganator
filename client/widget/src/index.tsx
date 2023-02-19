@@ -2,10 +2,14 @@ import React from "react"
 import ReactDOM from "react-dom"
 import Widget from "./Widget"
 import reportWebVitals from "./reportWebVitals"
+import { SlogansContextProvider } from "./contexts/SlogansContext"
+import "./styles/Sloganator.scss"
 
 ReactDOM.render(
   <React.StrictMode>
-    <Widget />
+    <SlogansContextProvider>
+      <Widget />
+    </SlogansContextProvider>
   </React.StrictMode>,
   document.getElementById("sloganator")
 )

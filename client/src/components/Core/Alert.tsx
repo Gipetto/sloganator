@@ -4,58 +4,71 @@ import {
   faPoop,
   faBullhorn,
   faMedal,
-  IconDefinition
+  IconDefinition,
 } from "@fortawesome/free-solid-svg-icons"
 import type { ErrorResponse } from "../../types"
 import { LayoutRow } from "./Layout"
 import "../../styles/Alert.scss"
 
 interface ErrorProps {
-  error?: ErrorResponse;
-  message?: string;
-  type?: "notice" | "warning" | "error" | undefined;
+  error?: ErrorResponse
+  message?: string
+  type?: "notice" | "warning" | "error" | undefined
+  iconSize?: "large" | "normal"
+  dismissable?: boolean
+  onDismiss?: () => void
 }
 
 const statusClassFromHTTPCode = (code: number): string => {
   switch (true) {
     case code >= 500 || code === 0:
-      return "error"
+      return "sl-error"
     case code >= 400 && code < 500:
-      return "warning"
+      return "sl-warning"
     case code >= 200 && code < 300:
-      return "success"
+      return "sl-success"
     default:
-      return "info"
+      return "sl-info"
   }
 }
 
 const icons: {
-  [k: string]: IconDefinition;
+  [k: string]: IconDefinition
 } = {
-  error: faBomb,
-  warning: faPoop,
-  info: faBullhorn,
-  success: faMedal
+  "sl-error": faBomb,
+  "sl-warning": faPoop,
+  "sl-info": faBullhorn,
+  "sl-success": faMedal,
 }
 
 const Error = (props: ErrorProps) => {
-  const { error, message, type } = props
+  const {
+    error,
+    message,
+    type,
+    iconSize = "normal",
+    dismissable = false,
+    onDismiss = undefined,
+  } = props
 
-  let statusClass = type || "info"
+  let statusClass = `sl-${type}` || "sl-info"
   let statusMessage = message
 
   if (error) {
-    statusClass = error.code
-      ? statusClassFromHTTPCode(error.code)
-      : statusClass
-    statusMessage = error.message || statusMessage
+    statusClass = error.code ? statusClassFromHTTPCode(error.code) : statusClass
+    statusMessage = `(${error.code}) ${error.message}` || statusMessage
   }
 
   return (
-    <LayoutRow as="div" className={`alert ${statusClass}`}>
+    <LayoutRow as="div" className={`sl-alert ${statusClass}`}>
+      {dismissable && onDismiss && (
+        <button className="alert-dismiss" onClick={onDismiss}>
+          &times;
+        </button>
+      )}
       <FontAwesomeIcon
-        className="alert-icon"
-        size="5x"
+        className={`alert-icon-${iconSize}`}
+        size={iconSize == "large" ? "5x" : "3x"}
         icon={icons[statusClass]}
       />
       <span>

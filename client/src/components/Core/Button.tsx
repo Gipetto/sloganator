@@ -1,15 +1,16 @@
 import { ButtonHTMLAttributes, DetailedHTMLProps } from "react"
-import "../../styles/Button.css"
+import "../../styles/Button.scss"
 
 interface ButtonProps
-  extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
   link?: boolean
 }
 
 const Button = (props: ButtonProps) => {
-  const {
-    children, type, link, className, ...rest
-  } = props
+  const { children, type, link, className, ...rest } = props
 
   const classes = [className]
   if (link) {
@@ -23,7 +24,6 @@ const Button = (props: ButtonProps) => {
       {...rest}
     >
       {children}
-
     </button>
   )
 }

@@ -4,13 +4,16 @@ require_once("constants.php");
 require_once("vendor/autoload.php");
 
 use Sloganator\Router\{Request, Router};
+use Sloganator\Responses\{ApiResponse, PageResponse, Response, TooManyRequests, Unauthorized, ValidationError};
+
 use Sloganator\{Database, Throttle, User};
 use Sloganator\Cache\SuccessfulResponseCache;
 use Sloganator\Processors\WordCounter;
 use Sloganator\Service\{Sloganator, Slogan, SloganError, SloganList};
-use Sloganator\Responses\{ApiResponse, PageResponse, Response, TooManyRequests, Unauthorized, ValidationError};
 
 $router = new Router;
+$router->addAllowedOrigin("http://tower.wookiee.internal:3000");
+$router->addAllowedOrigin("https://treefort54.com");
 
 $router->get("/mies/sloganator/words", function(Request $request) {
     $user = new User;
@@ -75,12 +78,7 @@ $router->get("/mies/sloganator/v1/slogans", function(Request $request) {
     $db = new Database;
     $sloganator = new Sloganator($db);
 
-	if ($request->params["page"] == 2) {
-		usleep(250);
-		return new ApiResponse(500, (object)["code" => 500, "message" => "oops"]);
-	}
-
-    $result = $sloganator->list($request->params);
+	$result = $sloganator->list($request->params);
     return new ApiResponse(200, $result);
 });
 

@@ -9,7 +9,7 @@ const production = process.env.NODE_ENV === "production"
 export default defineConfig({
   mode: production ? "production" : "development",
   server: {
-    hmr: !production
+    hmr: !production,
   },
   build: {
     outDir: "build",
@@ -17,24 +17,22 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, "index.html"),
-        widget: resolve(__dirname, "widget/index.html")
-      }
-    }
+        widget: resolve(__dirname, "widget/index.html"),
+      },
+    },
   },
-  assetsInclude: [
-    "**/bofh.json"
-  ],
+  assetsInclude: ["**/bofh.json"],
   plugins: [
     react(),
     svgrPlugin({
       svgrOptions: {
-        icon: true
-      }
-    })
+        icon: true,
+      },
+    }),
   ],
   test: {
     globals: true,
     environment: "jsdom",
-    setupFiles: "./src/__test__/setupTests.ts"
-  }
+    setupFiles: "./src/__test__/setupTests.ts",
+  },
 })

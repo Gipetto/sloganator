@@ -5,10 +5,10 @@ const localDateOptions: Intl.DateTimeFormatOptions = {
   month: "short",
   year: "numeric",
   hour12: false,
-  timeZoneName: "short"
+  timeZoneName: "short",
 }
 
-const UserLocaleDate = ({ timestamp }: { timestamp: number}) => {
+const UserLocaleDate = ({ timestamp }: { timestamp: number }) => {
   const lang = navigator.language
   const date = new Date(timestamp * 1000)
   const dateString = Intl.DateTimeFormat(lang, localDateOptions).format(date)

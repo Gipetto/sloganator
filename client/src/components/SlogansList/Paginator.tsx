@@ -9,21 +9,17 @@ interface PaginatorProps {
 }
 
 const EndOfContent = () => (
-  <p><b>!!! There&rsquo;s no more to show&hellip;</b></p>
+  <p>
+    <b>!!! There&rsquo;s no more to show&hellip;</b>
+  </p>
 )
 
 const Paginator = (props: PaginatorProps) => {
-  const {
-    isLastPage, onClick, page, isLoading
-  } = props
+  const { isLastPage, onClick, page, isLoading } = props
   return (
     <div id="paginator">
       {!isLastPage && (
-        <LoadButton
-          clickHandler={onClick}
-          page={page}
-          loading={isLoading}
-        />
+        <LoadButton clickHandler={onClick} page={page} loading={isLoading} />
       )}
       {isLastPage && <EndOfContent />}
     </div>

@@ -4,9 +4,7 @@
 // learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom"
 import React from "react"
-import {
-  render, RenderOptions, RenderResult
-} from "@testing-library/react"
+import { render, RenderOptions, RenderResult } from "@testing-library/react"
 
 const customRender = (
   ui: React.ReactElement,
@@ -14,6 +12,4 @@ const customRender = (
   renderOptions: Omit<RenderOptions, "wrapper"> = {}
 ): RenderResult => render(ui, { ...renderOptions, wrapper })
 
-export {
-  customRender
-}
+export { customRender }

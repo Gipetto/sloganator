@@ -1,20 +1,16 @@
 import React, { PropsWithChildren } from "react"
-import {
-  render, RenderOptions, screen
-} from "@testing-library/react"
+import { render, RenderOptions, screen } from "@testing-library/react"
 import Header from "../components/Header"
 import UserContext, { defaultUser } from "../contexts/UserContext"
 import type { CurrentUserContext } from "../types"
 
-type ProviderProps = Omit<RenderOptions, "wrapper"> & { value: CurrentUserContext }
+type ProviderProps = Omit<RenderOptions, "wrapper"> & {
+  value: CurrentUserContext
+}
 
-const UserContextProviderWrapper = (
-  providerProps: ProviderProps
-): React.FC => {
+const UserContextProviderWrapper = (providerProps: ProviderProps): React.FC => {
   return ({ children }: PropsWithChildren<Record<never, never>>) => (
-    <UserContext.Provider {...providerProps}>
-      {children}
-    </UserContext.Provider>
+    <UserContext.Provider {...providerProps}>{children}</UserContext.Provider>
   )
 }
 
@@ -22,8 +18,8 @@ test("renders default username when user is not logged in, redux", () => {
   const providerProps = {
     value: {
       loading: false,
-      currentUser: defaultUser
-    }
+      currentUser: defaultUser,
+    },
   }
   const wrapper = UserContextProviderWrapper(providerProps)
   render(<Header />, { wrapper })
@@ -42,9 +38,9 @@ test("renders the username, redux", () => {
       loading: false,
       currentUser: {
         userId: 100,
-        userName: "Goober Face"
-      }
-    }
+        userName: "Goober Face",
+      },
+    },
   }
   const wrapper = UserContextProviderWrapper(providerProps)
   render(<Header />, { wrapper })

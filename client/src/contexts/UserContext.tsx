@@ -1,5 +1,9 @@
 import React, {
-  createContext, ReactNode, useEffect, useMemo, useState
+  createContext,
+  ReactNode,
+  useEffect,
+  useMemo,
+  useState,
 } from "react"
 import { CurrentUserContext, User } from "../types"
 import { fetchUser } from "../clients/sloganator"
@@ -10,39 +14,38 @@ const DEFAULT_USER_NAME = "Treefort Lover"
 
 const defaultUser: User = {
   userId: DEFAULT_USER_ID,
-  userName: DEFAULT_USER_NAME
+  userName: DEFAULT_USER_NAME,
 }
 
 const UserContext = createContext<CurrentUserContext>({
   loading: true,
   currentUser: defaultUser,
-  error: undefined
 })
 
-const UserContextProvider = ({ children }: {
-  children: ReactNode
-}) => {
+const UserContextProvider = ({ children }: { children: ReactNode }) => {
   // @TODO - is useReducer more appropriate here?
   const [state, setState] = useState<CurrentUserContext>({
     loading: true,
     currentUser: defaultUser,
-    error: undefined
   })
 
   useEffect(() => {
-    fetchUser((user: User) => {
-      setState((prevState) => ({
-        ...prevState,
-        loading: false,
-        currentUser: user
-      }))
-    }, (e) => {
-      setState((prevState) => ({
-        ...prevState,
-        loading: false,
-        error: e
-      }))
-    })
+    fetchUser(
+      (user: User) => {
+        setState((prevState) => ({
+          ...prevState,
+          loading: false,
+          currentUser: user,
+        }))
+      },
+      (e) => {
+        setState((prevState) => ({
+          ...prevState,
+          loading: false,
+          error: e,
+        }))
+      }
+    )
   }, [])
 
   const value = useMemo(() => state, [state.loading])

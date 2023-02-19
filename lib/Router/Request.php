@@ -7,12 +7,14 @@ final class Request {
     const POST = "POST";
     const PUT = "PUT";
     const DELETE = "DELETE";
+	const OPTIONS = "OPTIONS";
 
     const METHODS = [
         self::GET,
         self::POST,
         self::PUT,
-        self::DELETE
+        self::DELETE,
+		self::OPTIONS
     ];
 
     const INPUT_BODY_METHODS = [

@@ -2,8 +2,8 @@ import { AuthorsList, SelectedAuthor } from "../../types"
 import StyledSelect from "../Core/StyledSelect"
 
 interface AuthorSelectProps {
-  authors: AuthorsList,
-  selectedAuthor: number|undefined,
+  authors: AuthorsList
+  selectedAuthor: number | undefined
   updateSelectedAuthor: (i: SelectedAuthor) => void
 }
 
@@ -22,12 +22,11 @@ function AuthorSelect(props: AuthorSelectProps) {
       defaultValue={selectedAuthor}
       onChange={(i: number) => handleChange(i)}
     >
-      <option className="placeholder" value="">** Select Author **</option>
+      <option className="placeholder" value="">
+        ** Select Author **
+      </option>
       {authors.map((author) => (
-        <option
-          key={author.userid}
-          value={author.userid}
-        >
+        <option key={author.userid} value={author.userid}>
           {author.usernames.join(", ")}
         </option>
       ))}

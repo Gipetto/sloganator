@@ -1,0 +1,26 @@
+.slogan-editor {
+  position: absolute;
+  left: 0rem;
+  top: -0.25rem;
+  background: rgb(66, 108, 85);
+  border: 1px solid rgb(41, 62, 51);
+  border-radius: 5px;
+  z-index: 10;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(41, 62, 51, 1);
+  width: 90%;
+
+  form, .previous-slogans {
+    margin: 0.75rem;
+  }
+
+  .sl-alert {
+    margin: 0.75em;
+  }
+
+  @media(pointer: none),(pointer: coarse) {
+    --base-font-size: 30px;
+    width: 95%;
+    top: 2.5%;
+    left: 2.5%;
+  }
+}

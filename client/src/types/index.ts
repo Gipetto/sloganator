@@ -23,7 +23,7 @@ type ResponseMeta = {
   results: number
 }
 
-type SloganResponse = {
+type SlogansResponse = {
   slogans: Slogan[]
   meta: ResponseMeta
 }
@@ -55,6 +55,7 @@ interface CurrentUserContext {
 
 type GetSloganParams = {
   page?: number
+  pageSize?: number
   author?: number
 }
 
@@ -71,6 +72,6 @@ export type {
   ResponseMeta,
   SelectedAuthor,
   Slogan,
-  SloganResponse,
-  User
+  SlogansResponse,
+  User,
 }

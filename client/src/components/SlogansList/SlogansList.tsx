@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import AuthorFilter from "../AuthorFilter/AuthorFilter"
 import SlogansListPage from "./SlogansListPage"
-import { ErrorResponse, SloganResponse } from "../../types"
+import { ErrorResponse, SlogansResponse } from "../../types"
 import { useUserContext } from "../../contexts/UserContext"
 import { fetchSlogans } from "../../clients/sloganator"
 import { useAuthorContext } from "../../contexts/AuthorContext"
@@ -17,16 +17,16 @@ const defaultState = {
   isLastPage: false,
   loading: true,
   error: undefined,
-  responses: []
+  responses: [],
 }
 
 interface SlogansListState {
-  selectedAuthor: number | undefined;
-  currentPage: number;
-  isLastPage: boolean;
-  loading: boolean;
-  error: ErrorResponse | undefined;
-  responses: SloganResponse[];
+  selectedAuthor: number | undefined
+  currentPage: number
+  isLastPage: boolean
+  loading: boolean
+  error: ErrorResponse | undefined
+  responses: SlogansResponse[]
 }
 
 const SlogansList = () => {
@@ -35,13 +35,13 @@ const SlogansList = () => {
 
   const [state, setState] = useState<SlogansListState>({
     ...defaultState,
-    selectedAuthor: authorContext.selectedAuthor
+    selectedAuthor: authorContext.selectedAuthor,
   })
 
   const loadPage = (params: GetSloganParams, replaceSlogans = false) => {
     setState((prevState) => ({
       ...prevState,
-      error: undefined
+      error: undefined,
     }))
 
     fetchSlogans(
@@ -57,7 +57,7 @@ const SlogansList = () => {
             loading: false,
             currentPage: response.meta.page,
             isLastPage: typeof response.meta.nextPage !== "number",
-            responses
+            responses,
           }
         })
       },
@@ -69,9 +69,9 @@ const SlogansList = () => {
             error: {
               code: e?.code || 0,
               message:
-                e?.message
-                || "An expected error has occurred. The server doesn't like you."
-            }
+                e?.message ||
+                "An expected error has occurred. The server doesn't like you.",
+            },
           }
         })
       }
@@ -81,13 +81,13 @@ const SlogansList = () => {
   const loadNextPage = () => {
     setState((prevState) => ({
       ...prevState,
-      loading: true
+      loading: true,
     }))
     const nextPage = state.responses[state.responses.length - 1].meta.page + 1
 
     loadPage({
       page: nextPage,
-      author: state.selectedAuthor
+      author: state.selectedAuthor,
     })
   }
 
@@ -104,12 +104,12 @@ const SlogansList = () => {
   useEffect(() => {
     setState((prevState) => ({
       ...prevState,
-      selectedAuthor: authorContext.selectedAuthor
+      selectedAuthor: authorContext.selectedAuthor,
     }))
 
     loadPage(
       {
-        author: authorContext.selectedAuthor
+        author: authorContext.selectedAuthor,
       },
       true
     )
@@ -134,7 +134,7 @@ const SlogansList = () => {
               />
             )
           })}
-          {error && <Error error={error} />}
+          {error && <Error error={error} iconSize="large" />}
         </ul>
       </div>
       <Paginator
