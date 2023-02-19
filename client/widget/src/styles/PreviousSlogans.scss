@@ -5,6 +5,10 @@
   .fadewrapper {
     height: 20rem;
     position: relative;
+
+    @media(pointer: none),(pointer: coarse) {
+      height: auto;
+    }
   }
 
   .fadewrapper:before,

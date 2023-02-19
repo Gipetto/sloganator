@@ -1,4 +1,4 @@
-import { Slogan } from "../../../src/types"
+import { Slogan } from "../../../app/src/types"
 import "../styles/PreviousSlogans.scss"
 
 interface PreviousSlogansProps {

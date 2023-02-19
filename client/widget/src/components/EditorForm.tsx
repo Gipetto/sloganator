@@ -26,13 +26,15 @@ const EditorForm = ({
           onChange={handleChange}
           autoComplete="off"
         />
-        <button type="submit" className="slogan-submit" disabled={isDisabled}>
-          Add Slogan
-        </button>
-        <button className="slogan-cancel" onClick={cancelEditing}>
-          <span aria-hidden="true">&times;</span>
-          <span>Cancel</span>
-        </button>
+        <div className="controls">
+          <button type="submit" className="slogan-submit" disabled={isDisabled}>
+            Add Slogan
+          </button>
+          <button className="slogan-cancel" onClick={cancelEditing}>
+            <span aria-hidden="true">&times;</span>
+            <span>Cancel</span>
+          </button>
+        </div>
       </fieldset>
     </form>
   )

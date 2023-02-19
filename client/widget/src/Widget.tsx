@@ -1,5 +1,5 @@
 import { useSlogansContext } from "./contexts/SlogansContext"
-import Layout from "../../src/components/Core/Layout"
+import Layout from "../../app/src/components/Core/Layout"
 import CurrentSlogan from "./components/CurrentSlogan"
 import EditorContainer from "./components/EditorContainer"
 import Loading from "./components/Loading"

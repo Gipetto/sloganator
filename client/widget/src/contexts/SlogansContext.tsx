@@ -1,11 +1,11 @@
 import React, { createContext, ReactNode, useEffect, useState } from "react"
-import { fetchSlogans, submitSlogan } from "../../../src/clients/sloganator"
+import { fetchSlogans, submitSlogan } from "../../../app/src/clients/sloganator"
 import type {
   ErrorResponse,
   HTTPError,
   Slogan,
   SlogansResponse,
-} from "../../../src/types"
+} from "../../../app/src/types"
 
 interface CurrentSlogansContextState {
   loading: boolean

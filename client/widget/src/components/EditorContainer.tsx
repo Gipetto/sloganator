@@ -4,7 +4,7 @@ import PreviousSlogans from "./PreviousSlogans"
 import EditorFooter from "./EditorFooter"
 import EditorForm from "./EditorForm"
 import { useSlogansContext } from "../contexts/SlogansContext"
-import Error from "../../../src/components/Core/Alert"
+import Error from "../../../app/src/components/Core/Alert"
 import "../styles/EditorContainer.scss"
 
 const initClickOutListener = (

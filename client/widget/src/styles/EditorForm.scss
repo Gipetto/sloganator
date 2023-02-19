@@ -6,6 +6,7 @@ form {
     padding: 0;
     border: none;
     display: flex;
+    flex-direction: row;
 
     input {
       width: 100%;
@@ -16,27 +17,61 @@ form {
       border: none;
     }
 
-    button {
-      margin-left: 0.5em;
-      padding: 0 10px;
-    }
-
-    .slogan-submit {
-      white-space: nowrap;
-
-      &:disabled {
-        background-color: var(--sloganator-gray) !important;
+    .controls {
+      display: flex;
+      flex-direction: row;
+      
+      button {
+        margin-left: 0.5em;
+        padding: 0 10px;
       }
-    }
-    .slogan-cancel {
-      background-color: var(--sloganator-gray);
-
-      span:last-of-type {
-        display: none;
+      
+      .slogan-submit {
+        white-space: nowrap;
+        
+        &:disabled {
+          background-color: var(--sloganator-gray) !important;
+        }
       }
-
-      &:hover {
+      .slogan-cancel {
+        background-color: var(--sloganator-gray);
+        
+        span:last-of-type {
+          display: none;
+        }
+        
         background-color: var(--sloganator-red);
+      }
+    }
+
+    @media(pointer: none),(pointer: coarse) {
+      flex-direction: column !important;
+
+      .controls {
+        gap: 1ex;
+
+        width: 100%;
+
+        button {
+          margin: 0.5em 0 0 0;
+          padding: 5px 10px;
+        }
+
+        .slogan-submit {
+          flex-grow: 2;
+        }
+
+        .slogan-cancel {
+          flex-grow: 1;
+
+          span:first-of-type {
+            display: none;
+          }
+          
+          span:last-of-type {
+            display: inline;
+          }
+        }
       }
     }
   }

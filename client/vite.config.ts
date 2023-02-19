@@ -10,6 +10,7 @@ export default defineConfig({
   mode: production ? "production" : "development",
   server: {
     hmr: !production,
+    proxy: {},
   },
   build: {
     outDir: "build",
@@ -20,6 +21,7 @@ export default defineConfig({
         widget: resolve(__dirname, "widget/index.html"),
       },
     },
+    manifest: true,
   },
   assetsInclude: ["**/bofh.json"],
   plugins: [
@@ -33,6 +35,6 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "jsdom",
-    setupFiles: "./src/__test__/setupTests.ts",
+    setupFiles: "./app/src/__test__/setupTests.ts",
   },
 })
