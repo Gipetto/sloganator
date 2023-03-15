@@ -22,7 +22,7 @@ const EditorForm = ({
       <fieldset>
         <ExpandingTextArea
           autoComplete="off"
-          maxLength={200}
+          maxLength={250}
           name="slogan"
           onChange={(e: ChangeEvent<HTMLTextAreaElement>) => handleChange}
           placeholder="Gimme yer best shot!"
