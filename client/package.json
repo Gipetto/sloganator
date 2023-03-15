@@ -9,7 +9,7 @@
     "dev:server": "cd ../ && make dev-server-no-tty",
     "dev:all": "concurrently --kill-others-on-fail 'yarn dev:server' 'yarn dev'",
     "build": "NODE_ENV=production tsc && vite build",
-    "build:dev": "NODE_ENV=development && vite build",
+    "build:dev": "NODE_ENV=development && vite build --watch",
     "build:clean": "rm -rf build/*",
     "preview": "vite preview",
     "prettier:write": "prettier --write .",

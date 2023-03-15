@@ -7,24 +7,35 @@ import { useSlogansContext } from "../contexts/SlogansContext"
 import Error from "../../../app/src/components/Core/Alert"
 import "../styles/EditorContainer.scss"
 
-const initClickOutListener = (
+const initCloseListener = (
   widgetRef: React.RefObject<HTMLDivElement>,
   setEditing: (b: boolean) => void
 ) => {
-  useEffect(() => {
-    const handleClick = (event: MouseEvent) => {
-      if (
-        widgetRef?.current &&
-        !widgetRef.current.contains(event.target as HTMLElement)
-      ) {
-        setEditing(false)
-      }
+  const handleClick = (event: MouseEvent) => {
+    if (
+      widgetRef?.current &&
+      !widgetRef.current.contains(event.target as HTMLElement)
+    ) {
+      setEditing(false)
     }
+  }
 
+  const handleKeyUp = (event: KeyboardEvent) => {
+    if (
+      widgetRef?.current &&
+      (event.target as HTMLElement)?.nodeName !== "INPUT"
+    ) {
+      setEditing(false)
+    }
+  }
+
+  useEffect(() => {
     document.addEventListener("mousedown", handleClick)
+    // document.addEventListener("keyup", handleKeyUp)
 
     return () => {
       document.removeEventListener("mousedown", handleClick)
+      // document.removeEventListener("keyup", handleKeyUp)
     }
   }, [widgetRef])
 }
@@ -37,7 +48,7 @@ const EditorContainer = () => {
   } = useSlogansContext()
 
   const widgetRef = useRef(null)
-  initClickOutListener(widgetRef, setEditing)
+  initCloseListener(widgetRef, setEditing)
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value)

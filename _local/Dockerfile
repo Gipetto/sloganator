@@ -13,7 +13,7 @@ RUN apt update \
     && docker-php-ext-install zip
 
 # XDebug is used during testing
-RUN pecl install xdebug-3.1.1 \
+RUN pecl install xdebug-3.2.0 \
     && docker-php-ext-enable xdebug
 
 RUN a2enmod rewrite

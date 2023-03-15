@@ -1,11 +1,12 @@
 import type { FormEvent, ChangeEvent } from "react"
+import ExpandingTextArea from "./ExpandingTextArea"
 import "../styles/EditorForm.scss"
 
 interface EditorFormProps {
   value: string
   cancelEditing: () => void
   handleSubmit: (e: FormEvent) => void
-  handleChange: (e: ChangeEvent<HTMLInputElement>) => void
+  handleChange: (e: ChangeEvent<HTMLTextAreaElement>) => void
 }
 
 const EditorForm = ({
@@ -19,12 +20,13 @@ const EditorForm = ({
   return (
     <form onSubmit={handleSubmit}>
       <fieldset>
-        <input
-          name="slogan"
-          type="text"
-          value={value}
-          onChange={handleChange}
+        <ExpandingTextArea
           autoComplete="off"
+          maxLength={200}
+          name="slogan"
+          onChange={(e: ChangeEvent<HTMLTextAreaElement>) => handleChange}
+          placeholder="Gimme yer best shot!"
+          value={value}
         />
         <div className="controls">
           <button type="submit" className="slogan-submit" disabled={isDisabled}>

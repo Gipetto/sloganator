@@ -8,43 +8,53 @@ form {
     display: flex;
     flex-direction: row;
 
-    input {
+    input,
+    textarea {
       width: 100%;
       box-sizing: border-box;
       font-size: var(--base-font-size) !important;
       padding: 0.25em;
       border-radius: 2px;
       border: none;
+      resize: none;
+      min-height: 2em;
     }
 
     .controls {
       display: flex;
       flex-direction: row;
-      
+
       button {
         margin-left: 0.5em;
         padding: 0 10px;
+        max-height: 2em;
       }
-      
+
       .slogan-submit {
         white-space: nowrap;
-        
+
         &:disabled {
           background-color: var(--sloganator-gray) !important;
         }
       }
       .slogan-cancel {
         background-color: var(--sloganator-gray);
-        
+
         span:last-of-type {
           display: none;
         }
-        
+
         background-color: var(--sloganator-red);
       }
     }
 
-    @media(pointer: none),(pointer: coarse) {
+    [placeholder]:focus::-webkit-input-placeholder,
+    [placeholder]:focus::placeholder {
+      transition: opacity 0.5s 0.5s ease;
+      opacity: 0.15;
+    }
+
+    @media (pointer: none), (pointer: coarse), (max-width: 900px) {
       flex-direction: column !important;
 
       .controls {
@@ -67,7 +77,7 @@ form {
           span:first-of-type {
             display: none;
           }
-          
+
           span:last-of-type {
             display: inline;
           }

@@ -5,19 +5,21 @@ div#sloganator {
   width: 100%;
   display: flex;
   flex-direction: column;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !important;
   position: relative;
 
   .widget {
     font-size: var(--base-font-size) !important;
     margin-bottom: 0.25rem;
 
-    button, input.button {
+    button,
+    input.button {
       font-size: var(--base-font-size) !important;
     }
   }
 
-  @media(pointer: none),(pointer: coarse) {
+  @media (pointer: none), (pointer: coarse), (max-width: 900px) {
     position: unset;
   }
 }

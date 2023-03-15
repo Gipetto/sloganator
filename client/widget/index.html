@@ -1,96 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-<title>Treefort54 Party Headquarters</title>
+    <title>Treefort54 Party Headquarters</title>
 
-<!-- sloganator -->
-<meta name="theme-color" content="#283d32">
+    <!-- sloganator -->
+    <meta name="theme-color" content="#283d32" />
 
-<link rel="alternate" type="application/rss+xml" title="Latest Threads (RSS 2.0)"
-  href="https://treefort54.com/mies/syndication.php">
-<link rel="alternate" type="application/atom+xml" title="Latest Threads (Atom 1.0)"
-  href="https://treefort54.com/mies/syndication.php?type=atom1.0">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="Content-Script-Type" content="text/javascript">
-<script type="text/javascript" src="https://treefort54.com/mies/jscripts/jquery.js?ver=1820"></script>
-<script type="text/javascript" src="https://treefort54.com/mies/jscripts/jquery.plugins.min.js?ver=1820"></script>
-<script type="text/javascript" src="https://treefort54.com/mies/jscripts/general.js?ver=1820"></script>
-<link type="text/css" rel="stylesheet"
-  href="https://treefort54.com/mies/cache/themes/theme12/global.min.css?t=1643395545">
-<link type="text/css" rel="stylesheet"
-  href="https://treefort54.com/mies/cache/themes/theme12/css3.min.css?t=1606692963">
-<link type="text/css" rel="stylesheet"
-  href="https://treefort54.com/mies/cache/themes/theme12/flatty-treefort.min.css?t=1625874659">
-<link type="text/css" rel="stylesheet"
-  href="https://treefort54.com/mies/cache/themes/theme12/automedia.min.css?t=1644106383">
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Latest Threads (RSS 2.0)"
+      href="https://treefort54.com/mies/syndication.php"
+    />
+    <link
+      rel="alternate"
+      type="application/atom+xml"
+      title="Latest Threads (Atom 1.0)"
+      href="https://treefort54.com/mies/syndication.php?type=atom1.0"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Script-Type" content="text/javascript" />
+    <script
+      type="text/javascript"
+      src="https://treefort54.com/mies/jscripts/jquery.js?ver=1820"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://treefort54.com/mies/jscripts/jquery.plugins.min.js?ver=1820"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://treefort54.com/mies/jscripts/general.js?ver=1820"
+    ></script>
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://treefort54.com/mies/cache/themes/theme12/global.min.css?t=1643395545"
+    />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://treefort54.com/mies/cache/themes/theme12/css3.min.css?t=1606692963"
+    />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://treefort54.com/mies/cache/themes/theme12/flatty-treefort.min.css?t=1625874659"
+    />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://treefort54.com/mies/cache/themes/theme12/automedia.min.css?t=1644106383"
+    />
 
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,800" rel="stylesheet">
-<script type="text/javascript">
-<!--
-	lang.unknown_error = "An unknown error has occurred.";
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,800"
+      rel="stylesheet"
+    />
+    <script type="text/javascript">
+      <!--
+      lang.unknown_error = "An unknown error has occurred."
 
-	lang.select2_match = "One result is available, press enter to select it.";
-	lang.select2_matches = "{1} results are available, use up and down arrow keys to navigate.";
-	lang.select2_nomatches = "No matches found";
-	lang.select2_inputtooshort_single = "Please enter one or more character";
-	lang.select2_inputtooshort_plural = "Please enter {1} or more characters";
-	lang.select2_inputtoolong_single = "Please delete one character";
-	lang.select2_inputtoolong_plural = "Please delete {1} characters";
-	lang.select2_selectiontoobig_single = "You can only select one item";
-	lang.select2_selectiontoobig_plural = "You can only select {1} items";
-	lang.select2_loadmore = "Loading more results&hellip;";
-	lang.select2_searching = "Searching&hellip;";
-	
-	var templates = {
-		modal: '<div class=\"modal\">\
-	<div style=\"overflow-y: auto; max-height: 400px;\">\
-		<table border=\"0\" cellspacing=\"0\" cellpadding=\"5\" class=\"tborder\">\
+      lang.select2_match = "One result is available, press enter to select it."
+      lang.select2_matches =
+        "{1} results are available, use up and down arrow keys to navigate."
+      lang.select2_nomatches = "No matches found"
+      lang.select2_inputtooshort_single = "Please enter one or more character"
+      lang.select2_inputtooshort_plural = "Please enter {1} or more characters"
+      lang.select2_inputtoolong_single = "Please delete one character"
+      lang.select2_inputtoolong_plural = "Please delete {1} characters"
+      lang.select2_selectiontoobig_single = "You can only select one item"
+      lang.select2_selectiontoobig_plural = "You can only select {1} items"
+      lang.select2_loadmore = "Loading more results&hellip;"
+      lang.select2_searching = "Searching&hellip;"
+
+      var templates = {
+        modal:
+          '<div class="modal">\
+	<div style="overflow-y: auto; max-height: 400px;">\
+		<table border="0" cellspacing="0" cellpadding="5" class="tborder">\
 			<tr>\
-				<td class=\"thead\"><strong>__title__</strong></td>\
+				<td class="thead"><strong>__title__</strong></td>\
 			</tr>\
 			<tr>\
-				<td class=\"trow1\">__message__</td>\
+				<td class="trow1">__message__</td>\
 			</tr>\
 			<tr>\
-				<td class=\"tfoot\">\
-					<div style=\"text-align: center\" class=\"modal_buttons\">__buttons__</div>\
+				<td class="tfoot">\
+					<div style="text-align: center" class="modal_buttons">__buttons__</div>\
 				</td>\
 			</tr>\
 		</table>\
 	</div>\
 </div>',
-		modal_button: '<input type=\"submit\" class=\"button\" value=\"__title__\"/>&nbsp;'
-	};
+        modal_button:
+          '<input type="submit" class="button" value="__title__"/>&nbsp;',
+      }
 
-	var cookieDomain = ".treefort54.com";
-	var cookiePath = "/mies/";
-	var cookiePrefix = "";
-	var cookieSecureFlag = "1";
-	var deleteevent_confirm = "Are you sure you want to delete this event?";
-	var removeattach_confirm = "Are you sure you want to remove the selected attachment from this post?";
-	var loading_text = 'Loading. <br />Please Wait&hellip;';
-	var saving_changes = 'Saving changes&hellip;';
-	var use_xmlhttprequest = "1";
-	var my_post_key = "8090a9c7c935e987ad27c4278a9f22cd";
-	var rootpath = "https://treefort54.com/mies";
-	var imagepath = "https://treefort54.com/mies/images/flatty";
-  	var yes_confirm = "Yes";
-	var no_confirm = "No";
-	var MyBBEditor = null;
-	var spinner_image = "https://treefort54.com/mies/images/flatty/spinner.gif";
-	var spinner = "<img src='" + spinner_image +"' alt='' />";
-	var modal_zindex = 9999;
-// -->
-  </script>
+      var cookieDomain = ".treefort54.com"
+      var cookiePath = "/mies/"
+      var cookiePrefix = ""
+      var cookieSecureFlag = "1"
+      var deleteevent_confirm = "Are you sure you want to delete this event?"
+      var removeattach_confirm =
+        "Are you sure you want to remove the selected attachment from this post?"
+      var loading_text = "Loading. <br />Please Wait&hellip;"
+      var saving_changes = "Saving changes&hellip;"
+      var use_xmlhttprequest = "1"
+      var my_post_key = "8090a9c7c935e987ad27c4278a9f22cd"
+      var rootpath = "https://treefort54.com/mies"
+      var imagepath = "https://treefort54.com/mies/images/flatty"
+      var yes_confirm = "Yes"
+      var no_confirm = "No"
+      var MyBBEditor = null
+      var spinner_image =
+        "https://treefort54.com/mies/images/flatty/spinner.gif"
+      var spinner = "<img src='" + spinner_image + "' alt='' />"
+      var modal_zindex = 9999
+      // -->
+    </script>
 
-<script type="text/javascript">
-  <!--
-      lang.no_new_posts = "Forum Contains No New Posts";
-      lang.click_mark_read = "Click to mark this forum as read";
-  // -->
-</script>
-
+    <script type="text/javascript">
+      <!--
+      lang.no_new_posts = "Forum Contains No New Posts"
+      lang.click_mark_read = "Click to mark this forum as read"
+      // -->
+    </script>
   </head>
 
   <body>
@@ -100,13 +139,16 @@
       <div id="logo">
         <div class="wrapper">
           <a href="https://treefort54.com/mies/index.php">
-            <img src="https://treefort54.com/mies/images/flatty/logo.png" title="Treefort54 Party Headquarters" />
-            </a>
-            <div id="sloganator"></div>
-            </div>
-            </div>
-            </div>
-            </body>
+            <img
+              src="https://treefort54.com/mies/images/flatty/logo.png"
+              title="Treefort54 Party Headquarters"
+            />
+          </a>
+          <div id="sloganator"></div>
+        </div>
+      </div>
+    </div>
+  </body>
 
   <script type="module" src="/widget/src/index.tsx"></script>
 </html>

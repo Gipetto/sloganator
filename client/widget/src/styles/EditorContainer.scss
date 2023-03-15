@@ -9,7 +9,8 @@
   box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(41, 62, 51, 1);
   width: 90%;
 
-  form, .previous-slogans {
+  form,
+  .previous-slogans {
     margin: 0.75rem;
   }
 
@@ -17,10 +18,12 @@
     margin: 0.75em;
   }
 
-  @media(pointer: none),(pointer: coarse) {
-    --base-font-size: 30px;
+  @media (pointer: none), (pointer: coarse), (max-width: 900px) {
     width: 95%;
     top: 2.5%;
     left: 2.5%;
+  }
+  @media (pointer: none), (pointer: coarse) {
+    --base-font-size: 30px;
   }
 }
