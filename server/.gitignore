@@ -1,0 +1,7 @@
+cache/*
+sloganator.db*
+vendor
+test/.phpunit.cache
+clover.xml
+coverage
+cachegrind*

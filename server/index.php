@@ -8,7 +8,7 @@ use Sloganator\Responses\{ApiResponse, PageResponse, Response, TooManyRequests, 
 
 use Sloganator\{Database, Throttle, User};
 use Sloganator\Cache\SuccessfulResponseCache;
-use Sloganator\Processors\WordCounter;
+// use Sloganator\Processors\WordCounter;
 use Sloganator\Service\{Sloganator, Slogan, SloganError, SloganList};
 
 $router = new Router;

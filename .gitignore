@@ -1,11 +1,4 @@
-cache/*
-sloganator.db*
 scripts
-vendor
-test/.phpunit.cache
-clover.xml
-coverage
 .tool-versions
 shell.nix
-cachegrind*
 .vscode/*.log
