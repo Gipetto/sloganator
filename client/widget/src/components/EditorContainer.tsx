@@ -23,7 +23,7 @@ const initCloseListener = (
   const handleKeyUp = (event: KeyboardEvent) => {
     if (
       widgetRef?.current &&
-      (event.target as HTMLElement)?.nodeName !== "INPUT"
+      (event.target as HTMLElement)?.nodeName !== "TEXTAREA"
     ) {
       setEditing(false)
     }
@@ -31,11 +31,11 @@ const initCloseListener = (
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClick)
-    // document.addEventListener("keyup", handleKeyUp)
+    document.addEventListener("keyup", handleKeyUp)
 
     return () => {
       document.removeEventListener("mousedown", handleClick)
-      // document.removeEventListener("keyup", handleKeyUp)
+      document.removeEventListener("keyup", handleKeyUp)
     }
   }, [widgetRef])
 }
