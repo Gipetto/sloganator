@@ -27,24 +27,26 @@ form {
       button {
         margin-left: 0.5em;
         padding: 0 10px;
-        max-height: 2em;
+        height: 2em;
       }
 
       .slogan-submit {
         white-space: nowrap;
 
         &:disabled {
-          background-color: var(--sloganator-gray) !important;
+          color: rgba(var(--sloganator-text-color), 0.25);
+          background-color: rgb(var(--sloganator-gray)) !important;
         }
       }
+      
       .slogan-cancel {
-        background-color: var(--sloganator-gray);
+        background-color: rgb(var(--sloganator-gray));
 
         span:last-of-type {
           display: none;
         }
 
-        background-color: var(--sloganator-red);
+        background-color: rgb(var(--sloganator-red));
       }
     }
 

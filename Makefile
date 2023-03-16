@@ -3,10 +3,13 @@
 DOCKER_IMAGE := sloganator
 PORT = "8080"
 
+clean:
+	./scripts/clean.sh
+
 backup:
 	./scripts/backup.sh
 
-build:
+build: clean
 	./scripts/build.sh
 
 deploy: backup build

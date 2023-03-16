@@ -1,12 +1,20 @@
 :root {
-  --sloganator-text-color: #fff;
-  --sloganator-gray: gray;
-  --sloganator-red: red;
   --base-font-size: 16px;
+  --base-green: 66, 108, 85;
+  --border-green: 41, 62, 51;
+  --initial-gradient-light-green: 66, 108, 85;
+  --sloganator-gray: 128, 128, 128;
+  --sloganator-red: 255, 0, 0;
+  --sloganator-text-color: 255, 255, 255;
 }
+
 #logo .wrapper {
   display: flex;
   a {
     align-self: flex-start;
   }
+}
+
+.text-shadow {
+  text-shadow: 1px 1px 3px rgba(41, 62, 51, 0.5);
 }

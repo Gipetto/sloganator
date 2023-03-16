@@ -11,7 +11,7 @@ const PreviousSlogans = ({ slogans, copySlogan }: PreviousSlogansProps) => {
 
   return (
     <div className="previous-slogans">
-      <p>
+      <p className="text-shadow">
         <b>Recent Slogans:</b>
       </p>
       <div className="fadewrapper">
@@ -19,7 +19,7 @@ const PreviousSlogans = ({ slogans, copySlogan }: PreviousSlogansProps) => {
           {slogans.slice(0, previousSlogansLen).map((slogan) => (
             <li key={slogan.timestamp}>
               <button onClick={() => copySlogan(slogan.slogan)}>
-                <span>{slogan.slogan}</span>
+                <span className="text-shadow">{slogan.slogan}</span>
                 <span>~ {slogan.username}</span>
               </button>
             </li>

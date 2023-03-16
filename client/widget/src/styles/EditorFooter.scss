@@ -6,7 +6,7 @@
   text-align: center;
 
   a {
-    color: white;
+    color: rgb(var(--sloganator-text-color));
     &:hover {
       text-decoration: underline;
     }

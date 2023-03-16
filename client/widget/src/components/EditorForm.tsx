@@ -24,7 +24,7 @@ const EditorForm = ({
           autoComplete="off"
           maxLength={250}
           name="slogan"
-          onChange={(e: ChangeEvent<HTMLTextAreaElement>) => handleChange}
+          onChange={handleChange}
           placeholder="Gimme yer best shot!"
           value={value}
         />
