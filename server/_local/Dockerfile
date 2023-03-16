@@ -18,6 +18,8 @@ RUN pecl install xdebug-3.2.0 \
 
 RUN a2enmod rewrite
 RUN a2enmod headers
+RUN a2enmod proxy
+RUN a2enmod proxy_http
 
 RUN apt clean
 

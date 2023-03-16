@@ -54,11 +54,13 @@ class User implements JsonSerializable {
             define("IN_MYBB", true);
         }
 
-        require_once DOCROOT . "/inc/init.php";
-        /* @phpstan-ignore-next-line */
-        require_once MYBB_ROOT . "inc/class_session.php";
-
         try {
+            if (file_exists(DOCROOT . "/inc/init.php")) {
+                require_once DOCROOT . "/inc/init.php";
+                /* @phpstan-ignore-next-line */
+                require_once MYBB_ROOT . "inc/class_session.php";
+            }
+            
             if (isset($mybb)) {
                 /* @phpstan-ignore-next-line */
                 $session = new \session();

@@ -2,7 +2,7 @@
   # mod_fcgid runs in Dreamhost, not in local docker
   # so we can use this to set Dreamhost's PHP version
   AddHandler fcgid-script .php
-  FCGIWrapper "/dh/cgi-system/php80.cgi" .php
+  FCGIWrapper "/dh/cgi-system/php82.cgi" .php
 </IfModule>
 
 <IfModule mod_autoindex.c>
@@ -14,7 +14,7 @@
     Deny from all
 </FilesMatch>
 
-DirectoryIndex index.php
+DirectoryIndex index.html index.php
 
 RewriteEngine on
 
@@ -23,6 +23,7 @@ RewriteCond %{SCRIPT_FILENAME} -d
 RewriteCond %{SCRIPT_FILENAME} -f
 RewriteRule "(^|/)\." - [F]
 
+# allow real files
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 

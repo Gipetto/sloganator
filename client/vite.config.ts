@@ -22,6 +22,7 @@ export default defineConfig({
       },
     },
     manifest: true,
+    sourcemap: true,
   },
   assetsInclude: ["**/bofh.json"],
   plugins: [

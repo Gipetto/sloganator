@@ -8,50 +8,40 @@ use Sloganator\Responses\{ApiResponse, PageResponse, Response, TooManyRequests, 
 
 use Sloganator\{Database, Throttle, User};
 use Sloganator\Cache\SuccessfulResponseCache;
-// use Sloganator\Processors\WordCounter;
+use Sloganator\Processors\WordCounter;
 use Sloganator\Service\{Sloganator, Slogan, SloganError, SloganList};
 
 $router = new Router;
 $router->addAllowedOrigin("http://tower.wookiee.internal:3001");
 $router->addAllowedOrigin("https://treefort54.com");
 
-// $router->get("/mies/sloganator/words", function(Request $request) {
-//     $user = new User;
-
-//     $wp = new WordCounter(function() use ($request) {
-//         $db = new Database;
-//         $sloganator = new Sloganator($db);
-
-//         $request->params["pageSize"] = -1;
-        
-//         /**
-//          * @var SloganList $result
-//          */
-//         $result = $sloganator->list($request->params);
-
-//         foreach ($result->slogans as $slogan) {
-//             /**
-//              * @var Slogan $slogan
-//              */
-//             yield $slogan->slogan;
-//         }
-//     });
-
-//     return new PageResponse(200, 'word-cloud', [
-//         "userId" => $user->getUserId(),
-//         "userName" => $user->getUserName(),
-//         "data" => array_values($wp->run(100))
-//     ]);
-// });
-
-$router->get("/mies/sloganator", function(Request $request) {
+$router->get("/mies/sloganator/words", function(Request $request) {
     $user = new User;
-    $response = new PageResponse(200, 'browse', [
+
+    $wp = new WordCounter(function() use ($request) {
+        $db = new Database;
+        $sloganator = new Sloganator($db);
+
+        $request->params["pageSize"] = -1;
+        
+        /**
+         * @var SloganList $result
+         */
+        $result = $sloganator->list($request->params);
+
+        foreach ($result->slogans as $slogan) {
+            /**
+             * @var Slogan $slogan
+             */
+            yield $slogan->slogan;
+        }
+    });
+
+    return new PageResponse(200, 'word-cloud', [
         "userId" => $user->getUserId(),
-        "userName" => $user->getUserName()
+        "userName" => $user->getUserName(),
+        "data" => array_values($wp->run(100))
     ]);
-	
-	return $response;
 });
 
 $router->get("/mies/sloganator/v1/user", function(Request $request) {

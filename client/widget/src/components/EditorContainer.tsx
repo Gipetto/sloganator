@@ -50,7 +50,7 @@ const EditorContainer = () => {
   const widgetRef = useRef(null)
   initCloseListener(widgetRef, setEditing)
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value)
   }
 

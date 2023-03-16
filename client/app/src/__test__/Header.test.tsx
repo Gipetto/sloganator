@@ -14,7 +14,7 @@ const UserContextProviderWrapper = (providerProps: ProviderProps): React.FC => {
   )
 }
 
-test("renders default username when user is not logged in, redux", () => {
+test("renders default username when user is not logged in", () => {
   const providerProps = {
     value: {
       loading: false,
@@ -32,7 +32,7 @@ test("renders default username when user is not logged in, redux", () => {
   expect(welcomeText).toHaveTextContent("Hello, Treefort Lover")
 })
 
-test("renders the username, redux", () => {
+test("renders the username", () => {
   const providerProps = {
     value: {
       loading: false,
