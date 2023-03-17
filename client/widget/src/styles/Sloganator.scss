@@ -3,6 +3,7 @@
   --base-green: 66, 108, 85;
   --border-green: 41, 62, 51;
   --initial-gradient-light-green: 66, 108, 85;
+  --sloganator-dark-red: 200, 2, 2;
   --sloganator-gray: 128, 128, 128;
   --sloganator-red: 255, 0, 0;
   --sloganator-text-color: 255, 255, 255;
@@ -17,4 +18,28 @@
 
 .text-shadow {
   text-shadow: 1px 1px 3px rgba(41, 62, 51, 0.5);
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    top: -1rem;
+  }
+  to {
+    opacity: 1;
+    top: 0;
+  }
+}
+
+@keyframes disappear {
+  from {
+    opacity: 1;
+    top: 0;
+    height: auto;
+  }
+  to {
+    opacity: 0;
+    top: 2.25rem;
+    height: 0;
+  }
 }

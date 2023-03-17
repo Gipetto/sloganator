@@ -32,6 +32,19 @@ const statusClassFromHTTPCode = (code: number): string => {
   }
 }
 
+const wittyRemarkFromHTTPCode = (code: number): string => {
+  switch (true) {
+    case code >= 500 || code === 0:
+      return "The administrator is being flogged as you read this."
+    case code >= 400 && code < 500:
+      return "You should know better than that!"
+    case code >= 200 && code < 300:
+      return "Congratulations!"
+    default:
+      return "Just FYI"
+  }
+}
+
 const icons: {
   [k: string]: IconDefinition
 } = {
@@ -74,7 +87,7 @@ const Error = (props: ErrorProps) => {
       <span>
         <strong>{statusMessage}</strong>
         <br />
-        The administrator is being flogged as you read this.
+        {wittyRemarkFromHTTPCode(error?.code ? error.code : 0)}
       </span>
     </LayoutRow>
   )

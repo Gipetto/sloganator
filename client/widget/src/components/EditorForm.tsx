@@ -4,7 +4,7 @@ import "../styles/EditorForm.scss"
 
 interface EditorFormProps {
   value: string
-  cancelEditing: () => void
+  cancelEditing: (e: FormEvent) => void
   handleSubmit: (e: FormEvent) => void
   handleChange: (e: ChangeEvent<HTMLTextAreaElement>) => void
 }

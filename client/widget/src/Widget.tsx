@@ -5,6 +5,7 @@ import EditorContainer from "./components/EditorContainer"
 import Loading from "./components/Loading"
 
 import "./styles/Widget.scss"
+import AnimatedMounter from "./components/AnimatedMounter"
 
 const Widget = () => {
   const {
@@ -15,12 +16,16 @@ const Widget = () => {
   return (
     <Layout className="widget">
       {slogansContext.loading && <Loading />}
-      {!slogansContext.loading && slogansContext.editing && <EditorContainer />}
       {!slogansContext.loading && (
-        <CurrentSlogan
-          slogan={slogansContext.slogans[0]}
-          setEditing={setEditing}
-        />
+        <>
+          <AnimatedMounter positionAbsolute show={slogansContext.editing}>
+            <EditorContainer />
+          </AnimatedMounter>
+          <CurrentSlogan
+            slogan={slogansContext.slogans[0]}
+            setEditing={setEditing}
+          />
+        </>
       )}
     </Layout>
   )

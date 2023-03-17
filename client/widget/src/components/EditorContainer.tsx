@@ -21,9 +21,11 @@ const initCloseListener = (
   }
 
   const handleKeyUp = (event: KeyboardEvent) => {
+    console.log(event)
     if (
       widgetRef?.current &&
-      (event.target as HTMLElement)?.nodeName !== "TEXTAREA"
+      (event.target as HTMLElement)?.nodeName !== "TEXTAREA" &&
+      event.key === "Escape"
     ) {
       setEditing(false)
     }
@@ -60,6 +62,12 @@ const EditorContainer = () => {
     addSlogan(value)
   }
 
+  const handleCancel = (e: FormEvent) => {
+    e.stopPropagation()
+    e.preventDefault()
+    setEditing(false)
+  }
+
   const copySlogan = (slogan: string) => {
     setValue(slogan)
   }
@@ -72,6 +80,7 @@ const EditorContainer = () => {
           error={submitError}
           dismissable={true}
           onDismiss={() => {
+            setEditing(false)
             reset()
           }}
         />
@@ -82,7 +91,7 @@ const EditorContainer = () => {
             value={value}
             handleSubmit={handleSubmit}
             handleChange={handleChange}
-            cancelEditing={() => setEditing(false)}
+            cancelEditing={handleCancel}
           />
           <PreviousSlogans slogans={slogans} copySlogan={copySlogan} />
         </>
