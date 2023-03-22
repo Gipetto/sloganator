@@ -27,6 +27,8 @@ class Router {
     private RouteNode $root;
     private RouteNode $notFound;
 
+    private string $pathPrefix = "";
+
 	/**
 	 * @var string[]
 	 */
@@ -41,6 +43,14 @@ class Router {
                 return new NotFound();
             });
         }
+    }
+
+    public function setPathPrefix(string $prefix): void {
+        $this->pathPrefix = rtrim($prefix, "/");
+    }
+
+    public function getPathPrefix(): string {
+        return $this->pathPrefix;
     }
 
 	public function addAllowedOrigin($origin): void {
@@ -104,7 +114,7 @@ class Router {
     }
 
     public function search(string $path): RouteNode {
-        $routePath = new RoutePath($path);
+        $routePath = new RoutePath(str_replace($this->pathPrefix, "", $path));
 
         if ($routePath->isEmpty) {
             return $this->root;

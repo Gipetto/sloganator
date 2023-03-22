@@ -23,6 +23,7 @@ class RouterTest extends TestCase {
                 "path" => "/v1/test",
                 "REQUEST_URI" => "/v1/test",
                 "callback" => fn(Request $request) => new ApiResponse(200, (object) $request),
+                "pathPrefix" => null,
                 "assertions" => [
                     "getCodeString" => "200 OK",
                     "getContent" => '"params":[]'
@@ -32,6 +33,7 @@ class RouterTest extends TestCase {
                 "path" => "/v1/test",
                 "REQUEST_URI" => "/v1/test?foo=bar&bing=bang",
                 "callback" => fn(Request $request) => new ApiResponse(200, (object) $request),
+                "pathPrefix" => null,
                 "assertions" => [
                     "getCodeString" => "200 OK",
                     "getContent" => '"params":{"foo":"bar","bing":"bang"}'
@@ -41,6 +43,7 @@ class RouterTest extends TestCase {
                 "path" => "/v1/test",
                 "REQUEST_URI" => "/foo",
                 "callback" => fn(Request $request) => new ApiResponse(200, (object) $request),
+                "pathPrefix" => null,
                 "assertions" => [
                     "getCodeString" => "404 Not Found",
                     "getContent" => '{"code":404,"message":"Invalid Route"}'
@@ -50,10 +53,21 @@ class RouterTest extends TestCase {
                 "path" => "/v1/test",
                 "REQUEST_URI" => "/v1/test",
                 "callback" => fn() => throw new Exception("foo"),
+                "pathPrefix" => null,
                 "assertions" => [
                     "getCodeString" => "500 Internal Server Error",
                     "getContent" => '{"code":500,"message":"Internal Service Error"}'
                 ]
+            ],
+            [ // Test Get with pathPrefix
+                "path" => "/v1/test",
+                "REQUEST_URI" => "/foo/bar/v1/test",
+                "callback" => fn(Request $request) => new ApiResponse(200, (object) $request),
+                "pathPrefix" => "/foo/bar/", // trailing slash not required, setPathPrefix should remove it
+                "assertions" => [
+                    "getCodeString" => "200 OK",
+                    "getContent" => '"params":[]'
+                ],
             ]
         ]; 
     } 
@@ -61,13 +75,17 @@ class RouterTest extends TestCase {
     /**
      * @dataProvider routerTestProvider
      */
-    public function testRouterGet($path, $REQUEST_URI, $callback, $assertions) {
+    public function testRouterGet($path, $REQUEST_URI, $callback, $pathPrefix, $assertions) {
         $_SERVER["REQUEST_URI"] = $REQUEST_URI;
         $_SERVER["REQUEST_METHOD"] = Request::GET;
 
         $router = new Router;
-        $router->get($path, $callback);
 
+        if ($pathPrefix) {
+            $router->setPathPrefix($pathPrefix);
+        }
+
+        $router->get($path, $callback);
         $response = $router->dispatch();
 
         foreach($assertions as $method => $expectedValue) {

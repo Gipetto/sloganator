@@ -12,10 +12,12 @@ use Sloganator\Processors\WordCounter;
 use Sloganator\Service\{Sloganator, Slogan, SloganError, SloganList};
 
 $router = new Router;
+$router->setPathPrefix("/mies/sloganator");
+
 $router->addAllowedOrigin("http://tower.wookiee.internal:3001");
 $router->addAllowedOrigin("https://treefort54.com");
 
-$router->get("/mies/sloganator/words", function(Request $request) {
+$router->get("/words", function(Request $request) {
     $user = new User;
 
     $wp = new WordCounter(function() use ($request) {
@@ -44,12 +46,12 @@ $router->get("/mies/sloganator/words", function(Request $request) {
     ]);
 });
 
-$router->get("/mies/sloganator/v1/user", function(Request $request) {
+$router->get("/v1/user", function(Request $request) {
     $user = new User;
     return new ApiResponse(200, $user);
 });
 
-$router->get("/mies/sloganator/v1/authors", function(Request $request) {
+$router->get("/v1/authors", function(Request $request) {
     $cache = new SuccessfulResponseCache("authors");
     $response = $cache->get();
 
@@ -66,7 +68,7 @@ $router->get("/mies/sloganator/v1/authors", function(Request $request) {
     return $response;
 });
 
-$router->get("/mies/sloganator/v1/slogans", function(Request $request) {
+$router->get("/v1/slogans", function(Request $request) {
     $db = new Database;
     $sloganator = new Sloganator($db);
 
@@ -74,7 +76,7 @@ $router->get("/mies/sloganator/v1/slogans", function(Request $request) {
     return new ApiResponse(200, $result);
 });
 
-$router->get("/mies/sloganator/v1/slogans/latest", function(Request $request) {
+$router->get("/v1/slogans/latest", function(Request $request) {
     $cache = new SuccessfulResponseCache("latest");
     $response = $cache->get();
 
@@ -102,7 +104,7 @@ $router->get("/mies/sloganator/v1/slogans/latest", function(Request $request) {
     return $response;
 });
 
-$router->post("/mies/sloganator/v1/slogans", function(Request $request) {
+$router->post("/v1/slogans", function(Request $request) {
     $user = new User;
     $db = new Database;
     $sloganator = new Sloganator($db);
