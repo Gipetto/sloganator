@@ -5,7 +5,8 @@
         }
     },
     "require": {
-        "nesbot/carbon": "^2.54"
+        "nesbot/carbon": "^2.54",
+        "symfony/dotenv": "^6.2"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.2.0",

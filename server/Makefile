@@ -3,28 +3,25 @@
 DOCKER_IMAGE := sloganator
 PORT = "8080"
 
+COMPOSER_COMMAND=
+DEV_SERVER_FLAGS=
+
 install: clean docker-build composer-install test
 
 clean:
 	rm -rf vendor
 
-composer-install:
+composer-install: COMPOSER_COMMAND = install
+composer-update: COMPOSER_COMMAND = update
+composer-dump-autoload: COMPOSER_COMMAND = dump-autoload
+composer-install composer-update composer-dump-autoload:
 	docker run --rm -it \
 		--name sloganator \
 		--volume "$(PWD)":/var/www/html \
 		--workdir /var/www/html \
 		--user $(shell id -u):$(shell id -g) \
 		$(DOCKER_IMAGE):latest \
-		composer install
-
-composer-update:
-	docker run --rm -it \
-		--name sloganator \
-		--volume "$(PWD)":/var/www/html \
-		--workdir /var/www/html \
-		--user $(shell id -u):$(shell id -g) \
-		$(DOCKER_IMAGE):latest \
-		composer update
+		composer $(COMPOSER_COMMAND)
 
 docker-build:
 	docker build \
@@ -34,17 +31,10 @@ docker-build:
 		-t $(DOCKER_IMAGE):latest .
 	docker image prune -f
 
-dev-server:
-	docker run --rm -it \
-		-p $(PORT):80 \
-		--name sloganator \
-		--user $(shell id -u):$(shell id -g) \
-		--volume "$(PWD)":/var/www/html \
-		--volume "$(PWD)/_local/conf":/etc/apache2/sites-enabled \
-		$(DOCKER_IMAGE):latest
-
-dev-server-no-tty:
-	docker run --rm -i --init \
+dev-server: DEV_SERVER_FLAGS = --it
+dev-server-no-tty: DEV_SERVER_FLAGS = -i --init
+dev-server dev-server-no-tty:
+	docker run --rm $(DEV_SERVER_FLAGS) \
 		-p $(PORT):80 \
 		--name sloganator \
 		--user $(shell id -u):$(shell id -g) \
