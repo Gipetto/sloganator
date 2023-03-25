@@ -8,7 +8,7 @@ interface CurrentSloganProps {
 
 const CurrentSlogan = ({ slogan, setEditing }: CurrentSloganProps) => {
   return (
-    <div className="current-slogan">
+    <div>
       <button onClick={() => setEditing(true)}>{slogan?.slogan}</button>
     </div>
   )

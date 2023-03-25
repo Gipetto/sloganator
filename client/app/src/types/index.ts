@@ -29,7 +29,7 @@ type SlogansResponse = {
 }
 
 interface HTTPError {
-  code: number
+  code: number | string
   message: string
 }
 

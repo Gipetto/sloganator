@@ -14,7 +14,6 @@ use Sloganator\Service\{Sloganator, Slogan, SloganError, SloganList};
 $router = new Router;
 $router->setPathPrefix("/mies/sloganator");
 
-// $router->addAllowedOrigin("http://tower.wookiee.internal:3001");
 // $router->addAllowedOrigin("https://treefort54.com");
 if ($_ENV["ALLOWED_ORIGINS"]) {
     $allowedOrigins = explode(",", $_ENV["ALLOWED_ORIGINS"]);

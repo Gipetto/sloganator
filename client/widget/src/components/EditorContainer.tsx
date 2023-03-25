@@ -1,11 +1,10 @@
 import { useState, useEffect, useRef } from "react"
 import type { FormEvent, ChangeEvent } from "react"
 import PreviousSlogans from "./PreviousSlogans"
-import EditorFooter from "./EditorFooter"
 import EditorForm from "./EditorForm"
 import { useSlogansContext } from "../contexts/SlogansContext"
-import Error from "../../../app/src/components/Core/Alert"
 import "../styles/EditorContainer.scss"
+import { Dialog, Panel, SystemError } from "./EightDotOne"
 
 const initCloseListener = (
   widgetRef: React.RefObject<HTMLDivElement>,
@@ -21,7 +20,6 @@ const initCloseListener = (
   }
 
   const handleKeyUp = (event: KeyboardEvent) => {
-    console.log(event)
     if (
       widgetRef?.current &&
       (event.target as HTMLElement)?.nodeName !== "TEXTAREA" &&
@@ -45,8 +43,8 @@ const initCloseListener = (
 const EditorContainer = () => {
   const [value, setValue] = useState("")
   const {
-    state: { slogans, submitError },
-    actions: { setEditing, addSlogan, reset },
+    state: { editing, slogans, submitError },
+    actions: { setEditing, setSubmitError, addSlogan, reset },
   } = useSlogansContext()
 
   const widgetRef = useRef(null)
@@ -62,10 +60,17 @@ const EditorContainer = () => {
     addSlogan(value)
   }
 
-  const handleCancel = (e: FormEvent) => {
+  const handleCancel = (e: FormEvent | MouseEvent) => {
     e.stopPropagation()
     e.preventDefault()
     setEditing(false)
+    setValue("")
+  }
+
+  const forceSystemError = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation()
+    e.preventDefault()
+    setSubmitError({ code: "ID10T", message: "Don't touch that!" })
   }
 
   const copySlogan = (slogan: string) => {
@@ -75,28 +80,43 @@ const EditorContainer = () => {
   return (
     <div className="slogan-editor" ref={widgetRef}>
       {submitError && (
-        <Error
-          type="error"
+        <SystemError
           error={submitError}
-          dismissable={true}
-          onDismiss={() => {
+          onClose={() => {
             setEditing(false)
             reset()
           }}
         />
       )}
-      {!submitError && (
-        <>
-          <EditorForm
-            value={value}
-            handleSubmit={handleSubmit}
-            handleChange={handleChange}
-            cancelEditing={handleCancel}
-          />
+
+      {editing && !submitError && (
+        <Dialog
+          title="Sloganator"
+          onClose={handleCancel}
+          onZoom={forceSystemError}
+          onWindowshade={forceSystemError}
+        >
+          <Panel>
+            <EditorForm
+              value={value}
+              handleSubmit={handleSubmit}
+              handleChange={handleChange}
+              cancelEditing={handleCancel}
+            />
+            <div>
+              <p>
+                <span style={{ float: "right" }}>
+                  <a target="_blank" href="/mies/sloganator">
+                    Sloganator &#8599;
+                  </a>
+                </span>
+                <span>Recent Slogans:</span>
+              </p>
+            </div>
+          </Panel>
           <PreviousSlogans slogans={slogans} copySlogan={copySlogan} />
-        </>
+        </Dialog>
       )}
-      <EditorFooter />
     </div>
   )
 }

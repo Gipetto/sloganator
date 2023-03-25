@@ -3,6 +3,7 @@ import ReactDOM from "react-dom"
 import Widget from "./Widget"
 import reportWebVitals from "./reportWebVitals"
 import { SlogansContextProvider } from "./contexts/SlogansContext"
+import "./fonts/ChicagoFLF/ChicagoFLF.ttf"
 import "./styles/Sloganator.scss"
 
 ReactDOM.render(

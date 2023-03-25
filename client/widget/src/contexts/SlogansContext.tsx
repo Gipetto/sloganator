@@ -19,6 +19,7 @@ interface CurrentSlogansContextState {
 interface CurrentSlogansContextActions {
   setEditing: (a: boolean) => void
   addSlogan: (s: string) => void
+  setSubmitError: (e: HTTPError) => void
   reset: () => void
 }
 
@@ -36,6 +37,7 @@ const SlogansContext = createContext<CurrentSlogansContext>({
   },
   actions: {
     setEditing: (): void => {},
+    setSubmitError: (e: HTTPError) => {},
     addSlogan: (): void => {},
     reset: (): void => {},
   },
@@ -109,6 +111,7 @@ const SlogansContextProvider = ({ children }: { children: ReactNode }) => {
     },
     actions: {
       setEditing,
+      setSubmitError,
       addSlogan,
       reset,
     },

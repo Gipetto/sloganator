@@ -1,4 +1,28 @@
 form {
+  fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+
+    input,
+    textarea {
+      box-sizing: border-box;
+      min-height: 2.75em;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+}
+/*
+form {
   margin: 0.75rem;
 
   fieldset {
@@ -92,3 +116,4 @@ form {
     }
   }
 }
+*/

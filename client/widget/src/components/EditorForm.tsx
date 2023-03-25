@@ -22,6 +22,7 @@ const EditorForm = ({
       <fieldset>
         <ExpandingTextArea
           autoComplete="off"
+          spellCheck="false"
           maxLength={250}
           name="slogan"
           onChange={handleChange}
@@ -29,11 +30,17 @@ const EditorForm = ({
           value={value}
         />
         <div className="controls">
-          <button type="submit" className="slogan-submit" disabled={isDisabled}>
+          <button
+            type="submit"
+            className="slogan-submit command-button primary"
+            disabled={isDisabled}
+          >
             Add Slogan
           </button>
-          <button className="slogan-cancel" onClick={cancelEditing}>
-            <span aria-hidden="true">&times;</span>
+          <button
+            className="slogan-cancel command-button"
+            onClick={cancelEditing}
+          >
             <span>Cancel</span>
           </button>
         </div>

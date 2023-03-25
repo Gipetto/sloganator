@@ -2,6 +2,7 @@ import { ChangeEvent, useEffect, useRef } from "react"
 
 interface ExpandingTextAreaProps {
   autoComplete: "off" | "on"
+  spellCheck: "false" | "true"
   maxLength: number
   name: string
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void

@@ -1,5 +1,6 @@
 import { Slogan } from "../../../app/src/types"
 import "../styles/PreviousSlogans.scss"
+import { ListPanel, ListPanelItem } from "./EightDotOne"
 
 interface PreviousSlogansProps {
   slogans: Slogan[]
@@ -10,23 +11,16 @@ const PreviousSlogans = ({ slogans, copySlogan }: PreviousSlogansProps) => {
   const previousSlogansLen = 10
 
   return (
-    <div className="previous-slogans">
-      <p className="text-shadow">
-        <b>Recent Slogans:</b>
-      </p>
-      <div className="fadewrapper">
-        <ol>
-          {slogans.slice(0, previousSlogansLen).map((slogan) => (
-            <li key={slogan.timestamp}>
-              <button onClick={() => copySlogan(slogan.slogan)}>
-                <span className="text-shadow">{slogan.slogan}</span>
-                <span>~ {slogan.username}</span>
-              </button>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </div>
+    <ListPanel>
+      {slogans.slice(0, previousSlogansLen).map((slogan) => (
+        <ListPanelItem key={`${slogan.timestamp}`}>
+          <button onClick={() => copySlogan(slogan.slogan)}>
+            <span className="slogan">{slogan.slogan}</span>
+            <span className="author">{slogan.username}</span>
+          </button>
+        </ListPanelItem>
+      ))}
+    </ListPanel>
   )
 }
 

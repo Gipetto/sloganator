@@ -68,7 +68,9 @@ const Error = (props: ErrorProps) => {
   let statusMessage = message
 
   if (error) {
-    statusClass = error.code ? statusClassFromHTTPCode(error.code) : statusClass
+    statusClass = error.code
+      ? statusClassFromHTTPCode(error.code as number)
+      : statusClass
     statusMessage = `(${error.code}) ${error.message}` || statusMessage
   }
 
@@ -87,7 +89,7 @@ const Error = (props: ErrorProps) => {
       <span>
         <strong>{statusMessage}</strong>
         <br />
-        {wittyRemarkFromHTTPCode(error?.code ? error.code : 0)}
+        {wittyRemarkFromHTTPCode(error?.code ? (error.code as number) : 0)}
       </span>
     </LayoutRow>
   )

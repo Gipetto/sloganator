@@ -5,7 +5,8 @@ import svgrPlugin from "vite-plugin-svgr"
 import { resolve } from "path"
 
 const production = process.env.NODE_ENV === "production"
-const projectBase = production ? "/mies/sloganator-react" : "/"
+const projectBase = production ? "/mies/sloganator" : "/"
+console.log("projectBase", projectBase)
 
 export default defineConfig({
   base: projectBase,

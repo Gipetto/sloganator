@@ -5,7 +5,7 @@ import EditorContainer from "./components/EditorContainer"
 import Loading from "./components/Loading"
 
 import "./styles/Widget.scss"
-import AnimatedMounter from "./components/AnimatedMounter"
+import { Sticky } from "./components/EightDotOne"
 
 const Widget = () => {
   const {
@@ -14,17 +14,17 @@ const Widget = () => {
   } = useSlogansContext()
 
   return (
-    <Layout className="widget">
+    <Layout className="widget eight-dot-one">
       {slogansContext.loading && <Loading />}
       {!slogansContext.loading && (
         <>
-          <AnimatedMounter positionAbsolute show={slogansContext.editing}>
-            <EditorContainer />
-          </AnimatedMounter>
-          <CurrentSlogan
-            slogan={slogansContext.slogans[0]}
-            setEditing={setEditing}
-          />
+          <EditorContainer />
+          <Sticky>
+            <CurrentSlogan
+              slogan={slogansContext.slogans[0]}
+              setEditing={setEditing}
+            />
+          </Sticky>
         </>
       )}
     </Layout>

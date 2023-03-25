@@ -1,3 +1,4 @@
+/*
 .slogan-editor {
   position: absolute;
   left: 0rem;
@@ -26,4 +27,13 @@
   @media (pointer: none), (pointer: coarse) {
     --base-font-size: 30px;
   }
+}
+*/
+
+.slogan-editor {
+  position: absolute;
+  left: 0rem;
+  top: 0.25rem;
+  z-index: 999;
+  width: 90%;
 }

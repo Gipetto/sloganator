@@ -15,7 +15,10 @@ build: clean
 deploy: backup build
 	./scripts/deploy.sh
 
-preview: build
+preview: clean
+	BUILD_MODE=preview ./scripts/build.sh
+	mkdir $(PWD)/scripts/staging/mies
+	ln -s /var/www/html $(PWD)/scripts/staging/mies/sloganator
 	docker stop sloganator || true
 	docker run --rm -it \
 		-p $(PORT):80 \
