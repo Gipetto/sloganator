@@ -30,8 +30,12 @@ final class Request {
         public string $method,
         public string $path,
         public array $params = [],
-        public array $headers = []
-    ) {}
+        public ?string $body = null,
+        public array $headers = [],
+    ) {
+        // we currently only support JSON bodies, 'cause that's all we're using
+        $this->body = json_decode($body, true);
+    }
 
     /**
      * Imperfect, but it means we don't have to dance around the 
@@ -55,14 +59,14 @@ final class Request {
         $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH) ?: "";
         $query = parse_url($_SERVER["REQUEST_URI"], PHP_URL_QUERY) ?: "";
         parse_str($query, $params);
+        $body = null;
 
         $headers = self::getHttpHeaders();
 
         if (in_array($method, self::INPUT_BODY_METHODS)) {
             $body = (string) file_get_contents($inputStream);
-            $params["body"] = json_decode($body, true);
         }
 
-        return new static($method, $path, $params, $headers);
-    }
+        return new static($method, $path, $params, $body, $headers);
+    }    
 }

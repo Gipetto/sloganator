@@ -14,7 +14,7 @@ const ExpandingTextArea = (props: ExpandingTextAreaProps) => {
   const taRef = useRef<any>()
 
   useEffect(() => {
-    taRef.current.style.height = "0"
+    taRef.current.style.height = "0" // this can also be "auto" if "0" is too jumpy
     taRef.current.style.height = `${taRef.current.scrollHeight}px`
   }, [props.value])
 
