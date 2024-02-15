@@ -1,0 +1,61 @@
+.sl-alert {
+  --alert-red: #d8000c;
+  --alert-light-red: #ffd2d2;
+  --alert-blue: #00529b;
+  --alert-light-blue: #bde5f8;
+  --alert-yellow: #9f6000;
+  --alert-light-yellow: #feefb3;
+  --alert-green: #4f8a10;
+  --alert-light-green: #dff2bf;
+
+  border-radius: 0.25em;
+  margin: 1em 0;
+  padding: 15px 15px;
+
+  align-items: center;
+  justify-content: left;
+  gap: 20px;
+
+  .alert-dismiss {
+    all: unset;
+    width: 1.25em;
+    height: 1.25em;
+    display: block;
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 50% !important;
+    color: white;
+    line-height: 0;
+    font-size: 18px !important;
+  }
+
+  .alert-icon-large {
+    margin: -5em 0 -5em -0.25em;
+  }
+
+  &.sl-notice {
+    background-color: var(--alert-light-blue);
+    color: var(--alert-blue);
+  }
+
+  &.sl-warning {
+    background-color: var(--alert-light-yellow);
+    color: var(--alert-yellow);
+  }
+
+  &.sl-success {
+    background-color: var(--alert-light-green);
+    color: var(--alert-green);
+  }
+
+  &.sl-error {
+    background-color: var(--alert-light-red);
+    color: var(--alert-red);
+    .alert-dismiss {
+      color: var(--alert-red) !important;
+    }
+  }
+}

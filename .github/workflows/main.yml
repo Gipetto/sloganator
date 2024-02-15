@@ -1,5 +1,3 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
 on:
   push:
@@ -11,12 +9,15 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
     steps:
       - uses: actions/checkout@v2
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.0
+          php-version: 8.2
       - name: Composer Install
         run: composer install
       - name: Run Tests
@@ -26,7 +27,7 @@ jobs:
         uses: johanvanhelden/gha-clover-test-coverage-check@v1
         with:
           percentage: "98"
-          filename: "clover.xml"
+          filename: "./clover.xml"
       - name: Upload Coverage on Failure
         if: failure()
         uses: actions/upload-artifact@v2

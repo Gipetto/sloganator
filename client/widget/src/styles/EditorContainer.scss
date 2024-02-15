@@ -1,0 +1,39 @@
+/*
+.slogan-editor {
+  position: absolute;
+  left: 0rem;
+  top: -0.25rem;
+  background: rgb(var(--base-green));
+  border: 1px solid rgb(var(--border-green));
+  border-radius: 5px;
+  z-index: 10;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(var(--border-green), 1);
+  width: 90%;
+
+  form,
+  .previous-slogans {
+    margin: 0.75rem;
+  }
+
+  .sl-alert {
+    margin: 0.75em;
+  }
+
+  @media (pointer: none), (pointer: coarse), (max-width: 900px) {
+    width: 95%;
+    top: 2.5%;
+    left: 2.5%;
+  }
+  @media (pointer: none), (pointer: coarse) {
+    --base-font-size: 30px;
+  }
+}
+*/
+
+.slogan-editor {
+  position: absolute;
+  left: 0rem;
+  top: 0.25rem;
+  z-index: 999;
+  width: 90%;
+}

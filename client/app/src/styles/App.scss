@@ -1,0 +1,107 @@
+@import "./variables.css";
+
+/* App */
+* {
+  vertical-align: baseline;
+  border: 0 none;
+  outline: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.app {
+  font-family: var(--font-family);
+  padding: 15px 0;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-container {
+  width: 80%;
+}
+
+header,
+section,
+footer {
+  margin: 1em 0;
+}
+
+/* 
+Hamburger 
+Modified from: https://www.cssscript.com/demo/morphing-fullscreen-hamburger-menu-pure-htmlcss/
+*/
+/*
+nav label .menu {
+  position: absolute;
+  right: 10%;
+  top: 1.5em;
+  z-index: 100;
+  width: 50px;
+  height: 50px;
+  background: var(--lightest);
+  transition: .15s ease-in-out;
+  box-shadow: 0 0 0 0 var(--lightest), 0 0 0 0 var(--lightest);
+  cursor: pointer;
+}
+nav label .hamburger {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  width: 30px;
+  height: 2px;
+  background: var(--darkest);
+  display: block;
+  transform-origin: center;
+  transition: .25s ease-in-out;
+}
+nav label .hamburger:after, label .hamburger:before {
+  transition: .5s ease-in-out;
+  content: "";
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--darkest);
+}
+nav label .hamburger:before { top: -10px; }
+nav label .hamburger:after { bottom: -10px; }
+nav label input { display: none; }
+nav label .nav-content {
+  z-index: 200;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: .15s 0s ease-in-out;
+}
+nav label .nav-content h1 {
+  margin-left: -1em;
+}
+nav label .nav-content ul {
+  margin-top: 1em;
+}
+nav label a {
+  margin-bottom: 1em;
+  display: block;
+  color: var(--darkest);
+  text-decoration: none;
+}
+nav label input:checked + .menu {
+  box-shadow: 0 0 0 100vw var(--lightest), 0 0 0 100vh var(--lightest);
+  border-radius: 0;
+} 
+nav label input:checked + .menu .hamburger {
+  transform: rotate(45deg);
+} 
+nav label input:checked + .menu .hamburger:after {
+  transform: rotate(90deg);
+  bottom: 0;
+} 
+nav label input:checked + .menu .hamburger:before {
+  transform: rotate(90deg);
+  top: 0;
+}
+nav label input:checked + .menu + .nav-content { opacity: 1; }
+*/

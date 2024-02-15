@@ -1,0 +1,24 @@
+/* GRID */
+.grid {
+  display: flex;
+
+  &.grid-col {
+    flex-direction: column;
+
+    .grid-cell {
+      flex: 1;
+    }
+  }
+
+  &.grid-row {
+    flex-direction: row;
+
+    .grid-cell {
+      flex: none !important;
+    }
+
+    @media screen and (max-width: var(--max-resposive-width)) {
+      flex-direction: column;
+    }
+  }
+}

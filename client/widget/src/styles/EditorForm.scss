@@ -1,0 +1,119 @@
+form {
+  fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+
+    input,
+    textarea {
+      box-sizing: border-box;
+      min-height: 2.75em;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+}
+/*
+form {
+  margin: 0.75rem;
+
+  fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+    display: flex;
+    flex-direction: row;
+
+    input,
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+      font-size: var(--base-font-size) !important;
+      padding: 0.25em;
+      border-radius: 2px;
+      border: none;
+      resize: none;
+      min-height: 2em;
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: row;
+
+      button {
+        margin-left: 0.5em;
+        padding: 0 10px;
+        height: 2em;
+      }
+
+      .slogan-submit {
+        white-space: nowrap;
+
+        &:disabled {
+          color: rgba(var(--sloganator-text-color), 0.25);
+          background-color: rgb(var(--sloganator-gray)) !important;
+        }
+      }
+      
+      .slogan-cancel {
+        background-color: rgb(var(--sloganator-gray));
+
+        span:last-of-type {
+          display: none;
+        }
+
+        background-color: rgb(var(--sloganator-red));
+
+        &:hover {
+          background-color: rgb(var(--sloganator-dark-red));
+        }
+      }
+    }
+
+    [placeholder]:focus::-webkit-input-placeholder,
+    [placeholder]:focus::placeholder {
+      transition: opacity 0.5s 0.5s ease;
+      opacity: 0.15;
+    }
+
+    @media (pointer: none), (pointer: coarse), (max-width: 900px) {
+      flex-direction: column !important;
+
+      .controls {
+        gap: 1ex;
+
+        width: 100%;
+
+        button {
+          margin: 0.5em 0 0 0;
+          padding: 5px 10px;
+        }
+
+        .slogan-submit {
+          flex-grow: 2;
+        }
+
+        .slogan-cancel {
+          flex-grow: 1;
+
+          span:first-of-type {
+            display: none;
+          }
+
+          span:last-of-type {
+            display: inline;
+          }
+        }
+      }
+    }
+  }
+}
+*/

@@ -1,0 +1,116 @@
+button {
+  all: unset;
+  cursor: pointer;
+  width: 100%;
+  background: transparent;
+  &:hover {
+    background: transparent;
+  }
+}
+
+.slogan {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !important;
+}
+
+.author {
+  &::before {
+    content: "~";
+    margin: 0px 0.5em;
+  }
+}
+
+/*
+.previous-slogans {
+  p {
+    margin: 0.5em 0;
+  }
+
+  .fadewrapper {
+    height: 20rem;
+    position: relative;
+
+    @media (pointer: none), (pointer: coarse) {
+      height: auto;
+    }
+  }
+
+  .fadewrapper:before,
+  .fadewrapper:after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    pointer-events: none;
+    width: 100%;
+    height: 1.5em;
+  }
+
+  .fadewrapper:after {
+    bottom: 0;
+    background-image: linear-gradient(
+      to bottom,
+      rgba(var(--initial-gradient-light-green), 0),
+      rgba(var(--base-green), 1) 90%
+    );
+  }
+
+  .fadewrapper:before {
+    top: 0;
+    background-image: linear-gradient(
+      to top,
+      rgba(var(--initial-gradient-light-green), 0),
+      rgba(var(--base-green), 1) 90%
+    );
+  }
+
+  ol {
+    position: relative;
+    padding-left: 0;
+    height: 100%;
+    overflow-x: scroll;
+
+    li {
+      margin-top: 1px;
+      &:last-of-type,
+      &:first-of-type {
+        position: relative;
+        z-index: 9999;
+      }
+    }
+
+    button {
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+      background: none;
+      border-radius: 5px !important;
+      background: rgba(0, 0, 0, 0.25);
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.35);
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.25);
+      }
+
+      span {
+        font-size: 0.9em;
+        display: inline-block;
+        width: 100%;
+      }
+      span + span {
+        font-size: 0.8em;
+        color: rgba(var(--sloganator-text-color), 0.5);
+        padding-left: 1em;
+      }
+    }
+
+    &:hover {
+      color: gray;
+      li:hover {
+        color: rgb(var(--sloganator-text-color)) !important;
+      }
+    }
+  }
+}
+*/

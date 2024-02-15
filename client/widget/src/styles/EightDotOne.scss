@@ -1,0 +1,341 @@
+.eight-dot-one {
+  // @font-face {
+  //   font-family: "ChicagoFLF";
+  //   src: local("ChicagoFLF"), url("./fonts/ChicagoFLF/ChicagoFLF.ttf") format("truetype");
+  // }
+
+  --bomb: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABQBJREFUeNq8V2tMm1UYfr+v93GJ6FqkmsggMAZuYxrRcWn5MWDTbQWRjGEyBiGRJXMbv83+iIYfLu6PWmTxQidhWwAFWXQLOMZlbggkXKWwOYFALAX+FCj09nq+U/pxWYv92PAkJ+25v+d5n/d5z8ciImxHnZyaxCPvvI0jIyO4tv+D4mIs/fQTvo+FbSoMw0LIc8+DTCbj+z4uLcXq69cgZnfM6sRneeuOjg48f+ECfzur1Ypnz32Ig0ODtO9Ebi7qy8vXISJ+lrc2TU/D0PAwTE5OYuPNRjiccRi6untgdmaWjl+rrmaeQIqzQkipqanBvv4+CAkJoe3Z2VnQarSQlpbGb97b24v5Bafh1i+/Qmho6LpDKw0GjN2zB5xOJ/z1+LEwA5qam7GkpAQmJiZ4A8xmM2i1qZCXlwsqlQrSDrkNcTgcWFNbC/MWC7jQBVmZWaBUKplD6WmY/W422O02aG5q9p8Dff39+IJSiddv3MCNY1VVVdwt8MDrr2HL3Rbs7u7G2ro6DFWHIStm6Vhbezt629evwy0WC0qkUqyrrcXN5v125w49jKuv7tuL3LqNc4aNRiQIoiASMgwDIhELDLt51CYlJsLi4iKxAOHRw0cgl8tp/9zcHAYHB4NYLGYKCguo+27+3EjHfO7ImUiIQgnicDpAJBZTX3KF60cv5JFKpYxCoWCI+EB2znuwsLBA+w8Sw36qr6f/77V3MOZpM5w4eRI31YGBgQHcSXweplbjK+HhKFPI8MWwMIyIjKQQ/0D87m1dU1MT4cpObG1r48e7e3rQPDPDt41EHUdG3Qrp0wCOSB5/clUikyLLsnxbr9d7NcBkMiHHhRWUaF/CwTexvqHB63yfHCD+WoVW7pZTsVQCLpcLHDY7iCUSr+tIKDJcOK4t58+eg7jYOJ++XlfvP3iAKRoNJiYnISsRoUgiRmIAXzkkuGX74+PxjYQErLhyBZ9Gvvk/DQSiY7rj9HAPzGsPXltlCjmyIhGdExUdjbrMTPz88mV8KgPKysrohiTk6AG+Dl9nyA45kuig63Q63ZYMoGHYRQj3/VUDdQmBGPyVZ3QhCU+RO7zu/w6GqwYUmsCoAT/W1YFx6E+Q71CA0+EE29KyoE0IYmA2TcOXX3wlOIOyf4+NYfu9DtpYWrRCckoyfHTxItiWl7mE4h8SK4hN/TMFt27fFoZCUVER9aE8QEF/8/Lex7ttrW4iMuAXFzzEpKSMihLEBRLO7nheWrBCdMxuGH04CtoUDeUClwP8LR4UPJrhtwsYdvWQwoJCMFRWevR+S68ilmWFk5C/BZf52G17p/63AVz2Mk2b+BT8vxhgJ7ru8d2lS59BTk4OqEJVFEohzzWPwUJDmEeAJQ8OLgwzj+ugta0d7Ms2WoV/EAicz93y1Ol8Xv93RUagJjUVmZXUK5WRMFP4F4KxcbHIpWPBUvyy+iVqDKeE42Pj0NrSQgQpBTq7/oDAoECwWf2DNSgwiKZjwQhY5udRl5VFb0Fy/goSkVh85gwGBgdtKkie9Lx3/z4cGBzELSWjwIAA5q2EBHf82x0UiYmJcSjX66kkS1cel0+4m2iIy+l+J0aE7yKPjljBocM/e9Iz0kGpUkJnZydUfF2xXtU2RAPHeI6g3OtIo9VCfv4pUKvVW/uI3RhqxhEjVldXwzj5+vnum299Ljx67CjEH4iH5KQUyEhP37Jo/CvAAHkX4gpKhYPHAAAAAElFTkSuQmCC";
+  
+  --lavender-light: #ceceff;
+  --lavender-dark: #6363ce;
+
+  --input-box-shadow: -1px -1px 0px 0px #999, 1px 1px 0px 0px #fff,
+    inset 1px 1px 0px 0px #fff, inset -1px -1px 0px 0px #999; 
+  --input-box-shadow-focus: -1px -1px 0px 0px #999, 1px 1px 0px 0px #fff,
+    inset 3px 3px 0px 0px var(--lavender-dark), inset -3px -3px 0px 0px var(--lavender-dark);
+
+  --button-box-shadow: inset -1px -1px 0px 0px #777,
+    inset -2px -2px 0px 0px #aaa, inset 1px 1px 0px 0px #ddd,
+    inset 2px 2px 0px 0px #fff;
+  
+  --button-hover-bezel: 0 0 0 1px #aaa, 0 0 0 2px #ddd, 0 0 0 3px #000;
+  --button-hover-bezel-disabled: 0 0 0 1px #aaa, 0 0 0 2px #ddd, 0 0 0 3px #888;
+
+  color: #000;
+  font-family: "ChicagoFLF", "Times New Roman", "Georgia", serif !important;
+
+  *,
+  *:before,
+  *:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  *::selection {
+    color: white;
+    background: var(--lavender-dark);
+  }
+
+  .title {
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
+  button {
+    &::selection {
+      color: inherit;
+      background: transparent;
+    }
+  }
+
+  .dialog {
+    .hover {
+      &:hover {
+        background-color: var(--lavender-light);
+      }
+    }
+
+    a {
+      color: #000;
+    }
+
+    :focus {
+      outline: none;
+    }
+
+    ::-moz-focus-inner {
+      border: 0;
+    }
+
+    position: relative;
+    font-size: 12px;
+    font-weight: normal;
+    border: 1px solid #111;
+    background: #ccc;
+    box-shadow: 1px 2px #111, inset 1px 1px 0px 0px #fff,
+      inset -1px -1px 0px 0px #999;
+
+    .inner {
+      margin: 2px 4px 4px 4px;
+      background-color: #ddd;
+      box-shadow: -1px -1px 0px 0px #999, 1px 1px 0px 0px #fff;
+
+      *:last-child {
+        margin-bottom: 0;
+      }
+
+      .panel {
+        border: 1px solid #111;
+        padding: 1.5em;
+        box-shadow: inset 1px 1px 0px 0px #fff, inset -1px -1px 0px 0px #999;
+
+        &.list {
+          background-color: #efefef;
+          box-shadow: unset;
+          padding: 0;
+
+          li {
+            border-bottom: 1px solid #fff;
+            padding: 2px 10px;
+          }
+        }
+      }
+
+      .panel + .panel {
+        border-top: none;
+      }
+    }
+
+    .content .icon {
+      text-align: center;
+      margin: 1em 0;
+    }
+
+    .content ul {
+      list-style-type: none;
+      margin: 2px 0 1.5em 0;
+      padding: 0 0 0 2em;
+      font-size: 12px;
+    }
+
+    .footer {
+      width: 400px;
+      text-align: center;
+      margin: 2em auto 0;
+      font-size: 12px;
+    }
+
+    input,
+    textarea {
+      border: 1px solid #000;
+      box-shadow: var(--input-box-shadow);
+      resize: none;
+
+      &:focus {
+        outline: none !important;
+        box-shadow: var(--input-box-shadow-focus) !important;
+      }
+    }
+
+    .title-bar {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 2px 0 0 0;
+
+      .title {
+        text-align: center;
+        padding: 1px 0;
+        margin: 0 4px;
+      }
+
+      .spacer {
+        position: relative;
+        flex-grow: 1;
+        margin: 0 4px;
+        height: 14px;
+
+        &:before,
+        &:after {
+          content: "";
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+        }
+
+        &:before {
+          left: 0;
+          background: repeating-linear-gradient(
+            180deg,
+            #ffffff,
+            #ffffff 1px,
+            transparent 1px,
+            transparent 2px,
+            transparent 2px,
+            transparent 3px
+          );
+        }
+        &:after {
+          left: 1px;
+          background: repeating-linear-gradient(
+            180deg,
+            transparent,
+            transparent 1px,
+            #737373 1px,
+            #737373 2px,
+            transparent 2px,
+            transparent 3px
+          );
+        }
+      }
+
+      .control-box {
+        flex-grow: 0;
+        height: 14px;
+        margin: 0 4px;
+        padding: 1px;
+        background-color: #222;
+        box-shadow: inset -1px -1px 0px 0px #fff, inset 1px 1px 0px 0px #888;
+
+        .control-box-inner {
+          display: block;
+          height: 12px;
+          width: 12px;
+          background-image: linear-gradient(
+            to bottom right,
+            #999,
+            #aaa,
+            #bbb,
+            #ccc,
+            #ddd,
+            #eee,
+            #fff
+          );
+          border: 1px solid #222;
+          box-shadow: inset 1px 1px 0px 0px #ccc, inset -1px -1px 0px 0px #888;
+          text-indent: -99999em;
+        }
+        .control-box-inner:active {
+          box-shadow: none;
+        }
+
+        &.zoom-box {
+          .zoom-box-inner {
+            height: 6px;
+            width: 7px;
+            border-bottom: 1px solid #000;
+            border-right: 1px solid #000;
+          }
+        }
+
+        &.windowshade-box {
+          .windowshade-box-inner {
+            margin-top: 3px;
+            height: 3px;
+            border-top: 1px solid #000;
+            border-bottom: 1px solid #000;
+          }
+        }
+      }
+
+      .control-box + .control-box {
+        margin-left: 0;
+      }
+    }
+
+    .controls {
+      button {
+        all: revert;
+        cursor: pointer;
+        color: inherit;
+        font-family: inherit;
+        font-size: inherit;
+        padding: 2px 10px;
+        white-space: nowrap;
+
+        &.command-button {
+          height: 22px;
+          background-color: #dedede;
+          display: inline-block;
+          margin-bottom: 7px;
+          margin-left: 14px;
+          border-radius: 3px !important;
+          border: 1px solid #000 !important;
+          box-shadow: var(--button-box-shadow);
+
+          &:disabled {
+            background: #ddd;
+            border-color: #888888 !important;
+            color: #888888 !important;
+
+            &.primary {
+              box-shadow: var(--button-hover-bezel-disabled) !important;
+            }
+          }
+
+          &.primary {
+            box-shadow: var(--button-box-shadow), var(--button-hover-bezel);
+          }
+
+          &:active {
+            color: #fff;
+            background-color: #666;
+            box-shadow: inset -1px -1px 0px 0px #888,
+              inset -2px -2px 0px 0px #777, inset 1px 1px 0px 0px #444,
+              inset 2px 2px 0px 0px #555;
+          }
+
+          &:active.primary {
+            box-shadow: var(--button-hover-bezel), inset -1px -1px 0px 0px #888,
+              inset -2px -2px 0px 0px #777, inset 1px 1px 0px 0px #444,
+              inset 2px 2px 0px 0px #555;
+          }
+        }
+      }
+    }
+  }
+
+  .sticky {
+    background-color: #fff9b8;
+    border: 1px solid #fff;
+    border-right-color: #fed157;
+    border-bottom-color: #fed157;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !important;
+    padding: 5px;
+  }
+
+  .error {
+    margin: 0 auto;
+    max-width: 500px;
+    background: #fff !important;
+    border: 2px solid black;
+    padding: 2em 1.5em 1.5em 4.5em;
+    background-repeat: no-repeat !important;
+    background-position: 1em 0.75em !important;
+    background-image: url("data:image/gif;base64,R0lGODlhHwAgAKEBAAAAAP///////////yH5BAEKAAIALAAAAAAfACAAAAJjjI+ZoMENI3qyumkhXVnS3XmhApSlyIDc9J2hapjjAUf1qsW0bcr4z+qBNsOG0DWjHXs5zXI5ekI70ie1esxgZczKdur5ppC8r4PsNPvC4nUZe0anxVdpXP6Gv+gzfTKWNVMAADs=") !important;
+
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2em;
+
+      button {
+        cursor: pointer;
+        border: 1px solid black !important;
+        padding: 0 10px;
+        background: white;
+        border-radius: 0.5em !important;
+        width: auto;
+        box-shadow: inset -1px -1px 0px 0px #fff, inset 1px 1px 0px 0px #fff;
+
+        &:active {
+          background-color: #000 !important;
+          color: white;
+        }
+      }
+    }
+  }
+}
