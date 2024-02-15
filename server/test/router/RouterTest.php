@@ -124,7 +124,7 @@ class RouterTest extends TestCase {
         $this->assertEquals("201 Created", $response->getCodeString());
 
         $json = json_decode($response->getContent());
-        $this->assertEquals((object) ["bing" => 1], $json->params->body);
+        $this->assertEquals((object) ["bing" => 1], $json->body);
     }
 
     public function testPutJsonSuccess() {

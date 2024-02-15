@@ -22,6 +22,8 @@ final class Request {
         self::PUT
     ];
 
+    public mixed $body;
+
     /**
      * @param array<string, mixed> $params
      * @param array<string, string> $headers
@@ -30,11 +32,11 @@ final class Request {
         public string $method,
         public string $path,
         public array $params = [],
-        public ?string $body = null,
+        ?string $body = null,
         public array $headers = [],
     ) {
         // we currently only support JSON bodies, 'cause that's all we're using
-        $this->body = json_decode($body, true);
+        $this->body = json_decode($body ?? '', true);
     }
 
     /**

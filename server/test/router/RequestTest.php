@@ -52,10 +52,10 @@ class RequestTest extends TestCase {
         $this->assertEquals("POST", $request->method);
         $this->assertEquals("/foo/bar/baz", $request->path);
         $this->assertEquals([
-            "one" => "two",
-            "body" => [
-                "bing" => 1
-            ]
+            "one" => "two"
         ], $request->params);
+        $this->assertEquals([
+            "bing" => 1
+        ], $request->body);
     }
 }
