@@ -22,8 +22,6 @@ final class Request {
         self::PUT
     ];
 
-    public mixed $body;
-
     /**
      * @param array<string, mixed> $params
      * @param array<string, mixed> $body
