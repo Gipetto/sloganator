@@ -123,8 +123,12 @@ $router->post("/v1/slogans", function(Request $request) {
     if ($rt) {
         return new TooManyRequests($rt);
     }
-    
-    $slogan = trim($request->params["body"]["slogan"]);
+
+    if (!$request->body) {
+        return new ValidationError("Invalid Request");
+    }
+
+    $slogan = trim($request->body["slogan"]);
     $sloganLen = mb_strlen($slogan);
 
     if ($sloganLen > Sloganator::SLOGAN_LEN_LIMIT) {

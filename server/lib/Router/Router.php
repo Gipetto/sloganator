@@ -53,7 +53,7 @@ class Router {
         return $this->pathPrefix;
     }
 
-	public function addAllowedOrigin($origin): void {
+	public function addAllowedOrigin(string $origin): void {
 		$host = parse_url($origin, PHP_URL_HOST);
 		$this->allowedOrigins[$host] = $origin;
 	}

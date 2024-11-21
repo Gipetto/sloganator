@@ -1,4 +1,4 @@
-FROM php:8.2-apache
+FROM php:8.3-apache
 
 ENV SLOGANATOR_LOCAL_DOCKER=true
 
@@ -13,7 +13,7 @@ RUN apt update \
     && docker-php-ext-install zip
 
 # XDebug is used during testing
-RUN pecl install xdebug-3.2.0 \
+RUN pecl install xdebug-3.3.2 \
     && docker-php-ext-enable xdebug
 
 RUN a2enmod rewrite
@@ -23,4 +23,4 @@ RUN a2enmod proxy_http
 
 RUN apt clean
 
-CMD apache2-foreground
+CMD [ "apache2-foreground" ]

@@ -6,14 +6,14 @@ use Carbon\Carbon;
 use Sloganator\User;
 
 class Sloganator {
-    const PARAM_PAGE_SIZE = "pageSize";
-    const PARAM_PAGE = "page";
-    const PARAM_AUTHOR = "author";
+    const string PARAM_PAGE_SIZE = "pageSize";
+    const string PARAM_PAGE = "page";
+    const string PARAM_AUTHOR = "author";
 
-    const SLOGAN_LEN_LIMIT = 250;
+    const int SLOGAN_LEN_LIMIT = 250;
 
-    const DEFAULT_PAGE = 1;
-    const DEFAULT_PAGE_SIZE = 100;
+    const int DEFAULT_PAGE = 1;
+    const int DEFAULT_PAGE_SIZE = 100;
 
     public function __construct(private \SQLite3 $db) {}
 

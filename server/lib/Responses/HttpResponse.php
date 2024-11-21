@@ -6,7 +6,7 @@ trait HttpResponse {
     /**
      * @var array<int, string> 
      */
-    private $codes = [
+    const array CODES = [
         200 => "OK",
         201 => "Created",
         204 => "No Content",
@@ -56,14 +56,17 @@ trait HttpResponse {
         return $this;
     }
 
+    #[\Override]
     public function getContentType(): string {
         return $this->contentType;
     }
-
+    
+    #[\Override]
     public function getCodeString(): string {
-        return sprintf("%d %s", $this->code, $this->codes[$this->code]);
+        return sprintf("%d %s", $this->code, self::CODES[$this->code]);
     }
-
+    
+    #[\Override]
     public function respond(): void {
         header(sprintf("HTTP/1.1  %s", $this->getCodeString()));
         header(sprintf("Content-Type: %s;charset=%s", $this->getContentType(), Response::CHARSET_UTF8));

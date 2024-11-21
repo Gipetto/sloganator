@@ -25,7 +25,8 @@ class PageResponse implements Response {
     public function setTemplatesDir(string $dir): void {
         $this->templatesDir = $dir;
     }
-
+    
+    #[\Override]
     public function getContent(): string {
         ob_start();
         extract($this->params);

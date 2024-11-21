@@ -2,6 +2,7 @@ cache/*
 sloganator.db*
 vendor
 test/.phpunit.cache
+test/.phpunit.result.cache
 clover.xml
 coverage
 cachegrind*

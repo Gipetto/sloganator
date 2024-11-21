@@ -5,7 +5,7 @@ namespace Sloganator;
 use Carbon\Carbon;
 
 class Throttle {
-    const THROTTLE = 15;
+    const int THROTTLE = 15;
     
     public function __construct(private \SQLite3 $db) {}
     

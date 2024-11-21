@@ -1,6 +1,7 @@
 <?php
 
 use \PHPUnit\Framework\TestCase;
+use PHPUnit\Metadata\RunInSeparateProcess;
 use Sloganator\Responses\{ApiResponse, PageResponse, TooManyRequests, Unauthorized, ValidationError};
 
 class ResponseTest extends TestCase {
@@ -19,10 +20,7 @@ class ResponseTest extends TestCase {
 		}
     }
 
-    /**
-     * Run in separate process to capture headers
-     * @runInSeparateProcess
-     */
+    #[RunInSeparateProcess]
     public function testBasicResponse() {
         $response = new ApiResponse(200, (object) ["foo" => "bar"]);
         $this->assertEquals("200 OK", $response->getCodeString());
@@ -35,10 +33,7 @@ class ResponseTest extends TestCase {
         $this->assertResponse($response, 200, $expectedContent, $expectedHeaders);
     }
 
-    /**
-     * Run in separate process to capture headers
-     * @runInSeparateProcess
-     */
+    #[RunInSeparateProcess]
     public function testTooManyRequests() {
         $response = new TooManyRequests(999);
         $this->assertEquals("429 Too Many Requests", $response->getCodeString());
@@ -52,10 +47,7 @@ class ResponseTest extends TestCase {
         $this->assertResponse($response, 429, $expectedContent, $expectedHeaders);
     }
 
-    /**
-     * Run in separate process to capture headers
-     * @runInSeparateProcess
-     */
+    #[RunInSeparateProcess]
     public function testUnauthorized() {
         $response = new Unauthorized;
         $this->assertEquals("401 Unauthorized", $response->getCodeString());
@@ -68,10 +60,7 @@ class ResponseTest extends TestCase {
         $this->assertResponse($response, 401, $expectedContent, $expectedHeaders);
     }
 
-    /**
-     * Run in separate process to capture headers
-     * @runInSeparateProcess
-     */
+    #[RunInSeparateProcess]
     public function testValidationError() {
         $response = new ValidationError("That rug really tied the room together.");
         $this->assertEquals("400 Bad Request", $response->getCodeString());
@@ -84,10 +73,7 @@ class ResponseTest extends TestCase {
         $this->assertResponse($response, 400, $expectedContent, $expectedHeaders);
     }
 
-    /**
-     * Run in separate process to capture headers
-     * @runInSeparateProcess
-     */
+    #[RunInSeparateProcess]
     public function testPageResponse() {
         $response = new PageResponse(200, "test-template", ["testParam" => "foo"]);
         $response->setTemplatesDir("test/fixtures/");

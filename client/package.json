@@ -7,7 +7,7 @@
     "test:changed": "vitest --changed",
     "dev": "vite --host",
     "dev:server": "cd ../server/ && make dev-server-no-tty",
-    "dev:all": "concurrently --kill-others-on-fail 'yarn dev:server' 'yarn dev'",
+    "dev:all": "concurrently --kill-others-on-fail 'npm run dev:server' 'npm run dev'",
     "build": "NODE_ENV=production tsc && vite build --mode production",
     "build:staging": "NODE_ENV=staging tsc && vite build --mode staging",
     "build:dev": "NODE_ENV=development && vite build --watch --mode development",

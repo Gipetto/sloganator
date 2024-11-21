@@ -20,12 +20,13 @@ class ApiResponse implements Response {
         ]);
     }
 
-	public function setAllowedOrigin($origin) {
+	public function setAllowedOrigin(string $origin): void {
 		$this->addHeaders([
 			"Access-Control-Allow-Origin: " . $origin
 		]);
 	}
 
+    #[\Override]
     public function getContent(): string {
         return json_encode($this->content, JSON_THROW_ON_ERROR);
     }

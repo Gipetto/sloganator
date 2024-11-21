@@ -7,7 +7,7 @@ import Layout, { LayoutCol } from "./components/Core/Layout"
 import "./styles/App.scss"
 
 const App = () => (
-  <Layout className="app">
+  <Layout className="grid app">
     <LayoutCol className="app-container">
       <UserContextProvider>
         <Header />

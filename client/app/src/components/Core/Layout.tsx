@@ -74,7 +74,7 @@ const LayoutElement = (props: LayoutProps) => {
  */
 const Layout = (props: LayoutProps) => {
   const { children, className, ...rest } = props
-  const cls = `grid ${className || ""}`
+  const cls = `${className || ""}`
   return (
     <LayoutElement className={cls} {...rest}>
       {children}
