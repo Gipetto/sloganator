@@ -27,7 +27,7 @@ jobs:
         uses: johanvanhelden/gha-clover-test-coverage-check@v1
         with:
           percentage: "98"
-          filename: "clover.xml"
+          filename: "server/clover.xml"
       - name: Upload Coverage on Failure
         if: failure()
         uses: actions/upload-artifact@v4
