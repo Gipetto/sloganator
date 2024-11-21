@@ -95,7 +95,7 @@ migrate-test-configuration:
 # 		trie.php
 
 test-ci:
-	vendor/bin/phpunit -v \
+	vendor/bin/phpunit \
 		--colors \
 		--coverage-clover clover.xml \
 		--coverage-html coverage \
