@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use \Sloganator\Database;
 use \Sloganator\Service\{Author, ListMeta, Sloganator, Slogan, SloganError, SloganList};
 
@@ -106,7 +107,7 @@ class SloganatorTest extends SloganatorTestCase {
         ], $moreAuthors->getArrayCopy());
     }
 
-    public function sloganatorListFilterProvider() {
+    public static function sloganatorListFilterProvider(): array {
         return [
             [
                 "page" => 1,
@@ -171,9 +172,7 @@ class SloganatorTest extends SloganatorTestCase {
         ];
     }
 
-    /**
-     * @dataProvider sloganatorListFilterProvider
-     */
+    #[DataProvider("sloganatorListFilterProvider")]
     public function testSloganatorListFilter($page, $pageSize, $expectedMeta) {
         list($user1, $user2, $user3) = $this->getDummyUsers();
 
@@ -192,7 +191,7 @@ class SloganatorTest extends SloganatorTestCase {
         $this->assertEquals(new ListMeta(...$expectedMeta), $sloganList->meta);
     }
 
-    public function sloganatorAuthorFilterProvider() {
+    public static function sloganatorAuthorFilterProvider() {
         return [
             [
                 "author" => 1,
@@ -230,9 +229,7 @@ class SloganatorTest extends SloganatorTestCase {
         ];
     }
 
-    /**
-     * @dataProvider sloganatorAuthorFilterProvider
-     */
+    #[DataProvider("sloganatorAuthorFilterProvider")]
     public function testSloganatorAuthorFilter($author, $expectedMeta, $expectedSlogans) {
         list($user1, $user2, $user3) = $this->getDummyUsers();
 
@@ -251,7 +248,7 @@ class SloganatorTest extends SloganatorTestCase {
         $this->assertEquals($expectedSlogans, $this->simplifySloganListForComparison($sloganList));
     }
 
-    public function sloganatorErrorProvider() {
+    public static function sloganatorErrorProvider() {
         return [
             ["add", [new DummyUser, "ssssslogan"]],
             ["list",[[]]],
@@ -261,9 +258,7 @@ class SloganatorTest extends SloganatorTestCase {
         ];
     }
 
-    /**
-     * @dataProvider sloganatorErrorProvider
-     */
+    #[DataProvider("sloganatorErrorProvider")]
     public function testSloganatorError($func, $params) {
         $user = new DummyUser();
 

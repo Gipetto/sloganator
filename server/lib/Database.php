@@ -3,12 +3,17 @@
 namespace Sloganator;
 
 class Database extends \SQLite3  {
-    const DB_FILE = "./sloganator.db";
+    const string DB_FILE = "./sloganator.db";
     
     public function __construct(string $dbFile = self::DB_FILE) {
         $firstRun = !file_exists($dbFile);
         
         $this->open($dbFile);
+        $this->exec("PRAGMA journal_mode = wal;");
+        $this->exec("PRAGMA synchronous = NORMAL;");
+        $this->exec("PRAGMA busy_timeout = 5000;");
+        $this->exec("PRAGMA temp_store = memory");
+        $this->exec("PRAGMA cache_size = 1000000000;");
 
         if ($firstRun) {
             $this->installSchema();

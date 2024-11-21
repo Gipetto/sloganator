@@ -9,8 +9,8 @@ if (!defined("DOCROOT")) {
 }
 
 class User implements JsonSerializable {
-    const DEFAULT_USER_ID = 0;
-    const DEFAULT_USER_NAME = "Treefort Lover";
+    const int DEFAULT_USER_ID = 0;
+    const string DEFAULT_USER_NAME = "Treefort Lover";
 
     protected int $userId;
     protected string $userName;

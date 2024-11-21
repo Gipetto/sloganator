@@ -1,11 +1,12 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use \PHPUnit\Framework\TestCase;
 use \Sloganator\Router\RoutePath;
 
 class RoutePathTest extends TestCase {
 
-    public function routePathProvider() {
+    public static function routePathProvider() {
         return [
             [
                 "Empty Route is empty",
@@ -40,9 +41,7 @@ class RoutePathTest extends TestCase {
         ];
     }
 
-    /**
-     * @dataProvider routePathProvider
-     */
+    #[DataProvider("routePathProvider")]
     public function testRoutePath($name, $route, $expectedEmpty, $expectedParts) {
         $rp = new RoutePath($route);
         $this->assertEquals($expectedEmpty, $rp->isEmpty, $name);

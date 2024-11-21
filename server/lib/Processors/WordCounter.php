@@ -67,9 +67,14 @@ class WordCounter {
      */
     public function parseTokens(string $slogan): array {
         /**
-         * @var string[] $tokens
+         * @var string[]|false $tokens
          */
+        // @phpstan-ignore varTag.nativeType
         $tokens = preg_split("/\s/i", $slogan, -1, PREG_SPLIT_NO_EMPTY);
+
+        if (!$tokens) {
+            return [];
+        }
 
         $strippedTokens = array_map(function($word) {
             return preg_replace([

@@ -3,41 +3,37 @@
 namespace Sloganator\Router;
 
 final class Request {
-    const GET = "GET";
-    const POST = "POST";
-    const PUT = "PUT";
-    const DELETE = "DELETE";
-	const OPTIONS = "OPTIONS";
+    const string GET = "GET";
+    const string POST = "POST";
+    const string PUT = "PUT";
+    const string DELETE = "DELETE";
+    const string OPTIONS = "OPTIONS";
 
-    const METHODS = [
+    const array METHODS = [
         self::GET,
         self::POST,
         self::PUT,
         self::DELETE,
-		self::OPTIONS
+        self::OPTIONS
     ];
 
-    const INPUT_BODY_METHODS = [
+    const array INPUT_BODY_METHODS = [
         self::POST,
         self::PUT
     ];
 
-    public mixed $body;
-
     /**
      * @param array<string, mixed> $params
+     * @param array<string, mixed> $body
      * @param array<string, string> $headers
      */
     public function __construct(
-        public string $method,
-        public string $path,
+        readonly public string $method,
+        readonly public string $path,
         public array $params = [],
-        ?string $body = null,
-        public array $headers = [],
-    ) {
-        // we currently only support JSON bodies, 'cause that's all we're using
-        $this->body = json_decode($body ?? '', true);
-    }
+        readonly public ?array $body = null,
+        readonly public array $headers = [],
+    ) {}
 
     /**
      * Imperfect, but it means we don't have to dance around the 
@@ -66,9 +62,15 @@ final class Request {
         $headers = self::getHttpHeaders();
 
         if (in_array($method, self::INPUT_BODY_METHODS)) {
-            $body = (string) file_get_contents($inputStream);
+            $_body = (string) file_get_contents($inputStream);
+            
+            // we currently only support JSON bodies, 'cause that's all we're using
+            if (json_validate($_body)) {
+                $body = json_decode($_body, true);
+            }
         }
 
+        // @phpstan-ignore argument.type
         return new static($method, $path, $params, $body, $headers);
     }    
 }

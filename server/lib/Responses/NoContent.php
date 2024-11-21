@@ -9,6 +9,7 @@ class NoContent extends ApiResponse {
         parent::__construct(204, new stdClass);
     }
 
+    #[\Override]
     public function getContent(): string {
         return "";
     }

@@ -31,7 +31,7 @@ docker-build:
 		-t $(DOCKER_IMAGE):latest .
 	docker image prune -f
 
-dev-server: DEV_SERVER_FLAGS = --it
+dev-server: DEV_SERVER_FLAGS = -it
 dev-server-no-tty: DEV_SERVER_FLAGS = -i --init
 dev-server dev-server-no-tty:
 	docker run --rm $(DEV_SERVER_FLAGS) \
@@ -63,10 +63,22 @@ test:
 		--user $(shell id -u):$(shell id -g) \
 		-e XDEBUG_MODE=coverage \
 		$(DOCKER_IMAGE):latest \
-		vendor/bin/phpunit -v \
+		vendor/bin/phpunit \
 			--colors \
 			--coverage-clover clover.xml \
 			--coverage-html coverage \
+			--configuration test/phpunit.xml
+
+migrate-test-configuration:
+	docker run --rm -it \
+		--name sloganator \
+		--volume "$(PWD)":/var/www/html \
+		--workdir /var/www/html \
+		--user $(shell id -u):$(shell id -g) \
+		-e XDEBUG_MODE=coverage \
+		$(DOCKER_IMAGE):latest \
+		vendor/bin/phpunit \
+			--migrate-configuration \
 			--configuration test/phpunit.xml
 
 # stress:

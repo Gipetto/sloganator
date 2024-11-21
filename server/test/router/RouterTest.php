@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Sloganator\Responses\{ApiResponse, NoContent};
 use Sloganator\Router\{InvalidMethodException, Request, Router};
@@ -17,7 +18,7 @@ class RouterTest extends TestCase {
     }
 
 
-    public function routerTestProvider() {
+    public static function routerTestProvider() {
         return [
             [   // Test Get Success
                 "path" => "/v1/test",
@@ -72,9 +73,7 @@ class RouterTest extends TestCase {
         ]; 
     } 
 
-    /**
-     * @dataProvider routerTestProvider
-     */
+    #[DataProvider("routerTestProvider")]
     public function testRouterGet($path, $REQUEST_URI, $callback, $pathPrefix, $assertions) {
         $_SERVER["REQUEST_URI"] = $REQUEST_URI;
         $_SERVER["REQUEST_METHOD"] = Request::GET;
@@ -107,6 +106,38 @@ class RouterTest extends TestCase {
 
         $response = $router->dispatch(new Request(Request::POST, "/v1/test"));
         $this->assertEquals("405 Method Not Allowed", $response->getCodeString());
+    }
+
+    public function testGetOptionsNoContent() {
+        $router = new Router;
+        $router->get("/v1/test", fn(Request $rq) => new ApiResponse(200, $rq));
+        
+        $response = $router->dispatch(new Request(Request::OPTIONS, "/v1/test"));
+        $this->assertEquals("405 Method Not Allowed", $response->getCodeString());
+    }
+
+    public function testPostOptionsNoContent() {
+        $router = new Router;
+        $router->post("/v1/test", fn(Request $rq) => new ApiResponse(200, $rq));
+        
+        $response = $router->dispatch(new Request(Request::OPTIONS, "/v1/test"));
+        $this->assertEquals("204 No Content", $response->getCodeString());
+    }
+
+    public function testPutOptionsNoContent() {
+        $router = new Router;
+        $router->put("/v1/test", fn(Request $rq) => new ApiResponse(200, $rq));
+        
+        $response = $router->dispatch(new Request(Request::OPTIONS, "/v1/test"));
+        $this->assertEquals("204 No Content", $response->getCodeString());
+    }
+
+    public function testDeleteOptionsNoContent() {
+        $router = new Router;
+        $router->delete("/v1/test", fn(Request $rq) => new ApiResponse(200, $rq));
+        
+        $response = $router->dispatch(new Request(Request::OPTIONS, "/v1/test"));
+        $this->assertEquals("204 No Content", $response->getCodeString());
     }
 
     public function testPostJsonSuccess() {
@@ -214,5 +245,17 @@ class RouterTest extends TestCase {
         $response = $router->dispatch(new Request(Request::GET, "/v1/" . $r1 . "/" . $r2 . "/" . $r3, ["foo" => "bar"]));
         $this->assertEquals("200 OK", $response->getCodeString());
         $this->assertEquals('{"self":"\/v1\/' . $r1 . '\/' . $r2 . '\/' . $r3 .'"}', $response->getContent());
+    }
+
+    public function testValidAddGetAllowedOrigin() {
+        $router = new Router;
+        $router->addAllowedOrigin("http://localhost");
+        $this->assertEquals("http://localhost", $router->getAllowedOrigin());        
+    }
+
+    public function testInvalidAddGetAllowedOrigin() {
+        $router = new Router;
+        $router->addAllowedOrigin("https://foo.com");
+        $this->assertEquals("", $router->getAllowedOrigin());        
     }
 }
